@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACS_Trend", "ACS_Trend\ACS_Trend.csproj", "{86802274-25D7-4F51-BECF-BD2F555E1CEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fond_wf", "Fond_wf\Fond_wf.csproj", "{25181F51-B8FC-40D0-BFF9-79A0B2BFFB53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{86802274-25D7-4F51-BECF-BD2F555E1CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86802274-25D7-4F51-BECF-BD2F555E1CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86802274-25D7-4F51-BECF-BD2F555E1CEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25181F51-B8FC-40D0-BFF9-79A0B2BFFB53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25181F51-B8FC-40D0-BFF9-79A0B2BFFB53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25181F51-B8FC-40D0-BFF9-79A0B2BFFB53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25181F51-B8FC-40D0-BFF9-79A0B2BFFB53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
