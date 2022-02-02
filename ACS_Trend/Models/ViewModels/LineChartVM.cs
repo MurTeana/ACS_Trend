@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Threading.Tasks;
 
-namespace _ACS_Trend.Models.ViewModels
+namespace ACS_Trend.Models.ViewModels
 {
     public class LineChartVM
     {
@@ -16,12 +16,12 @@ namespace _ACS_Trend.Models.ViewModels
             plotOptions = new PlotOptions();
             series = new Series();
         }
-        public Title title { get; set; }    
-        public Subtitle subtitle { get; set; }    
-        public XAxis xAxis { get; set; }    
-        public YAxis yAxis { get; set; }    
-        public PlotOptions plotOptions { get; set; }    
-        public Series series { get; set; }    
+        public Title title { get; set; }
+        public Subtitle subtitle { get; set; }
+        public XAxis xAxis { get; set; }
+        public YAxis yAxis { get; set; }
+        public PlotOptions plotOptions { get; set; }
+        public Series series { get; set; }
     }
 
     // Title
@@ -70,7 +70,7 @@ namespace _ACS_Trend.Models.ViewModels
     {
         public Series()
         {
-            data = new List<double[]> ();
+            data = new List<double[]>();
         }
         public string name { get; set; }
         public List<double[]> data { get; set; }
@@ -105,5 +105,4 @@ namespace _ACS_Trend.Models.ViewModels
         }
         public bool enabled { get; set; }
     }
-
 }

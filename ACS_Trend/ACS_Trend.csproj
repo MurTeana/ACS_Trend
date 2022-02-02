@@ -5,11 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\ViewModels\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
+    <Folder Include="Models\DB\Context\" />
+    <Folder Include="Models\DB\Entities\" />
+    <Folder Include="wwwroot\js\highcharts\" />
   </ItemGroup>
 
 </Project>

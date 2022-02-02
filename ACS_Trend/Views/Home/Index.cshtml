@@ -2,7 +2,52 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<script src="~/js/highcharts/7.1.2/highcharts.js"></script>
+<script src="~/js/highcharts/7.1.2/modules/accessibility.js"></script>
+<script src="~/js/highcharts/7.1.2/modules/exporting.js"></script>
+<script src="~/js/highcharts/7.1.2/modules/export-data.js"></script>
+
+<div id="div1" class="jumbotron" style="text-align:center">
+    <h2>Анализ трендов динамических характеристик теплоэнергетического оборудования</h2>
 </div>
+
+<div id="trendINdiv" class="jumbotron" style="text-align:center">
+    <form method="get">
+        <p>
+            <label for="trendIN">Выберите тренд:</label>
+            <select id="trendIN" name="trendIN">
+                <option value="trendIN1">trendIN 1</option>
+                <option value="trendIN2">trendIN 2</option>
+                <option value="trendIN3">trendIN 3</option>
+                <option value="trendIN4">trendIN 4</option>
+            </select>
+        </p>
+        <p>
+            <input type="submit" value="Построить" />
+        </p>
+    </form>
+
+    <figure class="highcharts-figure">
+        <div id="container"></div>
+        <p class="highcharts-description">
+            Тренд входной динамической характеристики теплоэнергетичеcкого оборудования
+        </p>
+    </figure>
+</div>
+
+
+<script>
+    Highcharts.chart('container', {
+        chart: {
+            type: 'line',
+            zoomType: 'x'
+        },
+        title: @Html.Raw(Json.Serialize(Model.LineChartData.title)),
+        subtitle: @Html.Raw(Json.Serialize(Model.LineChartData.subtitle)),
+        xAxis: @Html.Raw(Json.Serialize(Model.LineChartData.xAxis)),
+        yAxis: @Html.Raw(Json.Serialize(Model.LineChartData.yAxis)),
+        plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData.plotOptions)),
+        series: [@Html.Raw(Json.Serialize(Model.LineChartData.series))]
+    });
+</script>
+
