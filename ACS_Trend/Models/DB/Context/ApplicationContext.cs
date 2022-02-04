@@ -1,21 +1,18 @@
 ﻿using ACS_Trend.Models.DB.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ACS_Trend.Models.DB.Context
 {
     public class ApplicationContext : DbContext
-    {
-        public DbSet<Unit> units { get; set; }
-
+    {       
         public ApplicationContext(DbContextOptions<ApplicationContext> options) 
             : base(options)
         {
-            //Database.EnsureCreated();   // создаем базу данных при первом обращении
+            Database.EnsureCreated();   // создаем базу данных при первом обращении
         }
+
+        public DbSet<Unit> Units { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Unit>().HasData(

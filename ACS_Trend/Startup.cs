@@ -5,14 +5,11 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using ACS_Trend.Models.DB.Entities;
 using ACS_Trend.Models.DB.Context;
 using Microsoft.AspNetCore.Mvc;
+using ACS_Trend.Repositories;
+using ACS_Trend.Interfaces;
 
 namespace ACS_Trend
 {
@@ -24,9 +21,20 @@ namespace ACS_Trend
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddControllersWithViews();
+        {           
+            //services.AddControllersWithViews();
+            
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+
+            //Add repositories
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddTransient<IUnitRepository, UnitRepository>();
+
+            //Add UnitOfWork
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            //Add Controllers
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
