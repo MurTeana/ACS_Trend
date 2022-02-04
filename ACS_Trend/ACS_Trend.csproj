@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\js\highcharts\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
 
   <ItemGroup>

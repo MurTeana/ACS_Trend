@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ACS_Trend.Models.DB.Entities
 {
@@ -9,9 +6,10 @@ namespace ACS_Trend.Models.DB.Entities
     {
         public Signal_type()
         {
-
         }
 
+        [Required]
+        [Key]
         public int ID_Trend_signal_type { get; set; }
         public string Signal_type_name { get; set; }
     }

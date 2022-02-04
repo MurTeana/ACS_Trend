@@ -9,7 +9,6 @@ namespace ACS_Trend.Models.DB.Context
 {
     public class ApplicationContext : DbContext
     {
-        public DbSet<Graph> graphs { get; set; }
         public DbSet<Unit> units { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) 

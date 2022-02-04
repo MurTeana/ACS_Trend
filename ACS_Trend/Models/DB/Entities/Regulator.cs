@@ -2,15 +2,15 @@
 
 namespace ACS_Trend.Models.DB.Entities
 {
-    public class Unit
+    public class Regulator
     {
-        public Unit()
+        public Regulator()
         {
         }
 
         [Required]
         [Key]
-        public int ID_Unit { get; set; }
-        public string Unit_name { get; set; }
+        public int ID_Regulator { get; set; }
+        public string Regulator_name { get; set; }
     }
 }
