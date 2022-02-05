@@ -1,7 +1,7 @@
-﻿using ACS_Trend.Models.DB.Entities;
+﻿using ACS_Trend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ACS_Trend.Models.DB.Context
+namespace ACS_Trend.DataAccess.EFCore
 {
     public class ApplicationContext : DbContext
     {       

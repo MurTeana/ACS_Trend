@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="UnitOfWorks\" />
     <Folder Include="wwwroot\js\highcharts\" />
   </ItemGroup>
 

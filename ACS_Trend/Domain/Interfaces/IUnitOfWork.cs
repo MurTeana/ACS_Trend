@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ACS_Trend.Interfaces
+namespace ACS_Trend.Domain.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

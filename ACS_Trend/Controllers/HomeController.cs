@@ -1,5 +1,4 @@
 ﻿using ACS_Trend.Models;
-using ACS_Trend.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -18,7 +17,7 @@ namespace ACS_Trend.Controllers
 
         public IActionResult Index()
         {
-            var masterModel = new HomeIndexVM();
+            var masterModel = new HomeIndexViewModel();
 
             // line chart
             var lineChartData = GetLineChartData();
@@ -26,9 +25,9 @@ namespace ACS_Trend.Controllers
 
             return View(masterModel);
         }
-        private LineChartVM GetLineChartData()
+        private LineChartViewModel GetLineChartData()
         {
-            var lineChartData = new LineChartVM();
+            var lineChartData = new LineChartViewModel();
 
             lineChartData.title.text = "Тренд входной динамической характеристики теплоэнергетичеcкого оборудования";
             lineChartData.subtitle.text = "Расход пара";

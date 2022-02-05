@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ACS_Trend.Models.DB.Entities
+namespace ACS_Trend.Domain.Entities
 {
     public class Unit
     {

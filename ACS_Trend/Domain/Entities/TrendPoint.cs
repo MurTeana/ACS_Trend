@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ACS_Trend.Models.DB.Entities
+namespace ACS_Trend.Domain.Entities
 {
     public class TrendPoint
     {

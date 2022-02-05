@@ -1,15 +1,14 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using ACS_Trend.Models.DB.Context;
 using Microsoft.AspNetCore.Mvc;
-using ACS_Trend.Repositories;
-using ACS_Trend.Interfaces;
+using ACS_Trend.Domain.Interfaces;
+using ACS_Trend.DataAccess.EFCore;
+using ACS_Trend.DataAccess.EFCore.Repositories;
+using ACS_Trend.DataAccess.EFCore.UnitOfWorks;
 
 namespace ACS_Trend
 {

@@ -1,7 +1,7 @@
-﻿using ACS_Trend.Models.DB.Entities;
+﻿using ACS_Trend.Domain.Entities;
 using System.Collections.Generic;
 
-namespace ACS_Trend.Interfaces
+namespace ACS_Trend.Domain.Interfaces
 {
     public interface IUnitRepository : IGenericRepository<Unit>
     {

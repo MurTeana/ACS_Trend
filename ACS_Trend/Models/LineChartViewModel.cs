@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ACS_Trend.Models.ViewModels
+namespace ACS_Trend.Models
 {
-    public class LineChartVM
+    public class LineChartViewModel
     {
-        public LineChartVM()
+        public LineChartViewModel()
         {
             title = new Title();
             subtitle = new Subtitle();

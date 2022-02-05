@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace ACS_Trend.Interfaces
+namespace ACS_Trend.Domain.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {

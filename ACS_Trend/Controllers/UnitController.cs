@@ -1,4 +1,4 @@
-﻿using ACS_Trend.Interfaces;
+﻿using ACS_Trend.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ACS_Trend.Controllers

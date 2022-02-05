@@ -1,11 +1,10 @@
-﻿using ACS_Trend.Interfaces;
-using ACS_Trend.Models.DB.Context;
+﻿using ACS_Trend.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace ACS_Trend.Repositories
+namespace ACS_Trend.DataAccess.EFCore.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
