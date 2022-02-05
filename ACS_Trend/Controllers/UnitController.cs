@@ -13,7 +13,7 @@ namespace ACS_Trend.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult GetAllUnits([FromQuery] int count)
+        public IActionResult GetAllUnits()
         {
             var allUnits = _unitOfWork.Units.GetAllUnits();
             return Ok(allUnits);
