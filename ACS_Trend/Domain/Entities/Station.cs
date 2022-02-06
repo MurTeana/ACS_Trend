@@ -15,6 +15,7 @@ namespace ACS_Trend.Domain.Entities
         public string Station_name { get; set; }
         [ForeignKey("Station_type")]
         public int ST_ID_Station_type { get; set; }
-        public float Power { get; set; }
+        public string ElectricalPower { get; set; }
+        public string HeatPower { get; set; }
     }
 }
