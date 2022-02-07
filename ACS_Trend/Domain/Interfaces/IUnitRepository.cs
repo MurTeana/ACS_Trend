@@ -5,6 +5,7 @@ namespace ACS_Trend.Domain.Interfaces
 {
     public interface IUnitRepository : IGenericRepository<Unit>
     {
+        void AddNewUnit(Unit unit);
         IEnumerable<Unit> GetAllUnits();
     }
 }

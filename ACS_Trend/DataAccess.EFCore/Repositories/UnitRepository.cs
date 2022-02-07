@@ -10,6 +10,12 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         public UnitRepository(ApplicationContext context) : base(context)
         {
         }
+
+        public void AddNewUnit(Unit unit)
+        {
+            _context.Set<Unit>().Add(unit);
+            _context.SaveChanges();
+        }
         public IEnumerable<Unit> GetAllUnits()
         {
             return _context.Set<Unit>().ToList(); ;

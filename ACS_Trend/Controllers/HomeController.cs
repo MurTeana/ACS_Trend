@@ -1,4 +1,6 @@
-﻿using ACS_Trend.Models;
+﻿using ACS_Trend.Domain.Entities;
+using ACS_Trend.Domain.Interfaces;
+using ACS_Trend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -8,12 +10,46 @@ namespace ACS_Trend.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IUnitOfWork _unitOfWork;
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            _logger = logger;
+            _unitOfWork = unitOfWork;
         }
+
+        // GET: Home
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(Unit unit)
+        {
+            _unitOfWork.Units.AddNewUnit(unit);
+
+            if (ModelState.IsValid)
+            {
+                ModelState.Clear();
+                ViewBag.Issuccess = "Data Added";
+            }
+                       
+            return View();
+        }
+
+
+
+
+
+
+
+
+
+        //private readonly ILogger<HomeController> _logger;
+
+        //public HomeController(ILogger<HomeController> logger)
+        //{
+        //    _logger = logger;
+        //}
 
         public IActionResult Index()
         {
