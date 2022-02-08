@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace ACS_Trend.Domain.Interfaces
 {
-    public interface ITrendPointRepository
+    public interface ITrendPointRepository : IGenericRepository<TrendPoint>
     {
-        IEnumerable<TrendPoint> GetAllTrendPoints();
+        void AddNewTrendPoint(TrendPoint trendPoint);
+        List<TrendPoint> GetAllTrendPoints();
     }
 }

@@ -10,9 +10,14 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         public RegulatorRepository(ApplicationContext context) : base(context)
         {
         }
-        public IEnumerable<Regulator> GetAllRegulators()
+        public void AddNewRegulator(Regulator regulator)
         {
-            return _context.Set<Regulator>().ToList(); ;
+            _context.Set<Regulator>().Add(regulator);
+            _context.SaveChanges();
+        }
+        public List<Regulator> GetAllRegulators()
+        {
+            return _context.Set<Regulator>().ToList();
         }
     }
 }

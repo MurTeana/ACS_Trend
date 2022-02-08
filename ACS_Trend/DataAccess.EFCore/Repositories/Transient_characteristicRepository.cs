@@ -10,9 +10,14 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         public Transient_characteristicRepository(ApplicationContext context) : base(context)
         {
         }
-        public IEnumerable<Transient_characteristic> GetAllTransient_characteristics()
+        public void AddNewTransient_characteristic(Transient_characteristic transient_Characteristic)
         {
-            return _context.Set<Transient_characteristic>().ToList(); ;
+            _context.Set<Transient_characteristic>().Add(transient_Characteristic);
+            _context.SaveChanges();
+        }
+        public List<Transient_characteristic> GetAllTransient_characteristics()
+        {
+            return _context.Set<Transient_characteristic>().ToList();
         }
     }
 }

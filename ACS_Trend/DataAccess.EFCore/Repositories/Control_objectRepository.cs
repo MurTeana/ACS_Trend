@@ -10,9 +10,14 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         public Control_objectRepository(ApplicationContext context) : base(context)
         {
         }
-        public IEnumerable<Control_object> GetAllControl_objects()
+        public void AddNewControl_object(Control_object control_Object)
         {
-            return _context.Set<Control_object>().ToList(); ;
+            _context.Set<Control_object>().Add(control_Object);
+            _context.SaveChanges();
+        }
+        public List<Control_object> GetAllControl_objects()
+        {
+            return _context.Set<Control_object>().ToList();
         }
     }
 }

@@ -27,17 +27,17 @@ namespace ACS_Trend
 
             //Add repositories
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            //services.AddTransient<IControl_objectRepository, Control_objectRepository>();
-            //services.AddTransient<IControl_object_typeRepository, Control_object_typeRepository>();
-            //services.AddTransient<IRegulatorRepository, RegulatorRepository>();
-            //services.AddTransient<ISignal_typeRepository, Signal_typeRepository>();
+            services.AddTransient<IControl_objectRepository, Control_objectRepository>();
+            services.AddTransient<IControl_object_typeRepository, Control_object_typeRepository>();
+            services.AddTransient<IRegulatorRepository, RegulatorRepository>();
+            services.AddTransient<ISignal_typeRepository, Signal_typeRepository>();
             services.AddTransient<IStationRepository, StationRepository>();
             services.AddTransient<IStation_typeRepository, Station_typeRepository>();
-            //services.AddTransient<ITransient_characteristicRepository, Transient_characteristicRepository>();
+            services.AddTransient<ITransient_characteristicRepository, Transient_characteristicRepository>();
             services.AddTransient<ITrendRepository, TrendRepository>();
-            //services.AddTransient<ITrend_parameterRepository, Trend_parameterRepository>();
-            //services.AddTransient<ITrend_parameter_typeRepository, Trend_parameter_typeRepository>();
-            //services.AddTransient<ITrendPointRepository, TrendPointRepository>();
+            services.AddTransient<ITrend_parameterRepository, Trend_parameterRepository>();
+            services.AddTransient<ITrend_parameter_typeRepository, Trend_parameter_typeRepository>();
+            services.AddTransient<ITrendPointRepository, TrendPointRepository>();
             services.AddTransient<IUnitRepository, UnitRepository>();
 
             //Add UnitOfWork

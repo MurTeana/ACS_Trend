@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace ACS_Trend.Domain.Interfaces
 {
-    public interface ISignal_typeRepository
+    public interface ISignal_typeRepository : IGenericRepository<Signal_type>
     {
-        IEnumerable<Signal_type> GetAllSignal_types();
+        void AddNewSignal_type(Signal_type signal_Type);
+        List<Signal_type> GetAllSignal_types();
     }
 }

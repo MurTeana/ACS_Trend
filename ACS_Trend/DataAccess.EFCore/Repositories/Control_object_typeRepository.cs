@@ -10,9 +10,14 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         public Control_object_typeRepository(ApplicationContext context) : base(context)
         {
         }
-        public IEnumerable<Control_object_type> GetAllControl_object_types()
+        public void AddNewControl_object_type(Control_object_type control_Object_Type)
         {
-            return _context.Set<Control_object_type>().ToList(); ;
+            _context.Set<Control_object_type>().Add(control_Object_Type);
+            _context.SaveChanges();
+        }
+        public List<Control_object_type> GetAllControl_object_types()
+        {
+            return _context.Set<Control_object_type>().ToList();
         }
     }
 }

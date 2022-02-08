@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace ACS_Trend.Domain.Interfaces
 {
-    public interface ITransient_characteristicRepository
+    public interface ITransient_characteristicRepository : IGenericRepository<Transient_characteristic>
     {
-        IEnumerable<Transient_characteristic> GetAllTransient_characteristics();
+        void AddNewTransient_characteristic(Transient_characteristic transient_Characteristic);
+        List<Transient_characteristic> GetAllTransient_characteristics();
     }
 }

@@ -10,9 +10,14 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         public Trend_parameterRepository(ApplicationContext context) : base(context)
         {
         }
-        public IEnumerable<Trend_parameter> GetAllTrend_parameters()
+        public void AddNewTrend_parameter(Trend_parameter trend_Parameter)
         {
-            return _context.Set<Trend_parameter>().ToList(); ;
+            _context.Set<Trend_parameter>().Add(trend_Parameter);
+            _context.SaveChanges();
+        }
+        public List<Trend_parameter> GetAllTrend_parameters()
+        {
+            return _context.Set<Trend_parameter>().ToList();
         }
     }
 }

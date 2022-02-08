@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace ACS_Trend.Domain.Interfaces
 {
-    public interface IRegulatorRepository
+    public interface IRegulatorRepository : IGenericRepository<Regulator>
     {
-        IEnumerable<Regulator> GetAllRegulators();
+        void AddNewRegulator(Regulator regulator);
+        List<Regulator> GetAllRegulators();
     }
 }

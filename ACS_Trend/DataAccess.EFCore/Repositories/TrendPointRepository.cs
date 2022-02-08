@@ -10,9 +10,14 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         public TrendPointRepository(ApplicationContext context) : base(context)
         {
         }
-        public IEnumerable<TrendPoint> GetAllTrendPoints()
+        public void AddNewTrendPoint(TrendPoint trendPoint)
         {
-            return _context.Set<TrendPoint>().ToList(); ;
+            _context.Set<TrendPoint>().Add(trendPoint);
+            _context.SaveChanges();
+        }
+        public List<TrendPoint> GetAllTrendPoints()
+        {
+            return _context.Set<TrendPoint>().ToList();
         }
     }
 }

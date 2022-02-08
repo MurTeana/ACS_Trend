@@ -10,9 +10,14 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         public Signal_typeRepository(ApplicationContext context) : base(context)
         {
         }
-        public IEnumerable<Signal_type> GetAllSignal_types()
+        public void AddNewSignal_type(Signal_type signal_Type)
         {
-            return _context.Set<Signal_type>().ToList(); ;
+            _context.Set<Signal_type>().Add(signal_Type);
+            _context.SaveChanges();
+        }
+        public List<Signal_type> GetAllSignal_types()
+        {
+            return _context.Set<Signal_type>().ToList();
         }
     }
 }
