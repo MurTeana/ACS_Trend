@@ -16,9 +16,9 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             _context.Set<Unit>().Add(unit);
             _context.SaveChanges();
         }
-        public IEnumerable<Unit> GetAllUnits()
+        public List<Unit> GetAllUnits()
         {
-            return _context.Set<Unit>().ToList(); ;
+            return _context.Set<Unit>().ToList();
         }
     }
 }

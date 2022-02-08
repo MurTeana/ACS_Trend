@@ -2,7 +2,7 @@
 using ACS_Trend.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ACS_Trend.Controllers
+namespace ACS_Trend.Controllers.api
 {
     [Route("api/[controller]")]
     [ApiController]

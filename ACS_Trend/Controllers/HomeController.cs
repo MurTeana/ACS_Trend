@@ -37,13 +37,17 @@ namespace ACS_Trend.Controllers
         }
 
 
+        [HttpGet]
+        public ActionResult GetAllUnits()
+        {
+            var result = _unitOfWork.Units.GetAllUnits();
+            return View(result);
+        }
 
-
-
-
-
-
-
+        public ActionResult AdminDB()
+        {
+            return View();
+        }
         //private readonly ILogger<HomeController> _logger;
 
         //public HomeController(ILogger<HomeController> logger)
