@@ -74,6 +74,57 @@ namespace ACS_Trend.Controllers
             return View(result);
         }
 
+        public ActionResult CreateStation()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateStation(Station station)
+        {
+            _unitOfWork.Stations.AddNewStation(station);
+
+            if (ModelState.IsValid)
+            {
+                ModelState.Clear();
+                ViewBag.Issuccess = "Data Added";
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult GetAllStations()
+        {
+            var result = _unitOfWork.Stations.GetAllStations();
+            return View(result);
+        }
+
+        public ActionResult CreateStation_type()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateStation_type(Station_type station_Type)
+        {
+            _unitOfWork.Station_types.AddNewStation_type(station_Type);
+
+            if (ModelState.IsValid)
+            {
+                ModelState.Clear();
+                ViewBag.Issuccess = "Data Added";
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult GetAllStation_types()
+        {
+            var result = _unitOfWork.Station_types.GetAllStation_types();
+            return View(result);
+        }
         //private readonly ILogger<HomeController> _logger;
 
         //public HomeController(ILogger<HomeController> logger)

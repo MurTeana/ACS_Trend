@@ -10,9 +10,15 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         public Station_typeRepository(ApplicationContext context) : base(context)
         {
         }
-        public IEnumerable<Station_type> GetAllStation_types()
+
+        public void AddNewStation_type(Station_type station_Type)
         {
-            return _context.Set<Station_type>().ToList(); ;
+            _context.Set<Station_type>().Add(station_Type);
+            _context.SaveChanges();
+        }
+        public List<Station_type> GetAllStation_types()
+        {
+            return _context.Set<Station_type>().ToList();
         }
     }
 }

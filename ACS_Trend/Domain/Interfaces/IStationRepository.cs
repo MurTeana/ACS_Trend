@@ -5,6 +5,7 @@ namespace ACS_Trend.Domain.Interfaces
 {
     public interface IStationRepository
     {
-        IEnumerable<Station> GetAllStations();
+        void AddNewStation(Station station);
+        List<Station> GetAllStations();
     }
 }

@@ -8,8 +8,8 @@ namespace ACS_Trend.Domain.Interfaces
         //IControl_objectRepository Control_objects { get; }
         //IRegulatorRepository Regulators { get; }
         //ISignal_typeRepository Signal_types { get; }
-        //IStation_typeRepository Station_types { get; }
-        //IStationRepository Stations { get; }
+        IStation_typeRepository Station_types { get; }
+        IStationRepository Stations { get; }
         //ITransient_characteristicRepository Transient_characteristics { get; }
         //ITrend_parameter_typeRepository Trend_parameter_types { get; }
         //ITrend_parameterRepository Trend_parameters { get; }

@@ -10,9 +10,15 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         public StationRepository(ApplicationContext context) : base(context)
         {
         }
-        public IEnumerable<Station> GetAllStations()
+
+        public void AddNewStation(Station station)
         {
-            return _context.Set<Station>().ToList(); ;
+            _context.Set<Station>().Add(station);
+            _context.SaveChanges();
+        }
+        public List<Station> GetAllStations()
+        {
+            return _context.Set<Station>().ToList();
         }
     }
 }

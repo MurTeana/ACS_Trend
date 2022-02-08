@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ACS_Trend.Domain.Entities.Station>
+
+@{
+    ViewData["Title"] = "GetAllStations";
+}
+
+<h1>GetAllStations</h1>
+
+<p>
+    <a asp-action="CreateStation">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Station_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ST_ID_Station_type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ElectricalPower)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeatPower)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Station_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ST_ID_Station_type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ElectricalPower)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HeatPower)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID_Station">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID_Station">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID_Station">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

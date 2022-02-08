@@ -1,0 +1,30 @@
+﻿@model ACS_Trend.Domain.Entities.Station_type
+
+@{
+    ViewData["Title"] = "CreateStation_type";
+}
+
+<h1>CreateStation_type</h1>
+
+<h4>Station_type</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateStation_type">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StationType" class="control-label"></label>
+                <input asp-for="StationType" class="form-control" />
+                <span asp-validation-for="StationType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
