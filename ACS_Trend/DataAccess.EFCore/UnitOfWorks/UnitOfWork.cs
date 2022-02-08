@@ -19,7 +19,7 @@ namespace ACS_Trend.DataAccess.EFCore.UnitOfWorks
             //Trend_parameter_types = new Trend_parameter_typeRepository(_context);
             //Trend_parameters = new Trend_parameterRepository(_context);
             //TrendPoints = new TrendPointRepository(_context);
-            //Trends = new TrendRepository(_context);
+            Trends = new TrendRepository(_context);
             Units = new UnitRepository(_context);
             // other repos
         }
@@ -33,7 +33,7 @@ namespace ACS_Trend.DataAccess.EFCore.UnitOfWorks
         //public ITrend_parameter_typeRepository Trend_parameter_types { get; private set; }
         //public ITrend_parameterRepository Trend_parameters { get; private set; }
         //public ITrendPointRepository TrendPoints { get; private set; }
-        //public ITrendRepository Trends { get; private set; }
+        public ITrendRepository Trends { get; private set; }
         public IUnitRepository Units { get; private set; }
         // other repos
         public int Complete()

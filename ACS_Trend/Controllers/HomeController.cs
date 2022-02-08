@@ -16,14 +16,19 @@ namespace ACS_Trend.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        public ActionResult AdminDB()
+        {
+            return View();
+        }
+
         // GET: Home
-        public ActionResult Create()
+        public ActionResult CreateUnit()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(Unit unit)
+        public ActionResult CreateUnit(Unit unit)
         {
             _unitOfWork.Units.AddNewUnit(unit);
 
@@ -36,7 +41,6 @@ namespace ACS_Trend.Controllers
             return View();
         }
 
-
         [HttpGet]
         public ActionResult GetAllUnits()
         {
@@ -44,10 +48,32 @@ namespace ACS_Trend.Controllers
             return View(result);
         }
 
-        public ActionResult AdminDB()
+        public ActionResult CreateTrend()
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult CreateTrend(Trend trend)
+        {
+            _unitOfWork.Trends.AddNewTrend(trend);
+
+            if (ModelState.IsValid)
+            {
+                ModelState.Clear();
+                ViewBag.Issuccess = "Data Added";
+            }
+                       
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult GetAllTrends()
+        {
+            var result = _unitOfWork.Trends.GetAllTrends();
+            return View(result);
+        }
+
         //private readonly ILogger<HomeController> _logger;
 
         //public HomeController(ILogger<HomeController> logger)

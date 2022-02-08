@@ -14,7 +14,7 @@ namespace ACS_Trend.Domain.Interfaces
         //ITrend_parameter_typeRepository Trend_parameter_types { get; }
         //ITrend_parameterRepository Trend_parameters { get; }
         //ITrendPointRepository TrendPoints { get; }
-        //ITrendRepository Trends { get; }
+        ITrendRepository Trends { get; }
         IUnitRepository Units { get; }
 
         int Complete();

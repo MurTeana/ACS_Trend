@@ -1,0 +1,40 @@
+﻿@model ACS_Trend.Domain.Entities.Trend
+
+@{
+    ViewData["Title"] = "CreateTrend";
+}
+
+<h1>CreateTrend</h1>
+
+<h4>Trend</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateTrend">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="T_ID_Station" class="control-label"></label>
+                <input asp-for="T_ID_Station" class="form-control" />
+                <span asp-validation-for="T_ID_Station" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="T_ID_Trend_parameter" class="control-label"></label>
+                <input asp-for="T_ID_Trend_parameter" class="form-control" />
+                <span asp-validation-for="T_ID_Trend_parameter" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="T_ID_Unit" class="control-label"></label>
+                <input asp-for="T_ID_Unit" class="form-control" />
+                <span asp-validation-for="T_ID_Unit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
