@@ -1,11 +1,12 @@
 ﻿using ACS_Trend.Domain.Entities;
+using ACS_Trend.Models;
 using System.Collections.Generic;
 
 namespace ACS_Trend.Domain.Interfaces
 {
-    public interface IStation_typeRepository : IGenericRepository<Station_type>
+    public interface IStation_typeRepository : IGenericRepository<Station_typeViewModel>
     {
-        void AddNewStation_type(Station_type station_Type);
+        int AddNewStation_type(Station_typeViewModel station_Type);
         List<Station_type> GetAllStation_types();
     }
 }

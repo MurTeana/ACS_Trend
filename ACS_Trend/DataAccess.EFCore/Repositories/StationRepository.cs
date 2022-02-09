@@ -1,24 +1,58 @@
 ﻿using ACS_Trend.Domain.Entities;
 using ACS_Trend.Domain.Interfaces;
+using ACS_Trend.Models;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ACS_Trend.DataAccess.EFCore.Repositories
 {
-    public class StationRepository : GenericRepository<Station>, IStationRepository
+    public class StationRepository : GenericRepository<StationViewModel>, IStationRepository
     {
         public StationRepository(ApplicationContext context) : base(context)
         {
         }
 
-        public void AddNewStation(Station station)
+        public int AddNewStation(StationViewModel model)
         {
-            _context.Set<Station>().Add(station);
+            Station st = new Station()
+            {
+                Station_name = model.Station_name,
+                ElectricalPower = model.ElectricalPower,
+                HeatPower = model.HeatPower
+            };
+
+            if (model.Station_Type != null)
+            {
+                st.Station_type = new Station_type
+                {
+                    StationType = model.Station_Type.StationType
+                };
+            }
+
+            _context.Set<Station>().Add(st);
             _context.SaveChanges();
+
+            return st.ID_Station;
         }
-        public List<Station> GetAllStations()
+        public List<StationViewModel> GetAllStations()
         {
-            return _context.Set<Station>().ToList();
+            var result = _context.Stations
+                .Select(x => new StationViewModel()
+                {
+                    ID_Station = x.ID_Station,
+                    Station_name = x.Station_name,
+                    ST_ID_Station_type = x.ST_ID_Station_type,
+                    ElectricalPower = x.ElectricalPower,
+                    HeatPower = x.HeatPower,
+
+                    Station_Type = new Station_typeViewModel()
+                    {
+                        ID_Station_type = x.Station_type.ID_Station_type,
+                        StationType = x.Station_type.StationType
+                    }
+                }).ToList();
+
+            return result;
         }
     }
 }

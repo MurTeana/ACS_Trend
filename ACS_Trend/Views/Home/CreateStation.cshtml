@@ -1,12 +1,13 @@
-﻿@model ACS_Trend.Domain.Entities.Station
+﻿@model ACS_Trend.Models.StationViewModel
 
 @{
     ViewData["Title"] = "CreateStation";
 }
 
 <h1>CreateStation</h1>
+<h2>@ViewBag.Issuccess</h2>
 
-<h4>Station</h4>
+<h4>StationViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,11 +19,6 @@
                 <span asp-validation-for="Station_name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ST_ID_Station_type" class="control-label"></label>
-                <input asp-for="ST_ID_Station_type" class="form-control" />
-                <span asp-validation-for="ST_ID_Station_type" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="ElectricalPower" class="control-label"></label>
                 <input asp-for="ElectricalPower" class="form-control" />
                 <span asp-validation-for="ElectricalPower" class="text-danger"></span>
@@ -31,6 +27,12 @@
                 <label asp-for="HeatPower" class="control-label"></label>
                 <input asp-for="HeatPower" class="form-control" />
                 <span asp-validation-for="HeatPower" class="text-danger"></span>
+            </div>    
+            <h4>Station_TypeViewModel</h4>
+            <div class="form-group">
+                <label asp-for="Station_Type.StationType" class="control-label"></label>
+                <input asp-for="Station_Type.StationType" class="form-control" />
+                <span asp-validation-for="Station_Type.StationType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

@@ -80,14 +80,17 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateStation(Station station)
+        public ActionResult CreateStation(StationViewModel station)
         {
-            _unitOfWork.Stations.AddNewStation(station);
+            int id = _unitOfWork.Stations.AddNewStation(station);
 
             if (ModelState.IsValid)
             {
-                ModelState.Clear();
-                ViewBag.Issuccess = "Data Added";
+                if (id > 0)
+                {
+                    ModelState.Clear();
+                    ViewBag.Issuccess = "Data Added";
+                }                  
             }
 
             return View();
@@ -106,7 +109,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateStation_type(Station_type station_Type)
+        public ActionResult CreateStation_type(Station_typeViewModel station_Type)
         {
             _unitOfWork.Station_types.AddNewStation_type(station_Type);
 

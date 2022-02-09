@@ -1,5 +1,6 @@
 ﻿using ACS_Trend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using ACS_Trend.Models;
 
 namespace ACS_Trend.DataAccess.EFCore
 {
@@ -26,14 +27,24 @@ namespace ACS_Trend.DataAccess.EFCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Unit>().HasData(
+            modelBuilder
+                .Entity<Station>()
+                .HasOne(u => u.Station_type)
+                .WithMany(p => p.Station)
+                .HasForeignKey(p => p.ST_ID_Station_type);
+
+            modelBuilder
+                .Entity<Unit>()
+                .HasData(
                 new Unit[]
                 {
                 new Unit { ID_Unit = 1, Unit_name = "кг"},
                 new Unit { ID_Unit = 2, Unit_name = "м.куб."},
                 });
 
-            modelBuilder.Entity<Station_type>().HasData(
+            modelBuilder
+                .Entity<Station_type>()
+                .HasData(
                 new Station_type[]
                 {
                 new Station_type { ID_Station_type = 1, StationType = "ТЭС"},
@@ -43,33 +54,37 @@ namespace ACS_Trend.DataAccess.EFCore
                 new Station_type { ID_Station_type = 5, StationType = "Альтернативные ЭС"},
                 });
 
-            modelBuilder.Entity<Station>().HasData(
-                new Station[]
-                {
-                new Station { ID_Station = 1, Station_name="Костромская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "3630 МВт", HeatPower = "450 Гкал/ч"},
-                new Station { ID_Station = 2, Station_name="Конаковская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "2520 МВт", HeatPower = "120 Гкал/ч"},
-                new Station { ID_Station = 3, Station_name="Беловская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "1260 МВт", HeatPower = "229 Гкал/ч"},
-                new Station { ID_Station = 4, Station_name="Березовская ГРЭС-1",ST_ID_Station_type = 1,ElectricalPower = "2400 МВт", HeatPower = "Гкал/ч"},
-                new Station { ID_Station = 5, Station_name="Ермаковская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
-                new Station { ID_Station = 6, Station_name="Киришская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
-                new Station { ID_Station = 7, Station_name="Криворожская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
-                new Station { ID_Station = 8, Station_name="Новочерскасская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
-                new Station { ID_Station = 9, Station_name="Приднепровская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
-                new Station { ID_Station = 10, Station_name="Рефтинская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
-                new Station { ID_Station = 11, Station_name="Троицкая ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
-                new Station { ID_Station = 12, Station_name="Черепецкая ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
-                new Station { ID_Station = 13, Station_name="Шатурская ГРЭС-5",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
-                new Station { ID_Station = 14, Station_name="Экибастузкая ГРЭС-1",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
-                new Station { ID_Station = 15, Station_name="Рязанская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
-                new Station { ID_Station = 16, Station_name="Павлодарская ТЭЦ-1",ST_ID_Station_type = 3,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
-                new Station { ID_Station = 17, Station_name="Калининградская ТЭЦ-2",ST_ID_Station_type = 3,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
-                });
+            modelBuilder
+                .Entity<Station>()
+                .HasData(
+                        new Station[]
+                        {
+                        new Station { ID_Station = 1, Station_name="Костромская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "3630 МВт", HeatPower = "450 Гкал/ч"},
+                        new Station { ID_Station = 2, Station_name="Конаковская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "2520 МВт", HeatPower = "120 Гкал/ч"},
+                        new Station { ID_Station = 3, Station_name="Беловская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "1260 МВт", HeatPower = "229 Гкал/ч"},
+                        new Station { ID_Station = 4, Station_name="Березовская ГРЭС-1",ST_ID_Station_type = 1,ElectricalPower = "2400 МВт", HeatPower = "Гкал/ч"},
+                        new Station { ID_Station = 5, Station_name="Ермаковская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
+                        new Station { ID_Station = 6, Station_name="Киришская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
+                        new Station { ID_Station = 7, Station_name="Криворожская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
+                        new Station { ID_Station = 8, Station_name="Новочерскасская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
+                        new Station { ID_Station = 9, Station_name="Приднепровская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
+                        new Station { ID_Station = 10, Station_name="Рефтинская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
+                        new Station { ID_Station = 11, Station_name="Троицкая ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
+                        new Station { ID_Station = 12, Station_name="Черепецкая ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
+                        new Station { ID_Station = 13, Station_name="Шатурская ГРЭС-5",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
+                        new Station { ID_Station = 14, Station_name="Экибастузкая ГРЭС-1",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
+                        new Station { ID_Station = 15, Station_name="Рязанская ГРЭС",ST_ID_Station_type = 1,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
+                        new Station { ID_Station = 16, Station_name="Павлодарская ТЭЦ-1",ST_ID_Station_type = 3,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
+                        new Station { ID_Station = 17, Station_name="Калининградская ТЭЦ-2",ST_ID_Station_type = 3,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
+                        });
 
-            //modelBuilder.Entity<Control_object>().HasData(
-            //    new Control_object[]
-            //    {
-            //    new Control_object { ID_Control_object = 1, Control_object_name = "", CO_Control_object_type = 1, Extend_information = ""},
-            //    });
+            modelBuilder
+                .Entity<Control_object>()
+                .HasData(
+                new Control_object[]
+                {
+                new Control_object { ID_Control_object = 1, Control_object_name = "", CO_Control_object_type = 1, Extend_information = ""},
+                });
 
             // В: Расход топлива - вх
             // Видимый расход пара
@@ -103,5 +118,8 @@ namespace ACS_Trend.DataAccess.EFCore
             //
             //
         }
+
+        public DbSet<ACS_Trend.Models.StationViewModel> StationViewModel { get; set; }
+
     }
 }
