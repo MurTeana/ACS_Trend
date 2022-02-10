@@ -121,5 +121,7 @@ namespace ACS_Trend.DataAccess.EFCore
 
         public DbSet<ACS_Trend.Models.StationViewModel> StationViewModel { get; set; }
 
+        public DbSet<ACS_Trend.Models.Station_typeViewModel> Station_typeViewModel { get; set; }
+
     }
 }

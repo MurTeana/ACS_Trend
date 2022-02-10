@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ACS_Trend.Domain.Entities.Station_type>
+﻿@model IEnumerable<ACS_Trend.Models.Station_typeViewModel>
 
 @{
     ViewData["Title"] = "GetAllStation_types";
@@ -25,9 +25,9 @@
                 @Html.DisplayFor(modelItem => item.StationType)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ID_Station_type">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID_Station_type">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID_Station_type">Delete</a>
+                <a asp-action="EditStation_type" asp-route-id="@item.ID_Station_type">Edit</a> |
+                <a asp-action="Details_Station_Type" asp-route-id="@item.ID_Station_type">Details</a> |
+                <a asp-action="DeleteStation_type" asp-route-id="@item.ID_Station_type">Delete</a>
             </td>
         </tr>
 }

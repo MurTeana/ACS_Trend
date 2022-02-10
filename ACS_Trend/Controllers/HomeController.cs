@@ -2,6 +2,7 @@
 using ACS_Trend.Domain.Interfaces;
 using ACS_Trend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -76,12 +77,15 @@ namespace ACS_Trend.Controllers
 
         public ActionResult CreateStation()
         {
+            ViewBag.Station_Types = new SelectList(_unitOfWork.Station_types.GetAllStation_types(), "ID_Station_type", "StationType");
             return View();
         }
 
         [HttpPost]
         public ActionResult CreateStation(StationViewModel station)
         {
+            ViewBag.Station_Types = new SelectList(_unitOfWork.Station_types.GetAllStation_types(), "ID_Station_type", "StationType");
+
             int id = _unitOfWork.Stations.AddNewStation(station);
 
             if (ModelState.IsValid)
@@ -128,6 +132,40 @@ namespace ACS_Trend.Controllers
             var result = _unitOfWork.Station_types.GetAllStation_types();
             return View(result);
         }
+
+        [HttpGet]
+        public ActionResult Details_Station_Type(int id)
+        {
+            var result = _unitOfWork.Station_types.GetStation_Type(id);
+            return View(result);
+        }
+
+        public ActionResult EditStation_type(int id)
+        {
+            var st_t = _unitOfWork.Station_types.GetStation_Type(id);
+            return View(st_t);
+        }
+
+        [HttpPost]
+        public ActionResult EditStation_type(Station_typeViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Station_types.UpdateStation_Type(model.ID_Station_type, model);
+
+                return RedirectToAction("GetAllStation_types");
+            }
+
+            return View();
+        }
+
+        public ActionResult DeleteStation_type(int id)
+        {
+            _unitOfWork.Station_types.DeleteStation_Type(id);
+
+            return RedirectToAction("GetAllStation_types");
+        }
+
         //private readonly ILogger<HomeController> _logger;
 
         //public HomeController(ILogger<HomeController> logger)

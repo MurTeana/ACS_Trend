@@ -24,9 +24,57 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
 
             return st_t.ID_Station_type;
         }
-        public List<Station_type> GetAllStation_types()
+        public List<Station_typeViewModel> GetAllStation_types()
         {
-            return _context.Set<Station_type>().ToList();
+            var result = _context.Station_types
+            .Select(x => new Station_typeViewModel()
+            {
+                ID_Station_type = x.ID_Station_type,
+                StationType = x.StationType,
+            }).ToList();
+
+            return result;
         }
+
+        public Station_typeViewModel GetStation_Type(int id)
+        {
+            var result = _context.Station_types
+                .Where(x => x.ID_Station_type == id)
+                .Select(x => new Station_typeViewModel()
+                {
+                    ID_Station_type = x.ID_Station_type,
+                    StationType = x.StationType
+                }).FirstOrDefault();
+           
+            return result;
+        }
+
+        public bool UpdateStation_Type(int id, Station_typeViewModel model)
+        {
+            var st_t = _context.Station_types.FirstOrDefault(x => x.ID_Station_type == id);
+
+            if(st_t != null)
+            {
+                st_t.StationType = model.StationType;
+            }
+
+            _context.SaveChanges();
+            return true;
+        }
+
+        public bool DeleteStation_Type(int id)
+        {
+            var st_t = _context.Station_types.FirstOrDefault(x => x.ID_Station_type == id);
+
+            if (st_t != null)
+            {
+                _context.Station_types.Remove(st_t);
+                _context.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
     }
 }

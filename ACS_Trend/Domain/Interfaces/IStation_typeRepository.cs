@@ -7,6 +7,11 @@ namespace ACS_Trend.Domain.Interfaces
     public interface IStation_typeRepository : IGenericRepository<Station_typeViewModel>
     {
         int AddNewStation_type(Station_typeViewModel station_Type);
-        List<Station_type> GetAllStation_types();
+        List<Station_typeViewModel> GetAllStation_types();
+
+        public Station_typeViewModel GetStation_Type(int id);
+
+        public bool UpdateStation_Type(int id, Station_typeViewModel model);
+        public bool DeleteStation_Type(int id);
     }
 }
