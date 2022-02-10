@@ -23,10 +23,8 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
 
             if (model.Station_Type != null)
             {
-                st.Station_type = new Station_type
-                {
-                    StationType = model.Station_Type.StationType
-                };
+                var id = model.Station_Type.ID_Station_type;
+                st.ST_ID_Station_type = id;
             }
 
             _context.Set<Station>().Add(st);
