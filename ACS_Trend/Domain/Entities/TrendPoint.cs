@@ -17,5 +17,8 @@ namespace ACS_Trend.Domain.Entities
         public int TP_ID_Trend { get; set; }
         public string Date_time { get; set; } // DateTime
         public float Parameter { get; set; }
+
+
+        public virtual Trend Trend { get; set; }
     }
 }

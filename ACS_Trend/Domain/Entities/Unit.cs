@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ACS_Trend.Domain.Entities
 {
@@ -12,5 +13,7 @@ namespace ACS_Trend.Domain.Entities
         [Key]
         public int ID_Unit { get; set; }
         public string Unit_name { get; set; }
+
+        public virtual ICollection<Trend> Trend { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ACS_Trend.Domain.Entities
 {
@@ -12,6 +13,9 @@ namespace ACS_Trend.Domain.Entities
         [Key]
         public int ID_Trend_signal_type { get; set; }
         public string Signal_type_name { get; set; }
+
+        public virtual ICollection<Trend_parameter> Trend_parameter { get; set; }
+
     }
 
 }

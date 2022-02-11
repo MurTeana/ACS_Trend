@@ -107,6 +107,8 @@ namespace ACS_Trend.Controllers
             return View(result);
         }
 
+        // STATION_TYPE
+
         public ActionResult CreateStation_type()
         {
             return View();
@@ -164,6 +166,68 @@ namespace ACS_Trend.Controllers
             _unitOfWork.Station_types.DeleteStation_Type(id);
 
             return RedirectToAction("GetAllStation_types");
+        }
+
+
+        // CONTROL_OBJECT_TYPE
+
+        public ActionResult CreateControl_object_type()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateControl_object_type(Control_object_typeViewModel control_object_type)
+        {
+            _unitOfWork.Control_object_types.AddNewControl_object_type(control_object_type);
+
+            if (ModelState.IsValid)
+            {
+                ModelState.Clear();
+                ViewBag.Issuccess = "Data Added";
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult GetAllControl_object_types()
+        {
+            var result = _unitOfWork.Control_object_types.GetAllControl_object_types();
+            return View(result);
+        }
+
+        [HttpGet]
+        public ActionResult Details_Control_object_type(int id)
+        {
+            var result = _unitOfWork.Control_object_types.GetControl_object_type(id);
+            return View(result);
+        }
+
+        public ActionResult EditControl_object_type(int id)
+        {
+            var co_t = _unitOfWork.Control_object_types.GetControl_object_type(id);
+            return View(co_t);
+        }
+
+        [HttpPost]
+        public ActionResult EditControl_object_type(Control_object_typeViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Control_object_types.UpdateControl_object_type(model.ID_Control_object_type, model);
+
+                return RedirectToAction("GetAllControl_object_types");
+            }
+
+            return View();
+        }
+
+        public ActionResult DeleteControl_object_type(int id)
+        {
+            _unitOfWork.Control_object_types.DeleteControl_object_type(id);
+
+            return RedirectToAction("GetAllControl_object_types");
         }
 
         //private readonly ILogger<HomeController> _logger;

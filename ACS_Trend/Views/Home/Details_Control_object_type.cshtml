@@ -1,0 +1,24 @@
+﻿@model ACS_Trend.Models.Control_object_typeViewModel
+
+@{
+    ViewData["Title"] = "Details_Control_object_type";
+}
+
+<h1>Details_Control_object_type</h1>
+
+<div>
+    <h4>Control_object_typeViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Control_object_type_name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Control_object_type_name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID_Control_object_type">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

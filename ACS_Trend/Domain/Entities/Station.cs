@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,5 +21,7 @@ namespace ACS_Trend.Domain.Entities
 
 
         public virtual Station_type Station_type { get; set; }
+
+        public virtual ICollection<Trend> Trend { get; set; }
     }
 }

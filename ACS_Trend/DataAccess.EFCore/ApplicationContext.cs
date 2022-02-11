@@ -27,33 +27,14 @@ namespace ACS_Trend.DataAccess.EFCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // STATION
             modelBuilder
                 .Entity<Station>()
                 .HasOne(u => u.Station_type)
                 .WithMany(p => p.Station)
                 .HasForeignKey(p => p.ST_ID_Station_type);
 
-            modelBuilder
-                .Entity<Unit>()
-                .HasData(
-                new Unit[]
-                {
-                new Unit { ID_Unit = 1, Unit_name = "кг"},
-                new Unit { ID_Unit = 2, Unit_name = "м.куб."},
-                });
-
-            modelBuilder
-                .Entity<Station_type>()
-                .HasData(
-                new Station_type[]
-                {
-                new Station_type { ID_Station_type = 1, StationType = "ТЭС"},
-                new Station_type { ID_Station_type = 2, StationType = "ГЭС"},
-                new Station_type { ID_Station_type = 3, StationType = "ТЭЦ"},
-                new Station_type { ID_Station_type = 4, StationType = "АЭС"},
-                new Station_type { ID_Station_type = 5, StationType = "Альтернативные ЭС"},
-                });
-
+            // STATION DATA
             modelBuilder
                 .Entity<Station>()
                 .HasData(
@@ -78,12 +59,109 @@ namespace ACS_Trend.DataAccess.EFCore
                         new Station { ID_Station = 17, Station_name="Калининградская ТЭЦ-2",ST_ID_Station_type = 3,ElectricalPower = "МВт", HeatPower = "Гкал/ч"},
                         });
 
+            // STATION_TYPE
+            //
+            //
+            // STATION_TYPE DATA
+            modelBuilder
+                .Entity<Station_type>()
+                .HasData(
+                new Station_type[]
+                {
+                new Station_type { ID_Station_type = 1, StationType = "ТЭС"},
+                new Station_type { ID_Station_type = 2, StationType = "ГЭС"},
+                new Station_type { ID_Station_type = 3, StationType = "ТЭЦ"},
+                new Station_type { ID_Station_type = 4, StationType = "АЭС"},
+                new Station_type { ID_Station_type = 5, StationType = "Альтернативные ЭС"},
+                });
+
+            // CONTROL_OBJECT
+            modelBuilder
+                .Entity<Control_object>()
+                .HasOne(u => u.Control_object_type)
+                .WithMany(p => p.Control_object)
+                .HasForeignKey(p => p.CO_Control_object_type);
+
+            // CONTROL_OBJECT DATA
             modelBuilder
                 .Entity<Control_object>()
                 .HasData(
                 new Control_object[]
                 {
-                new Control_object { ID_Control_object = 1, Control_object_name = "", CO_Control_object_type = 1, Extend_information = ""},
+                new Control_object { ID_Control_object = 1, Control_object_name = "Название котла", CO_Control_object_type = 1, Extend_information = ""},
+                new Control_object { ID_Control_object = 2, Control_object_name = "Название турбины", CO_Control_object_type = 2, Extend_information = ""},
+                });
+
+            // CONTROL_OBJECT_TYPE
+            //
+            // CONTROL_OBJECT_TYPE DATA
+            modelBuilder
+                .Entity<Control_object_type>()
+                .HasData(
+                new Control_object_type[]
+                {
+                new Control_object_type { ID_Control_object_type = 1, Control_object_type_name = "котел"},
+                new Control_object_type { ID_Control_object_type = 2, Control_object_type_name = "турбина"}
+                });
+
+
+            // TREND
+            modelBuilder
+                .Entity<Trend>()
+                .HasOne(u => u.Station)
+                .WithMany(p => p.Trend)
+                .HasForeignKey(p => p.T_ID_Station);
+
+            modelBuilder
+                .Entity<Trend>()
+                .HasOne(u => u.Trend_parameter)
+                .WithMany(p => p.Trend)
+                .HasForeignKey(p => p.T_ID_Trend_parameter);
+
+            modelBuilder
+                .Entity<Trend>()
+                .HasOne(u => u.Unit)
+                .WithMany(p => p.Trend)
+                .HasForeignKey(p => p.T_ID_Unit);
+
+            // TREND DATA
+            // 
+            //
+            //
+            // TREND PARAMETER
+            modelBuilder
+                .Entity<Trend_parameter>()
+                .HasOne(u => u.Control_object)
+                .WithMany(p => p.Trend_parameter)
+                .HasForeignKey(p => p.TP_ID_Control_object);
+            modelBuilder
+                .Entity<Trend_parameter>()
+                .HasOne(u => u.Regulator)
+                .WithMany(p => p.Trend_parameter)
+                .HasForeignKey(p => p.TP_ID_Regulator);
+            modelBuilder
+                .Entity<Trend_parameter>()
+                .HasOne(u => u.Signal_type)
+                .WithMany(p => p.Trend_parameter)
+                .HasForeignKey(p => p.TP_ID_Signal_type);
+            modelBuilder
+                .Entity<Trend_parameter>()
+                .HasOne(u => u.Trend_parameter_type)
+                .WithMany(p => p.Trend_parameter)
+                .HasForeignKey(p => p.TP_ID_Trend_parameter_type);
+
+            // TREND PARAMETER DATA
+
+            // UNIT
+            //
+            // UNIT DATA
+            modelBuilder
+                .Entity<Unit>()
+                .HasData(
+                new Unit[]
+                {
+                new Unit { ID_Unit = 1, Unit_name = "кг"},
+                new Unit { ID_Unit = 2, Unit_name = "м.куб."},
                 });
 
             // В: Расход топлива - вх
@@ -117,11 +195,8 @@ namespace ACS_Trend.DataAccess.EFCore
             //Изм.тем.пара пеpед 2-й ст
             //
             //
-        }
 
-        public DbSet<ACS_Trend.Models.StationViewModel> StationViewModel { get; set; }
-
-        public DbSet<ACS_Trend.Models.Station_typeViewModel> Station_typeViewModel { get; set; }
-
+            
+        }       
     }
 }

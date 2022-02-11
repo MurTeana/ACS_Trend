@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ACS_Trend.Models.Control_object_typeViewModel>
+
+@{
+    ViewData["Title"] = "GetAllControl_object_types";
+}
+
+<h1>GetAllControl_object_types</h1>
+
+<p>
+    <a asp-action="CreateControl_object_type">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Control_object_type_name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Control_object_type_name)
+            </td>
+            <td>
+                <a asp-action="EditControl_object_type" asp-route-id="@item.ID_Control_object_type">Edit</a> |
+                <a asp-action="Details_Control_object_type" asp-route-id="@item.ID_Control_object_type">Details</a> |
+                <a asp-action="DeleteControl_object_type" asp-route-id="@item.ID_Control_object_type">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
