@@ -29,7 +29,33 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
 
         public List<TrendViewModel> GetAllTrends()
         {
-            throw new System.NotImplementedException();
+            var result = _context.Trends
+            .Select(x => new TrendViewModel()
+            {
+                ID_Trend = x.ID_Trend,
+                T_ID_Station = x.T_ID_Station,
+                T_ID_Trend_parameter = x.T_ID_Trend_parameter,
+                T_ID_Unit = x.T_ID_Unit,
+
+                Station = new StationViewModel()
+                {
+                    ID_Station = x.Station.ID_Station,
+                    Station_name = x.Station.Station_name
+                },
+
+                Trend_parameter = new Trend_parameterViewModel()
+                {
+                    ID_Trend_parameter = x.Trend_parameter.ID_Trend_parameter,
+                    Trend_parameter_name = x.Trend_parameter.Trend_parameter_name
+                },
+
+                Unit = new UnitViewModel()
+                {
+                    ID_Unit = x.Unit.ID_Unit
+                }
+            }).ToList();
+
+            return result;
         }
 
         public TrendViewModel GetTrend(int id)

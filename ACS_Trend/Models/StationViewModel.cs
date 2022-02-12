@@ -1,11 +1,11 @@
-﻿using ACS_Trend.Domain.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ACS_Trend.Models
 {
     public class StationViewModel
     {
         [Key]
+        [Display(Name = "Идентификатор станции")]
         public int ID_Station { get; set; }
 
         [Display(Name = "Наименование станции")]

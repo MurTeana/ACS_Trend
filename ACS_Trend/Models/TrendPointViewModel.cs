@@ -1,5 +1,4 @@
-﻿using ACS_Trend.Domain.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ACS_Trend.Models
 {
@@ -11,11 +10,11 @@ namespace ACS_Trend.Models
         [Display(Name = "Идентификатор тренда")]
         public int TP_ID_Trend { get; set; }
         [Display(Name = "Значение времени")]
-        public string Date_time { get; set; } // DateTime
+        public float Date_time { get; set; } // DateTime
         [Display(Name = "Значение параметра тренда")]
         public float Parameter { get; set; }
 
         [Display(Name = "Тренд")]
-        public Trend Trend { get; set; }
+        public TrendViewModel Trend { get; set; }
     }
 }

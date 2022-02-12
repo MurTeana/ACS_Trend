@@ -121,9 +121,15 @@ namespace ACS_Trend.DataAccess.EFCore
                 .HasForeignKey(p => p.T_ID_Unit);
 
             // TREND DATA
-            // 
-            //
-            //
+            modelBuilder
+                .Entity<Trend>()
+                .HasData(
+                new Trend[]
+                {
+                new Trend { ID_Trend = 1, T_ID_Station = 2, T_ID_Trend_parameter = 1, T_ID_Unit = 2},
+                new Trend { ID_Trend = 2, T_ID_Station = 1, T_ID_Trend_parameter = 1, T_ID_Unit = 1},
+                });
+
             // TREND_PARAMETER
             modelBuilder
                 .Entity<Trend_parameter>()
@@ -147,6 +153,44 @@ namespace ACS_Trend.DataAccess.EFCore
                 .HasForeignKey(p => p.TP_ID_Trend_parameter_type);
 
             // TREND_PARAMETER DATA
+            modelBuilder
+                .Entity<Trend_parameter>()
+                .HasData(
+                new Trend_parameter[]
+                {
+                new Trend_parameter { ID_Trend_parameter = 1, Trend_parameter_name = "расход пара", TP_ID_Trend_parameter_type = 1, TP_ID_Control_object = 1, TP_ID_Regulator = 1, TP_ID_Signal_type = 1 },
+                new Trend_parameter { ID_Trend_parameter = 2, Trend_parameter_name = "расход воды", TP_ID_Trend_parameter_type = 1, TP_ID_Control_object = 1, TP_ID_Regulator = 1, TP_ID_Signal_type = 1},
+                });
+
+            // REGULATOR DATA
+            modelBuilder
+                .Entity<Regulator>()
+                .HasData(
+                new Regulator[]
+                {
+                new Regulator { ID_Regulator = 1, Regulator_name = "клапан" },
+                new Regulator { ID_Regulator = 2, Regulator_name = "задвижка" },
+                });
+
+            // SIGNAL_TYPE DATA
+            modelBuilder
+                .Entity<Signal_type>()
+                .HasData(
+                new Signal_type[]
+                {
+                new Signal_type { ID_Trend_signal_type = 1, Signal_type_name = "входной сигнал"},
+                new Signal_type { ID_Trend_signal_type = 2, Signal_type_name = "выходной сигнал"},
+                });
+
+            // TREND_PARAMETER_TYPE DATA
+            modelBuilder
+                .Entity<Trend_parameter_type>()
+                .HasData(
+                new Trend_parameter_type[]
+                {
+                new Trend_parameter_type { ID_Trend_parameter_type = 1, Trend_parameter_type_name = "Trend_parameter_type_name"},
+                new Trend_parameter_type { ID_Trend_parameter_type = 2, Trend_parameter_type_name = "Trend_parameter_type_name"},
+                });
 
             // UNIT
             //
@@ -158,6 +202,28 @@ namespace ACS_Trend.DataAccess.EFCore
                 {
                 new Unit { ID_Unit = 1, Unit_name = "кг"},
                 new Unit { ID_Unit = 2, Unit_name = "м.куб."},
+                });
+
+            // TRENDPOINT
+            modelBuilder
+                .Entity<TrendPoint>()
+                .HasOne(u => u.Trend)
+                .WithMany(p => p.TrendPoint)
+                .HasForeignKey(p => p.TP_ID_Trend);
+            // TRENDPOINTDATA
+            modelBuilder
+                .Entity<TrendPoint>()
+                .HasData(
+                new TrendPoint[]
+                {
+                    new TrendPoint { ID_TrendPoint = 1, Date_time = 1, Parameter = 2, TP_ID_Trend = 1},
+                    new TrendPoint { ID_TrendPoint = 2, Date_time = 2, Parameter = 4, TP_ID_Trend = 1},
+                    new TrendPoint { ID_TrendPoint = 3, Date_time = 3, Parameter = 8, TP_ID_Trend = 1},
+                    new TrendPoint { ID_TrendPoint = 4, Date_time = 4, Parameter = 12, TP_ID_Trend = 1},
+                    new TrendPoint { ID_TrendPoint = 5, Date_time = 4, Parameter = 12, TP_ID_Trend = 2},
+                    new TrendPoint { ID_TrendPoint = 6, Date_time = 4, Parameter = 12, TP_ID_Trend = 2},
+                    new TrendPoint { ID_TrendPoint = 7, Date_time = 4, Parameter = 12, TP_ID_Trend = 2},
+                    new TrendPoint { ID_TrendPoint = 8, Date_time = 4, Parameter = 12, TP_ID_Trend = 2},
                 });
 
             // В: Расход топлива - вх
@@ -192,9 +258,11 @@ namespace ACS_Trend.DataAccess.EFCore
             //
             //
 
-            
+
         }       
 
-        public DbSet<ACS_Trend.Models.UnitViewModel> UnitViewModel { get; set; }
+        public DbSet<ACS_Trend.Models.TrendPointViewModel> TrendPointViewModel { get; set; }
+
+        public DbSet<ACS_Trend.Models.TrendViewModel> TrendViewModel { get; set; }
     }
 }

@@ -31,14 +31,61 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return tp.ID_TrendPoint;
         }
 
-        public void AddNewListTrendPoints(TrendPointViewModel trendPoint)
+        public List<TrendPointViewModel> AddNewListTrendPoints(List<TrendPointViewModel> trendPoints)
         {
-            throw new System.NotImplementedException();
+            List <TrendPoint> points = new List<TrendPoint>();
+
+            foreach (var item in trendPoints)
+            {
+                TrendPoint tp = new TrendPoint();
+
+                tp.Date_time = item.Date_time;
+                tp.Parameter = item.Parameter;
+                tp.TP_ID_Trend = item.TP_ID_Trend;
+
+                points.Add(tp);
+            }
+
+            _context.TrendPoints.AddRange(points);
+            _context.SaveChanges();
+            return trendPoints;
         }
 
         public List<TrendPointViewModel> GetAllTrendPoints()
         {
-            throw new System.NotImplementedException();
+            var result = _context.TrendPoints
+                .Select(x => new TrendPointViewModel()
+                {
+                    ID_TrendPoint = x.ID_TrendPoint,
+                    Date_time = x.Date_time,
+                    Parameter = x.Parameter,
+                    TP_ID_Trend = x.TP_ID_Trend,
+
+                    Trend = new TrendViewModel()
+                    {
+                        ID_Trend = x.Trend.ID_Trend,
+                        T_ID_Station = x.Trend.T_ID_Station,
+                        T_ID_Trend_parameter = x.Trend.T_ID_Trend_parameter,
+                        T_ID_Unit = x.Trend.T_ID_Unit,
+
+                        Station = new StationViewModel()
+                        {
+                            Station_name = x.Trend.Station.Station_name
+                        },
+
+                        Trend_parameter = new Trend_parameterViewModel()
+                        {
+                            Trend_parameter_name = x.Trend.Trend_parameter.Trend_parameter_name
+                        },
+
+                        Unit = new UnitViewModel()
+                        {
+                            Unit_name = x.Trend.Unit.Unit_name
+                        }
+                    }
+                }).ToList();
+
+            return result;
         }
 
         public TrendPointViewModel GetTrendPoint(int id)

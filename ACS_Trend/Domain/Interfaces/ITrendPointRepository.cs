@@ -6,7 +6,7 @@ namespace ACS_Trend.Domain.Interfaces
     public interface ITrendPointRepository : IGenericRepository<TrendPointViewModel>
     {
         int AddNewTrendPoint(TrendPointViewModel model);
-        void AddNewListTrendPoints(TrendPointViewModel trendPoint);
+        List<TrendPointViewModel> AddNewListTrendPoints(List<TrendPointViewModel> trendPoints);
         List<TrendPointViewModel> GetAllTrendPoints();
         TrendPointViewModel GetTrendPoint(int id);
         bool UpdateTrendPoint(int id, TrendPointViewModel model);

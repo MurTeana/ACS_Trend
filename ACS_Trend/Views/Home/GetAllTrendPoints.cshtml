@@ -1,0 +1,73 @@
+﻿@model IEnumerable<ACS_Trend.Models.TrendPointViewModel>
+
+@{
+    ViewData["Title"] = "GetAllTrendPoints";
+}
+
+<h1>GetAllTrendPoints</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+    <a asp-action="CreateListTrendPoints">Create New List</a>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ID_TrendPoint)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date_time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Parameter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TP_ID_Trend)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trend.Station.Station_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trend.Trend_parameter.Trend_parameter_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trend.Unit.Unit_name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID_TrendPoint)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Parameter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TP_ID_Trend)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trend.Station.Station_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trend.Trend_parameter.Trend_parameter_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trend.Unit.Unit_name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID_TrendPoint">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID_TrendPoint">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID_TrendPoint">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

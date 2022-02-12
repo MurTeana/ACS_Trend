@@ -1,10 +1,15 @@
 ﻿using ACS_Trend.Domain.Interfaces;
 using ACS_Trend.Models;
+using CsvHelper;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
+using System.IO;
 
 namespace ACS_Trend.Controllers
 {
@@ -18,10 +23,17 @@ namespace ACS_Trend.Controllers
 
         public ActionResult AdminDB()
         {
+            List<EntityDB> entitiesList = new List<EntityDB> 
+            { 
+                new EntityDB {Id = 1, Entity = "Единицы измерения (Units)", Method = "GetAllUnits" },
+                new EntityDB {Id = 2, Entity = "Точки тренда (TrendPoints)", Method = "GetAllTrendPoints" },                      
+                new EntityDB {Id = 3, Entity = "Объекты управления (Control_object_type)", Method = "GetAllControl_object_types" }                      
+            };
+
+            ViewBag.EntitiesList = entitiesList;
+
             return View();
         }
-
-        // GET: Home
 
         // UNIT
         public ActionResult CreateUnit()
@@ -82,6 +94,51 @@ namespace ACS_Trend.Controllers
 
             return RedirectToAction("GetAllUnits");
         }
+
+        // TRENDPOINT
+        [HttpGet]
+        public ActionResult GetAllTrendPoints()
+        {
+            var result = _unitOfWork.TrendPoints.GetAllTrendPoints();
+            return View(result);
+        }
+
+        public ActionResult CreateListTrendPoints()
+        {
+            ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
+            ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
+
+            List<TrendPointViewModel> points = new List<TrendPointViewModel>();
+            points.Add(new TrendPointViewModel { Date_time = 9, Parameter = 9, TP_ID_Trend = 2 });
+            points.Add(new TrendPointViewModel { Date_time = 10, Parameter = 10, TP_ID_Trend = 2 });
+            points.Add(new TrendPointViewModel { Date_time = 11, Parameter = 11, TP_ID_Trend = 2 });
+
+            ViewBag.Points = points;
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateListTrendPoints(List<TrendPointViewModel> trendPoints)
+        {
+            //ViewBag.Trends = new SelectList(_unitOfWork.Trends.GetAllTrends(), "ID_Trend", "T_ID_Station");
+
+            List<TrendPointViewModel> points = new List<TrendPointViewModel>();
+            points.Add(new TrendPointViewModel {Date_time = 9, Parameter = 9, TP_ID_Trend = 2 });
+            points.Add(new TrendPointViewModel {Date_time = 10, Parameter = 10, TP_ID_Trend = 2 });
+            points.Add(new TrendPointViewModel {Date_time = 11, Parameter = 11, TP_ID_Trend = 2 });
+
+            _unitOfWork.TrendPoints.AddNewListTrendPoints(points);
+
+            //if (ModelState.IsValid)
+            //{
+            //    ModelState.Clear();
+            //    ViewBag.Issuccess = "Data Added";
+            //}
+
+            return View();
+        }
+
 
         // TREND
 
@@ -144,7 +201,6 @@ namespace ACS_Trend.Controllers
         }
 
         // STATION_TYPE
-
         public ActionResult CreateStation_type()
         {
             return View();
@@ -206,7 +262,6 @@ namespace ACS_Trend.Controllers
 
 
         // CONTROL_OBJECT_TYPE
-
         public ActionResult CreateControl_object_type()
         {
             return View();
@@ -309,6 +364,59 @@ namespace ACS_Trend.Controllers
             lineChartData.series.data = pointsdata;
 
             return lineChartData;
+        }
+
+        [HttpGet]
+        public IActionResult LoadData(List<TestLoadCSV> testdata = null)
+        {
+            testdata = testdata == null ? new List<TestLoadCSV>() : testdata;
+            return View(testdata);
+        }
+
+        [HttpPost]
+        public IActionResult LoadData(IFormFile file, [FromServices] IHostingEnvironment hostingEnvironment)
+        {
+            #region Upload CSV
+            string fileName = $"{hostingEnvironment.WebRootPath}\\files\\{file.FileName}";
+            using (FileStream fileStream = System.IO.File.Create(fileName))
+            {
+                file.CopyTo(fileStream);
+                fileStream.Flush();
+            };
+            #endregion
+
+            var testdatacsv = this.GetDataList(file.FileName);
+            return View(testdatacsv);
+        }
+
+        private object GetDataList(string fileName)
+        {
+            List<TestLoadCSV> testdatacsv = new List<TestLoadCSV>();
+            #region Read CSV
+            var path = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\files"}" + "\\" + fileName;
+            using (var reader = new StreamReader(path))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                csv.Read();
+                csv.ReadHeader();
+                while (csv.Read())
+                {
+                    var testdatacsvEnt = csv.GetRecord<TestLoadCSV>();
+                    testdatacsv.Add(testdatacsvEnt);
+                }
+            }
+            #endregion
+
+            #region Create CSV
+            path = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\filesto"}";
+            using (var write = new StreamWriter(path + "\\NewFile.csv"))
+            using (var csv = new CsvWriter(write, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecords(testdatacsv);
+            }
+            #endregion
+
+            return testdatacsv;
         }
 
         public IActionResult Privacy()

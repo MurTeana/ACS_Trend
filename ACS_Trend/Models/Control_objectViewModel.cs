@@ -14,6 +14,7 @@ namespace ACS_Trend.Models
         [Display(Name = "Дополнительная информация")]
         public string Extend_information { get; set; }
 
+        [Display(Name = "Тип объекта управления")]
         public Control_object_typeViewModel Control_object_type { get; set; }
     }
 }
