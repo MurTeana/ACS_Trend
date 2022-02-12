@@ -1,5 +1,6 @@
 ﻿using ACS_Trend.Domain.Entities;
 using ACS_Trend.Domain.Interfaces;
+using ACS_Trend.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,14 +11,30 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         public RegulatorRepository(ApplicationContext context) : base(context)
         {
         }
-        public void AddNewRegulator(Regulator regulator)
+
+        public int AddNewRegulator(RegulatorViewModel model)
         {
-            _context.Set<Regulator>().Add(regulator);
-            _context.SaveChanges();
+            throw new System.NotImplementedException();
         }
-        public List<Regulator> GetAllRegulators()
+
+        public bool DeleteRegulator(int id)
         {
-            return _context.Set<Regulator>().ToList();
+            throw new System.NotImplementedException();
+        }
+
+        public List<RegulatorViewModel> GetAllRegulators()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public RegulatorViewModel GetRegulator(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool UpdateRegulator(int id, RegulatorViewModel model)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -1,11 +1,15 @@
 ﻿using ACS_Trend.Domain.Entities;
+using ACS_Trend.Models;
 using System.Collections.Generic;
 
 namespace ACS_Trend.Domain.Interfaces
 {
     public interface IUnitRepository : IGenericRepository<Unit>
     {
-        void AddNewUnit(Unit unit);
-        List<Unit> GetAllUnits();
+        int AddNewUnit(UnitViewModel model);
+        List<UnitViewModel> GetAllUnits();
+        UnitViewModel GetUnit(int id);
+        bool UpdateUnit(int id, UnitViewModel model);
+        bool DeleteUnit(int id);
     }
 }

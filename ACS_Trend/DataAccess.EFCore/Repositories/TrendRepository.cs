@@ -1,5 +1,6 @@
 ﻿using ACS_Trend.Domain.Entities;
 using ACS_Trend.Domain.Interfaces;
+using ACS_Trend.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,14 +11,35 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         public TrendRepository(ApplicationContext context) : base(context)
         {
         }
-        public void AddNewTrend(Trend trend)
+
+        public void AddNewListTrends(TrendViewModel Trend)
         {
-            _context.Set<Trend>().Add(trend);
-            _context.SaveChanges();
+            throw new System.NotImplementedException();
         }
-        public List<Trend> GetAllTrends()
+
+        public int AddNewTrend(TrendViewModel model)
         {
-            return _context.Set<Trend>().ToList();
+            throw new System.NotImplementedException();
+        }
+
+        public bool DeleteTrend(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<TrendViewModel> GetAllTrends()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public TrendViewModel GetTrend(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool UpdateTrend(int id, TrendViewModel model)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

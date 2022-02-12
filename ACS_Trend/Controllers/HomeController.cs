@@ -1,5 +1,4 @@
-﻿using ACS_Trend.Domain.Entities;
-using ACS_Trend.Domain.Interfaces;
+﻿using ACS_Trend.Domain.Interfaces;
 using ACS_Trend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -23,13 +22,15 @@ namespace ACS_Trend.Controllers
         }
 
         // GET: Home
+
+        // UNIT
         public ActionResult CreateUnit()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult CreateUnit(Unit unit)
+        public ActionResult CreateUnit(UnitViewModel unit)
         {
             _unitOfWork.Units.AddNewUnit(unit);
 
@@ -49,13 +50,48 @@ namespace ACS_Trend.Controllers
             return View(result);
         }
 
+        [HttpGet]
+        public ActionResult Details_Unit(int id)
+        {
+            var result = _unitOfWork.Units.GetUnit(id);
+            return View(result);
+        }
+
+        public ActionResult EditUnit(int id)
+        {
+            var unit = _unitOfWork.Units.GetUnit(id);
+            return View(unit);
+        }
+
+        [HttpPost]
+        public ActionResult EditUnit(UnitViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Units.UpdateUnit(model.ID_Unit, model);
+
+                return RedirectToAction("GetAllUnits");
+            }
+
+            return View();
+        }
+
+        public ActionResult DeleteUnit(int id)
+        {
+            _unitOfWork.Units.DeleteUnit(id);
+
+            return RedirectToAction("GetAllUnits");
+        }
+
+        // TREND
+
         public ActionResult CreateTrend()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult CreateTrend(Trend trend)
+        public ActionResult CreateTrend(TrendViewModel trend)
         {
             _unitOfWork.Trends.AddNewTrend(trend);
 

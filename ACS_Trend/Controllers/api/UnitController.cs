@@ -1,5 +1,6 @@
 ﻿using ACS_Trend.Domain.Entities;
 using ACS_Trend.Domain.Interfaces;
+using ACS_Trend.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ACS_Trend.Controllers.api
@@ -22,7 +23,7 @@ namespace ACS_Trend.Controllers.api
         }
 
         [HttpPost]
-        public IActionResult AddNewUnit(Unit unit)
+        public IActionResult AddNewUnit(UnitViewModel unit)
         {
             _unitOfWork.Units.AddNewUnit(unit);
             return Ok();

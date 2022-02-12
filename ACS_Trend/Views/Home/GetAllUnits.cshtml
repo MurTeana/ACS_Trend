@@ -1,10 +1,10 @@
-﻿@model IEnumerable<ACS_Trend.Domain.Entities.Unit>
+﻿@model IEnumerable<ACS_Trend.Models.UnitViewModel>
 
 @{
-    ViewData["Title"] = "Units";
+    ViewData["Title"] = "GetAllUnits";
 }
 
-<h1>Units</h1>
+<h1>GetAllUnits</h1>
 
 <p>
     <a asp-action="CreateUnit">Create New</a>
@@ -12,9 +12,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ID_Unit)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Unit_name)
             </th>
@@ -25,15 +22,12 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ID_Unit)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Unit_name)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                <a asp-action="EditUnit" asp-route-id="@item.ID_Unit">Edit</a> |
+                <a asp-action="Details_Unit" asp-route-id="@item.ID_Unit">Details</a> |
+                <a asp-action="DeleteUnit" asp-route-id="@item.ID_Unit">Delete</a>
             </td>
         </tr>
 }

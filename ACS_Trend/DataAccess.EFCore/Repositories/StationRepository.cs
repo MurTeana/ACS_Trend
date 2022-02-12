@@ -12,7 +12,22 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         {
         }
 
-        public int AddNewStation(StationViewModel model)
+        public bool DeleteStation(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public StationViewModel GetStation(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool UpdateStation(int id, StationViewModel model)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        int AddNewStation(StationViewModel model)
         {
             Station st = new Station()
             {
@@ -32,7 +47,13 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
 
             return st.ID_Station;
         }
-        public List<StationViewModel> GetAllStations()
+
+        int IStationRepository.AddNewStation(StationViewModel model)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        List<StationViewModel> GetAllStations()
         {
             var result = _context.Stations
                 .Select(x => new StationViewModel()
@@ -51,6 +72,11 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
                 }).ToList();
 
             return result;
+        }
+
+        List<StationViewModel> IStationRepository.GetAllStations()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

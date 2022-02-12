@@ -1,0 +1,24 @@
+﻿@model ACS_Trend.Models.UnitViewModel
+
+@{
+    ViewData["Title"] = "Details_Unit";
+}
+
+<h1>Details_Unit</h1>
+
+<div>
+    <h4>UnitViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Unit_name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Unit_name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID_Unit">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
