@@ -22,6 +22,7 @@ namespace ACS_Trend.Domain.Entities
 
 
         public virtual ICollection<TrendPoint> TrendPoint { get; set; }
+        public virtual ICollection<Transient_characteristic> Transient_characteristic { get; set; }
         public virtual Station Station { get; set; }
         public virtual Trend_parameter Trend_parameter { get; set; }
         public virtual Unit Unit { get; set; }

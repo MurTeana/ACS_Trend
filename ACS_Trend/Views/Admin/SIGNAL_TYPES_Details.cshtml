@@ -1,0 +1,24 @@
+﻿@model ACS_Trend.Models.Signal_typeViewModel
+
+@{
+    ViewData["Title"] = "SIGNAL_TYPES_Details";
+}
+
+<h1>SIGNAL_TYPES_Details</h1>
+
+<div>
+    <h4>Signal_typeViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Signal_type_name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Signal_type_name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID_Signal_type">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -4,7 +4,7 @@ namespace ACS_Trend.Models
 {
     public class RegulatorViewModel
     {
-        [Key]
+        //[Key]
         [Display(Name = "Идентификатор регулятора")]
         public int ID_Regulator { get; set; }
         [Display(Name = "Наименование регулятора")]

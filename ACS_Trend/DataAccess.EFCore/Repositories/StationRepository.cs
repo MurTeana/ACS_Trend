@@ -12,21 +12,6 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         {
         }
 
-        public bool DeleteStation(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public StationViewModel GetStation(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool UpdateStation(int id, StationViewModel model)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public int AddNewStation(StationViewModel model)
         {
             Station st = new Station()
@@ -62,12 +47,51 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
                     Station_Type = new Station_typeViewModel()
                     {
                         ID_Station_type = x.Station_type.ID_Station_type,
-                        StationType = x.Station_type.StationType
+                        Station_type_name = x.Station_type.Station_type_name
                     }
                 }).ToList();
 
             return result;
         }
 
+        public bool DeleteStation(int id)
+        {
+            var Station = _context.Stations.FirstOrDefault(x => x.ID_Station == id);
+
+            if (Station != null)
+            {
+                _context.Stations.Remove(Station);
+                _context.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public StationViewModel GetStation(int id)
+        {
+            var result = _context.Stations
+                .Where(x => x.ID_Station == id)
+                .Select(x => new StationViewModel()
+                {
+                    ID_Station = x.ID_Station,
+                    Station_name = x.Station_name
+                }).FirstOrDefault();
+
+            return result;
+        }
+
+        public bool UpdateStation(int id, StationViewModel model)
+        {
+            var Station = _context.Stations.FirstOrDefault(x => x.ID_Station == id);
+
+            if (Station != null)
+            {
+                Station.Station_name = model.Station_name;
+            }
+
+            _context.SaveChanges();
+            return true;
+        }
     }
 }

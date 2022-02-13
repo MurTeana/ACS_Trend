@@ -12,6 +12,9 @@ namespace ACS_Trend.Models
         [Display(Name = "Время")]
         public float Date_time { get; set; } // DateTime
         [Display(Name = "Значение параметра")]
-        public float TCH_Parameter { get; set; }
+        public float Parameter { get; set; }
+
+        [Display(Name = "Тренд")]
+        public TrendViewModel Trend { get; set; }
     }
 }

@@ -11,69 +11,69 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         public Station_typeRepository(ApplicationContext context) : base(context)
         {
         }
-
         public int AddNewStation_type(Station_typeViewModel model)
         {
-            Station_type st_t = new Station_type()
+            Station_type Station_type = new Station_type()
             {
-                StationType = model.StationType
+                Station_type_name = model.Station_type_name
             };
 
-            _context.Station_types.Add(st_t);
+            _context.Station_types.Add(Station_type);
             _context.SaveChanges();
 
-            return st_t.ID_Station_type;
+            return Station_type.ID_Station_type;
         }
+
+        public bool DeleteStation_type(int id)
+        {
+            var Station_type = _context.Station_types.FirstOrDefault(x => x.ID_Station_type == id);
+
+            if (Station_type != null)
+            {
+                _context.Station_types.Remove(Station_type);
+                _context.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
         public List<Station_typeViewModel> GetAllStation_types()
         {
             var result = _context.Station_types
-            .Select(x => new Station_typeViewModel()
-            {
-                ID_Station_type = x.ID_Station_type,
-                StationType = x.StationType,
-            }).ToList();
+                .Select(x => new Station_typeViewModel()
+                {
+                    ID_Station_type = x.ID_Station_type,
+                    Station_type_name = x.Station_type_name,
+                }).ToList();
 
             return result;
         }
 
-        public Station_typeViewModel GetStation_Type(int id)
+        public Station_typeViewModel GetStation_type(int id)
         {
             var result = _context.Station_types
                 .Where(x => x.ID_Station_type == id)
                 .Select(x => new Station_typeViewModel()
                 {
                     ID_Station_type = x.ID_Station_type,
-                    StationType = x.StationType
+                    Station_type_name = x.Station_type_name
                 }).FirstOrDefault();
-           
+
             return result;
         }
 
-        public bool UpdateStation_Type(int id, Station_typeViewModel model)
+        public bool UpdateStation_type(int id, Station_typeViewModel model)
         {
-            var st_t = _context.Station_types.FirstOrDefault(x => x.ID_Station_type == id);
+            var Station_type = _context.Station_types.FirstOrDefault(x => x.ID_Station_type == id);
 
-            if(st_t != null)
+            if (Station_type != null)
             {
-                st_t.StationType = model.StationType;
+                Station_type.Station_type_name = model.Station_type_name;
             }
 
             _context.SaveChanges();
             return true;
-        }
-
-        public bool DeleteStation_Type(int id)
-        {
-            var st_t = _context.Station_types.FirstOrDefault(x => x.ID_Station_type == id);
-
-            if (st_t != null)
-            {
-                _context.Station_types.Remove(st_t);
-                _context.SaveChanges();
-                return true;
-            }
-
-            return false;
         }
 
     }

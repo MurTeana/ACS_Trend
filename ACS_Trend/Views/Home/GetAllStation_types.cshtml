@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.StationType)
+                @Html.DisplayNameFor(model => model.Station_type_name)
             </th>
             <th></th>
         </tr>
@@ -22,7 +22,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.StationType)
+                @Html.DisplayFor(modelItem => item.Station_type_name)
             </td>
             <td>
                 <a asp-action="EditStation_type" asp-route-id="@item.ID_Station_type">Edit</a> |

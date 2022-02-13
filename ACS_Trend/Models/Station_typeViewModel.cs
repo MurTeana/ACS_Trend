@@ -8,6 +8,6 @@ namespace ACS_Trend.Models
         [Display(Name = "Идентификатор типа станции")]
         public int ID_Station_type { get; set; }
         [Display(Name = "Тип станции")]
-        public string StationType { get; set; }
+        public string Station_type_name { get; set; }
     }
 }

@@ -25,7 +25,7 @@
                 @Html.DisplayNameFor(model => model.HeatPower)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Station_Type.StationType)
+                @Html.DisplayNameFor(model => model.Station_Type.Station_type_name)
             </th>
             <th></th>
         </tr>
@@ -46,7 +46,7 @@
                 @Html.DisplayFor(modelItem => item.HeatPower)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Station_Type.StationType)
+                @Html.DisplayFor(modelItem => item.Station_Type.Station_type_name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID_Station">Edit</a> |

@@ -11,40 +11,69 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         public Trend_parameter_typeRepository(ApplicationContext context) : base(context)
         {
         }
-        public void AddNewTrend_parameter_type(Trend_parameter_type trend_Parameter_Type)
-        {
-            _context.Set<Trend_parameter_type>().Add(trend_Parameter_Type);
-            _context.SaveChanges();
-        }
-
         public int AddNewTrend_parameter_type(Trend_parameter_typeViewModel model)
         {
-            throw new System.NotImplementedException();
+            Trend_parameter_type Trend_parameter_type = new Trend_parameter_type()
+            {
+                Trend_parameter_type_name = model.Trend_parameter_type_name
+            };
+
+            _context.Trend_parameter_types.Add(Trend_parameter_type);
+            _context.SaveChanges();
+
+            return Trend_parameter_type.ID_Trend_parameter_type;
         }
 
         public bool DeleteTrend_parameter_type(int id)
         {
-            throw new System.NotImplementedException();
+            var Trend_parameter_type = _context.Trend_parameter_types.FirstOrDefault(x => x.ID_Trend_parameter_type == id);
+
+            if (Trend_parameter_type != null)
+            {
+                _context.Trend_parameter_types.Remove(Trend_parameter_type);
+                _context.SaveChanges();
+                return true;
+            }
+
+            return false;
         }
 
-        public List<Trend_parameter_type> GetAllTrend_parameter_types()
+        public List<Trend_parameter_typeViewModel> GetAllTrend_parameter_types()
         {
-            return _context.Set<Trend_parameter_type>().ToList();
+            var result = _context.Trend_parameter_types
+                .Select(x => new Trend_parameter_typeViewModel()
+                {
+                    ID_Trend_parameter_type = x.ID_Trend_parameter_type,
+                    Trend_parameter_type_name = x.Trend_parameter_type_name,
+                }).ToList();
+
+            return result;
         }
 
         public Trend_parameter_typeViewModel GetTrend_parameter_type(int id)
         {
-            throw new System.NotImplementedException();
+            var result = _context.Trend_parameter_types
+                .Where(x => x.ID_Trend_parameter_type == id)
+                .Select(x => new Trend_parameter_typeViewModel()
+                {
+                    ID_Trend_parameter_type = x.ID_Trend_parameter_type,
+                    Trend_parameter_type_name = x.Trend_parameter_type_name
+                }).FirstOrDefault();
+
+            return result;
         }
 
         public bool UpdateTrend_parameter_type(int id, Trend_parameter_typeViewModel model)
         {
-            throw new System.NotImplementedException();
-        }
+            var Trend_parameter_type = _context.Trend_parameter_types.FirstOrDefault(x => x.ID_Trend_parameter_type == id);
 
-        List<Trend_parameter_typeViewModel> ITrend_parameter_typeRepository.GetAllTrend_parameter_types()
-        {
-            throw new System.NotImplementedException();
+            if (Trend_parameter_type != null)
+            {
+                Trend_parameter_type.Trend_parameter_type_name = model.Trend_parameter_type_name;
+            }
+
+            _context.SaveChanges();
+            return true;
         }
     }
 }

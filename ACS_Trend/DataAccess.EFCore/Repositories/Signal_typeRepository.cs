@@ -14,27 +14,67 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
 
         public int AddNewSignal_type(Signal_typeViewModel model)
         {
-            throw new System.NotImplementedException();
+            Signal_type Signal_type = new Signal_type()
+            {
+                Signal_type_name = model.Signal_type_name
+            };
+
+            _context.Signal_types.Add(Signal_type);
+            _context.SaveChanges();
+
+            return Signal_type.ID_Signal_type;
         }
 
         public bool DeleteSignal_type(int id)
         {
-            throw new System.NotImplementedException();
+            var Signal_type = _context.Signal_types.FirstOrDefault(x => x.ID_Signal_type == id);
+
+            if (Signal_type != null)
+            {
+                _context.Signal_types.Remove(Signal_type);
+                _context.SaveChanges();
+                return true;
+            }
+
+            return false;
         }
 
         public List<Signal_typeViewModel> GetAllSignal_types()
         {
-            throw new System.NotImplementedException();
+            var result = _context.Signal_types
+                .Select(x => new Signal_typeViewModel()
+                {
+                    ID_Signal_type = x.ID_Signal_type,
+                    Signal_type_name = x.Signal_type_name,
+                }).ToList();
+
+            return result;
         }
 
         public Signal_typeViewModel GetSignal_type(int id)
         {
-            throw new System.NotImplementedException();
+            var result = _context.Signal_types
+                .Where(x => x.ID_Signal_type == id)
+                .Select(x => new Signal_typeViewModel()
+                {
+                    ID_Signal_type = x.ID_Signal_type,
+                    Signal_type_name = x.Signal_type_name
+                }).FirstOrDefault();
+
+            return result;
         }
 
         public bool UpdateSignal_type(int id, Signal_typeViewModel model)
         {
-            throw new System.NotImplementedException();
+            var Signal_type = _context.Signal_types.FirstOrDefault(x => x.ID_Signal_type == id);
+
+            if (Signal_type != null)
+            {
+                Signal_type.Signal_type_name = model.Signal_type_name;
+            }
+
+            _context.SaveChanges();
+            return true;
         }
     }
 }

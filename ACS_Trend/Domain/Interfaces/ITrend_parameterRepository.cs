@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ACS_Trend.Domain.Interfaces
 {
-    public interface ITrend_parameterRepository : IGenericRepository<Trend_parameter>
+    public interface ITrend_parameterRepository : IGenericRepository<Trend_parameterViewModel>
     {
         int AddNewTrend_parameter(Trend_parameterViewModel model);
         List<Trend_parameterViewModel> GetAllTrend_parameters();

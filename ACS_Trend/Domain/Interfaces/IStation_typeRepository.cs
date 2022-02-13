@@ -7,8 +7,8 @@ namespace ACS_Trend.Domain.Interfaces
     {
         int AddNewStation_type(Station_typeViewModel station_Type);
         List<Station_typeViewModel> GetAllStation_types();
-        Station_typeViewModel GetStation_Type(int id);
-        bool UpdateStation_Type(int id, Station_typeViewModel model);
-        bool DeleteStation_Type(int id);
+        Station_typeViewModel GetStation_type(int id);
+        bool UpdateStation_type(int id, Station_typeViewModel model);
+        bool DeleteStation_type(int id);
     }
 }

@@ -11,7 +11,7 @@ namespace ACS_Trend.Domain.Entities
 
         [Required]
         [Key]
-        public int ID_Trend_signal_type { get; set; }
+        public int ID_Signal_type { get; set; }
         public string Signal_type_name { get; set; }
 
         public virtual ICollection<Trend_parameter> Trend_parameter { get; set; }

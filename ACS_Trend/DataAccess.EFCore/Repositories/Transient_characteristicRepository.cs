@@ -6,49 +6,88 @@ using System.Linq;
 
 namespace ACS_Trend.DataAccess.EFCore.Repositories
 {
-    public class Transient_characteristicRepository : GenericRepository<Transient_characteristic>, ITransient_characteristicRepository
+    public class Transient_characteristicRepository : GenericRepository<Transient_characteristicViewModel>, ITransient_characteristicRepository
     {
         public Transient_characteristicRepository(ApplicationContext context) : base(context)
         {
         }
 
-        public void AddNewListTransient_characteristics(Transient_characteristicViewModel Transient_characteristic)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void AddNewTransient_characteristic(Transient_characteristic transient_Characteristic)
-        {
-            _context.Set<Transient_characteristic>().Add(transient_Characteristic);
-            _context.SaveChanges();
-        }
-
         public int AddNewTransient_characteristic(Transient_characteristicViewModel model)
         {
-            throw new System.NotImplementedException();
+            Transient_characteristic tch = new Transient_characteristic()
+            {
+                Date_time = model.Date_time,
+                Parameter = model.Parameter
+            };
+
+            if (model.Trend != null)
+            {
+                var id = model.Trend.ID_Trend;
+                tch.TCH_ID_Trend = id;
+            }
+
+            _context.Transient_characteristics.Add(tch);
+            _context.SaveChanges();
+
+            return tch.ID_Transient_characteristic;
         }
 
         public bool DeleteTransient_characteristic(int id)
         {
-            throw new System.NotImplementedException();
+            var Transient_characteristic = _context.Transient_characteristics.FirstOrDefault(x => x.ID_Transient_characteristic == id);
+
+            if (Transient_characteristic != null)
+            {
+                _context.Transient_characteristics.Remove(Transient_characteristic);
+                _context.SaveChanges();
+                return true;
+            }
+
+            return false;
         }
 
-        public List<Transient_characteristic> GetAllTransient_characteristics()
+        public List<Transient_characteristicViewModel> GetAllTransient_characteristics()
         {
-            return _context.Set<Transient_characteristic>().ToList();
+            var result = _context.Transient_characteristics
+                .Select(x => new Transient_characteristicViewModel()
+                {
+                    ID_Transient_characteristic = x.ID_Transient_characteristic,
+                    Date_time = x.Date_time,
+                    Parameter = x.Parameter
+                }).ToList();
+
+            return result;
         }
 
         public Transient_characteristicViewModel GetTransient_characteristic(int id)
         {
-            throw new System.NotImplementedException();
+            var result = _context.Transient_characteristics
+                .Where(x => x.ID_Transient_characteristic == id)
+                .Select(x => new Transient_characteristicViewModel()
+                {
+                    ID_Transient_characteristic = x.ID_Transient_characteristic,
+                    Date_time = x.Date_time,
+                    Parameter = x.Parameter
+                }).FirstOrDefault();
+
+            return result;
         }
 
         public bool UpdateTransient_characteristic(int id, Transient_characteristicViewModel model)
         {
-            throw new System.NotImplementedException();
+            var Transient_characteristic = _context.Transient_characteristics.FirstOrDefault(x => x.ID_Transient_characteristic == id);
+
+            if (Transient_characteristic != null)
+            {
+                Transient_characteristic.Date_time = model.Date_time;
+                Transient_characteristic.Parameter = model.Parameter;
+            }
+
+            _context.SaveChanges();
+            return true;
         }
 
-        List<Transient_characteristicViewModel> ITransient_characteristicRepository.GetAllTransient_characteristics()
+        List<TrendPointViewModel> ITransient_characteristicRepository.AddNewListTransient_characteristics(Transient_characteristicViewModel Transient_characteristic)
         {
             throw new System.NotImplementedException();
         }

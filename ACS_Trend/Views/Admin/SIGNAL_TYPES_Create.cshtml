@@ -1,0 +1,31 @@
+﻿@model ACS_Trend.Models.Signal_typeViewModel
+
+@{
+    ViewData["Title"] = "SIGNAL_TYPES_Create";
+}
+
+<h1>SIGNAL_TYPES_Create</h1>
+<h2>@ViewBag.Issuccess</h2>
+
+<h4>Signal_typeViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SIGNAL_TYPES_Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Signal_type_name" class="control-label"></label>
+                <input asp-for="Signal_type_name" class="form-control" />
+                <span asp-validation-for="Signal_type_name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

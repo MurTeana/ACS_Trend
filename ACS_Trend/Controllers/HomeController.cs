@@ -21,80 +21,6 @@ namespace ACS_Trend.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public ActionResult AdminDB()
-        {
-            List<EntityDB> entitiesList = new List<EntityDB> 
-            { 
-                new EntityDB {Id = 1, Entity = "Единицы измерения (Units)", Method = "GetAllUnits" },
-                new EntityDB {Id = 2, Entity = "Точки тренда (TrendPoints)", Method = "GetAllTrendPoints" },                      
-                new EntityDB {Id = 3, Entity = "Объекты управления (Control_object_type)", Method = "GetAllControl_object_types" }                      
-            };
-
-            ViewBag.EntitiesList = entitiesList;
-
-            return View();
-        }
-
-        // UNIT
-        public ActionResult CreateUnit()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult CreateUnit(UnitViewModel unit)
-        {
-            _unitOfWork.Units.AddNewUnit(unit);
-
-            if (ModelState.IsValid)
-            {
-                ModelState.Clear();
-                ViewBag.Issuccess = "Data Added";
-            }
-                       
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult GetAllUnits()
-        {
-            var result = _unitOfWork.Units.GetAllUnits();
-            return View(result);
-        }
-
-        [HttpGet]
-        public ActionResult Details_Unit(int id)
-        {
-            var result = _unitOfWork.Units.GetUnit(id);
-            return View(result);
-        }
-
-        public ActionResult EditUnit(int id)
-        {
-            var unit = _unitOfWork.Units.GetUnit(id);
-            return View(unit);
-        }
-
-        [HttpPost]
-        public ActionResult EditUnit(UnitViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Units.UpdateUnit(model.ID_Unit, model);
-
-                return RedirectToAction("GetAllUnits");
-            }
-
-            return View();
-        }
-
-        public ActionResult DeleteUnit(int id)
-        {
-            _unitOfWork.Units.DeleteUnit(id);
-
-            return RedirectToAction("GetAllUnits");
-        }
-
         // TRENDPOINT
         [HttpGet]
         public ActionResult GetAllTrendPoints()
@@ -230,13 +156,13 @@ namespace ACS_Trend.Controllers
         [HttpGet]
         public ActionResult Details_Station_Type(int id)
         {
-            var result = _unitOfWork.Station_types.GetStation_Type(id);
+            var result = _unitOfWork.Station_types.GetStation_type(id);
             return View(result);
         }
 
         public ActionResult EditStation_type(int id)
         {
-            var st_t = _unitOfWork.Station_types.GetStation_Type(id);
+            var st_t = _unitOfWork.Station_types.GetStation_type(id);
             return View(st_t);
         }
 
@@ -245,7 +171,7 @@ namespace ACS_Trend.Controllers
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.Station_types.UpdateStation_Type(model.ID_Station_type, model);
+                _unitOfWork.Station_types.UpdateStation_type(model.ID_Station_type, model);
 
                 return RedirectToAction("GetAllStation_types");
             }
@@ -255,7 +181,7 @@ namespace ACS_Trend.Controllers
 
         public ActionResult DeleteStation_type(int id)
         {
-            _unitOfWork.Station_types.DeleteStation_Type(id);
+            _unitOfWork.Station_types.DeleteStation_type(id);
 
             return RedirectToAction("GetAllStation_types");
         }

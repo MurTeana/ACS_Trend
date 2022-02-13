@@ -1,31 +1,31 @@
 ﻿@model ACS_Trend.Models.UnitViewModel
 
 @{
-    ViewData["Title"] = "EditUnit";
+    ViewData["Title"] = "UNITS_Create";
 }
 
-<h1>EditUnit</h1>
+<h1>UNITS_Create</h1>
+<h2>@ViewBag.Issuccess</h2>
 
 <h4>UnitViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="EditUnit">
+        <form asp-action="UNITS_Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ID_Unit" />
             <div class="form-group">
                 <label asp-for="Unit_name" class="control-label"></label>
                 <input asp-for="Unit_name" class="form-control" />
                 <span asp-validation-for="Unit_name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="GetAllUnits">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 

@@ -90,16 +90,44 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
 
         public TrendPointViewModel GetTrendPoint(int id)
         {
-            throw new System.NotImplementedException();
+            var result = _context.TrendPoints
+                .Where(x => x.ID_TrendPoint == id)
+                .Select(x => new TrendPointViewModel()
+                {
+                    ID_TrendPoint = x.ID_TrendPoint,
+                    Date_time = x.Date_time,
+                    Parameter = x.Parameter
+                }).FirstOrDefault();
+
+            return result;
         }
 
         public bool UpdateTrendPoint(int id, TrendPointViewModel model)
         {
-            throw new System.NotImplementedException();
+            var TrendPoint = _context.TrendPoints.FirstOrDefault(x => x.ID_TrendPoint == id);
+
+            if (TrendPoint != null)
+            {
+                TrendPoint.Date_time = model.Date_time;
+                TrendPoint.Parameter = model.Parameter;
+            }
+
+            _context.SaveChanges();
+            return true;
         }
+
         public bool DeleteTrendPoint(int id)
         {
-            throw new System.NotImplementedException();
+            var tp = _context.TrendPoints.FirstOrDefault(x => x.ID_TrendPoint == id);
+
+            if (tp != null)
+            {
+                _context.TrendPoints.Remove(tp);
+                _context.SaveChanges();
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ACS_Trend.Models.RegulatorViewModel>
+
+@{
+    ViewData["Title"] = "REGULATORS_GetAll";
+}
+
+<h1>REGULATORS_GetAll</h1>
+
+<p>
+    <a asp-action="REGULATORS_Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Regulator_name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Regulator_name)
+            </td>
+            <td>
+                <a asp-action="REGULATORS_Edit" asp-route-id="@item.ID_Regulator">Edit</a> |
+                <a asp-action="REGULATORS_Details" asp-route-id="@item.ID_Regulator">Details</a> |
+                <a asp-action="REGULATORS_Delete" asp-route-id="@item.ID_Regulator">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

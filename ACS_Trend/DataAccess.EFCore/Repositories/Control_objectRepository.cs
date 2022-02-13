@@ -11,29 +11,68 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         public Control_objectRepository(ApplicationContext context) : base(context)
         {
         }
-        public void AddNewControl_object(Control_objectViewModel control_Object)
+        public int AddNewControl_object(Control_objectViewModel model)
         {
-            _context.Set<Control_objectViewModel>().Add(control_Object);
+            Control_object Control_object = new Control_object()
+            {
+                Control_object_name = model.Control_object_name
+            };
+
+            _context.Control_objects.Add(Control_object);
             _context.SaveChanges();
-        }
-        public List<Control_objectViewModel> GetAllControl_objects()
-        {
-            return _context.Set<Control_objectViewModel>().ToList();
-        }
 
-        public Control_objectViewModel GetControl_object(int id)
-        {
-
-            return new Control_objectViewModel();
-        }
-
-        public bool UpdateControl_object(int id, Control_objectViewModel model)
-        {
-            return true;
+            return Control_object.ID_Control_object;
         }
 
         public bool DeleteControl_object(int id)
         {
+            var Control_object = _context.Control_objects.FirstOrDefault(x => x.ID_Control_object == id);
+
+            if (Control_object != null)
+            {
+                _context.Control_objects.Remove(Control_object);
+                _context.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public List<Control_objectViewModel> GetAllControl_objects()
+        {
+            var result = _context.Control_objects
+                .Select(x => new Control_objectViewModel()
+                {
+                    ID_Control_object = x.ID_Control_object,
+                    Control_object_name = x.Control_object_name,
+                }).ToList();
+
+            return result;
+        }
+
+        public Control_objectViewModel GetControl_object(int id)
+        {
+            var result = _context.Control_objects
+                .Where(x => x.ID_Control_object == id)
+                .Select(x => new Control_objectViewModel()
+                {
+                    ID_Control_object = x.ID_Control_object,
+                    Control_object_name = x.Control_object_name
+                }).FirstOrDefault();
+
+            return result;
+        }
+
+        public bool UpdateControl_object(int id, Control_objectViewModel model)
+        {
+            var Control_object = _context.Control_objects.FirstOrDefault(x => x.ID_Control_object == id);
+
+            if (Control_object != null)
+            {
+                Control_object.Control_object_name = model.Control_object_name;
+            }
+
+            _context.SaveChanges();
             return true;
         }
     }

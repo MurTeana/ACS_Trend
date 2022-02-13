@@ -14,27 +14,67 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
 
         public int AddNewRegulator(RegulatorViewModel model)
         {
-            throw new System.NotImplementedException();
+            Regulator Regulator = new Regulator()
+            {
+                Regulator_name = model.Regulator_name
+            };
+
+            _context.Regulators.Add(Regulator);
+            _context.SaveChanges();
+
+            return Regulator.ID_Regulator;
         }
 
         public bool DeleteRegulator(int id)
         {
-            throw new System.NotImplementedException();
+            var Regulator = _context.Regulators.FirstOrDefault(x => x.ID_Regulator == id);
+
+            if (Regulator != null)
+            {
+                _context.Regulators.Remove(Regulator);
+                _context.SaveChanges();
+                return true;
+            }
+
+            return false;
         }
 
         public List<RegulatorViewModel> GetAllRegulators()
         {
-            throw new System.NotImplementedException();
+            var result = _context.Regulators
+                .Select(x => new RegulatorViewModel()
+                {
+                    ID_Regulator = x.ID_Regulator,
+                    Regulator_name = x.Regulator_name,
+                }).ToList();
+
+            return result;
         }
 
         public RegulatorViewModel GetRegulator(int id)
         {
-            throw new System.NotImplementedException();
+            var result = _context.Regulators
+                .Where(x => x.ID_Regulator == id)
+                .Select(x => new RegulatorViewModel()
+                {
+                    ID_Regulator = x.ID_Regulator,
+                    Regulator_name = x.Regulator_name
+                }).FirstOrDefault();
+
+            return result;
         }
 
         public bool UpdateRegulator(int id, RegulatorViewModel model)
         {
-            throw new System.NotImplementedException();
+            var Regulator = _context.Regulators.FirstOrDefault(x => x.ID_Regulator == id);
+
+            if (Regulator != null)
+            {
+                Regulator.Regulator_name = model.Regulator_name;
+            }
+
+            _context.SaveChanges();
+            return true;
         }
     }
 }

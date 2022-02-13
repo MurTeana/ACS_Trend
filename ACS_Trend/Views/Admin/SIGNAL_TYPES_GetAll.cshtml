@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ACS_Trend.Models.Signal_typeViewModel>
+
+@{
+    ViewData["Title"] = "SIGNAL_TYPES_GetAll";
+}
+
+<h1>SIGNAL_TYPES_GetAll</h1>
+
+<p>
+    <a asp-action="SIGNAL_TYPES_Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Signal_type_name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Signal_type_name)
+            </td>
+            <td>
+                <a asp-action="SIGNAL_TYPES_Edit" asp-route-id="@item.ID_Signal_type">Edit</a> |
+                <a asp-action="SIGNAL_TYPES_Details" asp-route-id="@item.ID_Signal_type">Details</a> |
+                <a asp-action="SIGNAL_TYPES_Delete" asp-route-id="@item.ID_Signal_type">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

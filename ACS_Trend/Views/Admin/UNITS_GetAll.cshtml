@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<ACS_Trend.Models.UnitViewModel>
 
 @{
-    ViewData["Title"] = "GetAllUnits";
+    ViewData["Title"] = "UNITS_GetAll";
 }
 
-<h1>GetAllUnits</h1>
+<h1>UNITS_GetAll</h1>
 
 <p>
-    <a asp-action="CreateUnit">Create New</a>
+    <a asp-action="UNITS_Create">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -25,9 +25,9 @@
                 @Html.DisplayFor(modelItem => item.Unit_name)
             </td>
             <td>
-                <a asp-action="EditUnit" asp-route-id="@item.ID_Unit">Edit</a> |
-                <a asp-action="Details_Unit" asp-route-id="@item.ID_Unit">Details</a> |
-                <a asp-action="DeleteUnit" asp-route-id="@item.ID_Unit">Delete</a>
+                <a asp-action="UNITS_Edit" asp-route-id="@item.ID_Unit">Edit</a> |
+                <a asp-action="UNITS_Details" asp-route-id="@item.ID_Unit">Details</a> |
+                <a asp-action="UNITS_Delete" asp-route-id="@item.ID_Unit">Delete</a>
             </td>
         </tr>
 }

@@ -1,10 +1,10 @@
 ﻿@model ACS_Trend.Models.UnitViewModel
 
 @{
-    ViewData["Title"] = "DeleteUnit";
+    ViewData["Title"] = "UNITS_Delete";
 }
 
-<h1>DeleteUnit</h1>
+<h1>UNITS_Delete</h1>
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
@@ -19,9 +19,9 @@
         </dd>
     </dl>
     
-    <form asp-action="DeleteUnit">
+    <form asp-action="UNITS_Delete">
         <input type="hidden" asp-for="ID_Unit" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="GetAllUnits">Back to List</a>
+        <a asp-action="Index">Back to List</a>
     </form>
 </div>

@@ -12,7 +12,7 @@ namespace ACS_Trend.Domain.Entities
         //[Required]
         [Key]
         public int ID_Station_type { get; set; }
-        public string StationType { get; set; }
+        public string Station_type_name { get; set; }
 
 
         public virtual ICollection<Station> Station { get; set; }

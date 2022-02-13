@@ -1,0 +1,31 @@
+﻿@model ACS_Trend.Models.RegulatorViewModel
+
+@{
+    ViewData["Title"] = "REGULATORS_Edit";
+}
+
+<h1>REGULATORS_Edit</h1>
+
+<h4>RegulatorViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="REGULATORS_Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID_Regulator" />
+            <div class="form-group">
+                <label asp-for="Regulator_name" class="control-label"></label>
+                <input asp-for="Regulator_name" class="form-control" />
+                <span asp-validation-for="Regulator_name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

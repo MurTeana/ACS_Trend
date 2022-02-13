@@ -66,11 +66,11 @@ namespace ACS_Trend.DataAccess.EFCore
                 .HasData(
                 new Station_type[]
                 {
-                new Station_type { ID_Station_type = 1, StationType = "ТЭС"},
-                new Station_type { ID_Station_type = 2, StationType = "ГЭС"},
-                new Station_type { ID_Station_type = 3, StationType = "ТЭЦ"},
-                new Station_type { ID_Station_type = 4, StationType = "АЭС"},
-                new Station_type { ID_Station_type = 5, StationType = "Альтернативные ЭС"},
+                new Station_type { ID_Station_type = 1, Station_type_name = "ТЭС"},
+                new Station_type { ID_Station_type = 2, Station_type_name = "ГЭС"},
+                new Station_type { ID_Station_type = 3, Station_type_name = "ТЭЦ"},
+                new Station_type { ID_Station_type = 4, Station_type_name = "АЭС"},
+                new Station_type { ID_Station_type = 5, Station_type_name = "Альтернативные ЭС"},
                 });
 
             // CONTROL_OBJECT
@@ -178,8 +178,8 @@ namespace ACS_Trend.DataAccess.EFCore
                 .HasData(
                 new Signal_type[]
                 {
-                new Signal_type { ID_Trend_signal_type = 1, Signal_type_name = "входной сигнал"},
-                new Signal_type { ID_Trend_signal_type = 2, Signal_type_name = "выходной сигнал"},
+                new Signal_type { ID_Signal_type = 1, Signal_type_name = "входной сигнал"},
+                new Signal_type { ID_Signal_type = 2, Signal_type_name = "выходной сигнал"},
                 });
 
             // TREND_PARAMETER_TYPE DATA
@@ -257,12 +257,7 @@ namespace ACS_Trend.DataAccess.EFCore
             //Изм.тем.пара пеpед 2-й ст
             //
             //
-
-
         }       
 
-        public DbSet<ACS_Trend.Models.TrendPointViewModel> TrendPointViewModel { get; set; }
-
-        public DbSet<ACS_Trend.Models.TrendViewModel> TrendViewModel { get; set; }
     }
 }

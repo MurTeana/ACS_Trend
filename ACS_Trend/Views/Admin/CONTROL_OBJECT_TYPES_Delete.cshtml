@@ -1,10 +1,10 @@
 ﻿@model ACS_Trend.Models.Control_object_typeViewModel
 
 @{
-    ViewData["Title"] = "DeleteControl_object_type";
+    ViewData["Title"] = "CONTROL_OBJECT_TYPES_Delete";
 }
 
-<h1>DeleteControl_object_type</h1>
+<h1>CONTROL_OBJECT_TYPES_Delete</h1>
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
@@ -19,7 +19,7 @@
         </dd>
     </dl>
     
-    <form asp-action="DeleteControl_object_type">
+    <form asp-action="CONTROL_OBJECT_TYPES_Delete">
         <input type="hidden" asp-for="ID_Control_object_type" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
