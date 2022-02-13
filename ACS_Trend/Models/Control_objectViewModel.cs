@@ -10,7 +10,7 @@ namespace ACS_Trend.Models
         [Display(Name = "Наименование объекта управления")]
         public string Control_object_name { get; set; }
         [Display(Name = "Идентификатор типа объекта управления")]
-        public int CO_Control_object_type { get; set; }
+        public int CO_ID_Control_object_type { get; set; }
         [Display(Name = "Дополнительная информация")]
         public string Extend_information { get; set; }
 

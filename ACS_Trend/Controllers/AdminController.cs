@@ -1,6 +1,7 @@
 ﻿using ACS_Trend.Domain.Interfaces;
 using ACS_Trend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
 namespace ACS_Trend.Controllers
@@ -96,12 +97,16 @@ namespace ACS_Trend.Controllers
         // 2 - CONTROL_OBJECTS
         public ActionResult CONTROL_OBJECTS_Create()
         {
+            ViewBag.Control_object_types = new SelectList(_unitOfWork.Control_object_types.GetAllControl_object_types(), "ID_Control_object_type", "Control_object_type_name");
+
             return View();
         }
 
         [HttpPost]
         public ActionResult CONTROL_OBJECTS_Create(Control_objectViewModel model)
         {
+            ViewBag.Control_object_types = new SelectList(_unitOfWork.Control_object_types.GetAllControl_object_types(), "ID_Control_object_type", "Control_object_type_name");
+
             _unitOfWork.Control_objects.AddNewControl_object(model);
 
             if (ModelState.IsValid)
@@ -276,12 +281,16 @@ namespace ACS_Trend.Controllers
         // 5 - STATIONS
         public ActionResult STATIONS_Create()
         {
+            ViewBag.Station_Types = new SelectList(_unitOfWork.Station_types.GetAllStation_types(), "ID_Station_type", "Station_type_name");
+
             return View();
         }
 
         [HttpPost]
         public ActionResult STATIONS_Create(StationViewModel model)
         {
+            ViewBag.Station_Types = new SelectList(_unitOfWork.Station_types.GetAllStation_types(), "ID_Station_type", "Station_type_name");
+
             _unitOfWork.Stations.AddNewStation(model);
 
             if (ModelState.IsValid)

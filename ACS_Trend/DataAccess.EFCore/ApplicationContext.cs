@@ -78,7 +78,7 @@ namespace ACS_Trend.DataAccess.EFCore
                 .Entity<Control_object>()
                 .HasOne(u => u.Control_object_type)
                 .WithMany(p => p.Control_object)
-                .HasForeignKey(p => p.CO_Control_object_type);
+                .HasForeignKey(p => p.CO_ID_Control_object_type);
 
             // CONTROL_OBJECT DATA
             modelBuilder
@@ -86,8 +86,8 @@ namespace ACS_Trend.DataAccess.EFCore
                 .HasData(
                 new Control_object[]
                 {
-                new Control_object { ID_Control_object = 1, Control_object_name = "Название котла", CO_Control_object_type = 1, Extend_information = ""},
-                new Control_object { ID_Control_object = 2, Control_object_name = "Название турбины", CO_Control_object_type = 2, Extend_information = ""},
+                new Control_object { ID_Control_object = 1, Control_object_name = "Название котла", CO_ID_Control_object_type = 1, Extend_information = ""},
+                new Control_object { ID_Control_object = 2, Control_object_name = "Название турбины", CO_ID_Control_object_type = 2, Extend_information = ""},
                 });
 
             // CONTROL_OBJECT_TYPE

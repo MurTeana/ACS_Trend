@@ -16,7 +16,7 @@ namespace ACS_Trend.Domain.Entities
         public string Control_object_name { get; set; }
 
         [ForeignKey("Control_object_type")]
-        public int CO_Control_object_type { get; set; }
+        public int CO_ID_Control_object_type { get; set; }
         public string Extend_information { get; set; }
 
         public virtual Control_object_type Control_object_type { get; set; }

@@ -7,7 +7,7 @@
 <h1>STATIONS_GetAll</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="STATIONS_Create">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -43,9 +43,9 @@
                 @Html.DisplayFor(modelItem => item.HeatPower)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ID_Station">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID_Station">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID_Station">Delete</a>
+                <a asp-action="STATIONS_Edit" asp-route-id="@item.ID_Station">Edit</a> |
+                <a asp-action="STATIONS_Details" asp-route-id="@item.ID_Station">Details</a> |
+                <a asp-action="STATIONS_Delete" asp-route-id="@item.ID_Station">Delete</a>
             </td>
         </tr>
 }

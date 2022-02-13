@@ -15,7 +15,9 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         {
             Control_object Control_object = new Control_object()
             {
-                Control_object_name = model.Control_object_name
+                Control_object_name = model.Control_object_name,
+                Extend_information = model.Extend_information,
+                CO_ID_Control_object_type = model.CO_ID_Control_object_type
             };
 
             _context.Control_objects.Add(Control_object);
@@ -45,6 +47,8 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
                 {
                     ID_Control_object = x.ID_Control_object,
                     Control_object_name = x.Control_object_name,
+                    Extend_information = x.Extend_information,
+                    CO_ID_Control_object_type = x.CO_ID_Control_object_type,
                 }).ToList();
 
             return result;
