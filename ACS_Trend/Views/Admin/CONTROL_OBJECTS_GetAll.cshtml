@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ACS_Trend.Models.Control_objectViewModel>
+
+@{
+    ViewData["Title"] = "CONTROL_OBJECTS_GetAll";
+}
+
+<h1>CONTROL_OBJECTS_GetAll</h1>
+
+<p>
+    <a asp-action="CONTROL_OBJECTS_Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Control_object_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CO_Control_object_type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Extend_information)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Control_object_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CO_Control_object_type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Extend_information)
+            </td>
+            <td>
+                <a asp-action="CONTROL_OBJECTS_Edit" asp-route-id="@item.ID_Control_object">Edit</a> |
+                <a asp-action="CONTROL_OBJECTS_Details" asp-route-id="@item.ID_Control_object">Details</a> |
+                <a asp-action="CONTROL_OBJECTS_Delete" asp-route-id="@item.ID_Control_object">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

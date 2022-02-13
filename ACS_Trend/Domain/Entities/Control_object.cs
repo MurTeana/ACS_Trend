@@ -10,7 +10,7 @@ namespace ACS_Trend.Domain.Entities
         {
         }
 
-        [Required]
+        //[Required]
         [Key]
         public int ID_Control_object { get; set; }
         public string Control_object_name { get; set; }

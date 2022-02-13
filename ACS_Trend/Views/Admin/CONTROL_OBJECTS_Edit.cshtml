@@ -1,0 +1,41 @@
+﻿@model ACS_Trend.Models.Control_objectViewModel
+
+@{
+    ViewData["Title"] = "CONTROL_OBJECTS_Edit";
+}
+
+<h1>CONTROL_OBJECTS_Edit</h1>
+
+<h4>Control_objectViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CONTROL_OBJECTS_Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID_Control_object" />
+            <div class="form-group">
+                <label asp-for="Control_object_name" class="control-label"></label>
+                <input asp-for="Control_object_name" class="form-control" />
+                <span asp-validation-for="Control_object_name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CO_Control_object_type" class="control-label"></label>
+                <input asp-for="CO_Control_object_type" class="form-control" />
+                <span asp-validation-for="CO_Control_object_type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Extend_information" class="control-label"></label>
+                <input asp-for="Extend_information" class="form-control" />
+                <span asp-validation-for="Extend_information" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

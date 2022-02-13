@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ACS_Trend.Models.TrendPointViewModel>
+
+@{
+    ViewData["Title"] = "TREND_POINTS_GetAll";
+}
+
+<h1>TREND_POINTS_GetAll</h1>
+
+<p>
+    <a asp-action="TREND_POINTS_Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TP_ID_Trend)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date_time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Parameter)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TP_ID_Trend)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Parameter)
+            </td>
+            <td>
+                <a asp-action="TREND_POINTS_Edit" asp-route-id="@item.ID_TrendPoint">Edit</a> |
+                <a asp-action="TREND_POINTS_Details" asp-route-id="@item.ID_TrendPoint">Details</a> |
+                <a asp-action="TREND_POINTS_Delete" asp-route-id="@item.ID_TrendPoint">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

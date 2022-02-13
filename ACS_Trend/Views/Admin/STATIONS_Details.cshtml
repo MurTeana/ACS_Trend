@@ -1,0 +1,42 @@
+﻿@model ACS_Trend.Models.StationViewModel
+
+@{
+    ViewData["Title"] = "STATIONS_Details";
+}
+
+<h1>STATIONS_Details</h1>
+
+<div>
+    <h4>StationViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Station_name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Station_name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ST_ID_Station_type)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ST_ID_Station_type)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ElectricalPower)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ElectricalPower)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HeatPower)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HeatPower)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID_Station">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

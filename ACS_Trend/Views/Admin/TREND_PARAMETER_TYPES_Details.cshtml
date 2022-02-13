@@ -1,0 +1,24 @@
+﻿@model ACS_Trend.Models.Trend_parameter_typeViewModel
+
+@{
+    ViewData["Title"] = "TREND_PARAMETER_TYPES_Details";
+}
+
+<h1>TREND_PARAMETER_TYPES_Details</h1>
+
+<div>
+    <h4>Trend_parameter_typeViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Trend_parameter_type_name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Trend_parameter_type_name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID_Trend_parameter_type">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

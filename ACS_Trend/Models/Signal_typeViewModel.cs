@@ -4,7 +4,7 @@ namespace ACS_Trend.Models
 {
     public class Signal_typeViewModel
     {
-        //[Key]
+        [Key]
         [Display(Name = "Идентификатор типа сигнала")]
         public int ID_Signal_type { get; set; }
         [Display(Name = "Тип сигнала")]

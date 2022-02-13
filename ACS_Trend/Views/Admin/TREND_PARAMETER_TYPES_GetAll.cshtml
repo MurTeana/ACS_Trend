@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ACS_Trend.Models.Trend_parameter_typeViewModel>
+
+@{
+    ViewData["Title"] = "TREND_PARAMETER_TYPES_GetAll";
+}
+
+<h1>TREND_PARAMETER_TYPES_GetAll</h1>
+
+<p>
+    <a asp-action="TREND_PARAMETER_TYPES_Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Trend_parameter_type_name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trend_parameter_type_name)
+            </td>
+            <td>
+                <a asp-action="TREND_PARAMETER_TYPES_Edit" asp-route-id="@item.ID_Trend_parameter_type">Edit</a> |
+                <a asp-action="TREND_PARAMETER_TYPES_Details" asp-route-id="@item.ID_Trend_parameter_type">Details</a> |
+                <a asp-action="TREND_PARAMETER_TYPES_Delete" asp-route-id="@item.ID_Trend_parameter_type">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

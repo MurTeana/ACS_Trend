@@ -10,7 +10,7 @@ namespace ACS_Trend.Domain.Entities
         {
         }
 
-        [Required]
+        //[Required]
         [Key]
         public int ID_Station { get; set; }
         public string Station_name { get; set; }       
