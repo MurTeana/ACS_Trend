@@ -6,10 +6,10 @@ namespace ACS_Trend.Domain.Interfaces
 {
     public interface IUnitRepository : IGenericRepository<Unit>
     {
-        int AddNewUnit(UnitViewModel model);
-        List<UnitViewModel> GetAllUnits();
-        UnitViewModel GetUnit(int id);
-        bool UpdateUnit(int id, UnitViewModel model);
+        int AddNewUnit(Unit model);
+        List<Unit> GetAllUnits();
+        Unit GetUnit(int id);
+        bool UpdateUnit(int id, Unit model);
         bool DeleteUnit(int id);
     }
 }

@@ -12,17 +12,12 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         {
         }
 
-        public int AddNewUnit(UnitViewModel model)
+        public int AddNewUnit(Unit model)
         {
-            Unit unit = new Unit()
-            {
-                Unit_name = model.Unit_name
-            };
-
-            _context.Units.Add(unit);
+            _context.Units.Add(model);
             _context.SaveChanges();
 
-            return unit.ID_Unit;
+            return model.ID_Unit;
         }
 
         public bool DeleteUnit(int id)
@@ -39,10 +34,10 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return false;
         }
 
-        public List<UnitViewModel> GetAllUnits()
+        public List<Unit> GetAllUnits()
         {
             var result = _context.Units
-                .Select(x => new UnitViewModel()
+                .Select(x => new Unit()
                 {
                     ID_Unit = x.ID_Unit,
                     Unit_name = x.Unit_name,
@@ -51,11 +46,11 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return result;
         }
 
-        public UnitViewModel GetUnit(int id)
+        public Unit GetUnit(int id)
         {
             var result = _context.Units
                 .Where(x => x.ID_Unit == id)
-                .Select(x => new UnitViewModel()
+                .Select(x => new Unit()
                 {
                     ID_Unit = x.ID_Unit,
                     Unit_name = x.Unit_name
@@ -64,7 +59,7 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return result;
         }
 
-        public bool UpdateUnit(int id, UnitViewModel model)
+        public bool UpdateUnit(int id, Unit model)
         {
             var unit = _context.Units.FirstOrDefault(x => x.ID_Unit == id);
 

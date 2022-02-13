@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ACS_Trend.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace ACS_Trend.Models
 {
@@ -19,6 +20,6 @@ namespace ACS_Trend.Models
         [Display(Name = "Параметр тренда")]
         public Trend_parameterViewModel Trend_parameter { get; set; }
         [Display(Name = "Единица измерения")]
-        public UnitViewModel Unit { get; set; }
+        public Unit Unit { get; set; }
     }
 }

@@ -49,7 +49,7 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
                     Trend_parameter_name = x.Trend_parameter.Trend_parameter_name
                 },
 
-                Unit = new UnitViewModel()
+                Unit = new Unit()
                 {
                     ID_Unit = x.Unit.ID_Unit
                 }

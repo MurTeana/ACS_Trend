@@ -1,4 +1,5 @@
-﻿using ACS_Trend.Domain.Interfaces;
+﻿using ACS_Trend.Domain.Entities;
+using ACS_Trend.Domain.Interfaces;
 using ACS_Trend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -529,7 +530,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult UNITS_Create(UnitViewModel model)
+        public ActionResult UNITS_Create(Unit model)
         {
             _unitOfWork.Units.AddNewUnit(model);
 
@@ -563,7 +564,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult UNITS_Edit(UnitViewModel model)
+        public ActionResult UNITS_Edit(Unit model)
         {
             if (ModelState.IsValid)
             {

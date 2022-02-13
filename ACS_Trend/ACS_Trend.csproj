@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\UnitViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\filesto\" />
     <Folder Include="wwwroot\files\" />
     <Folder Include="wwwroot\js\highcharts\" />
