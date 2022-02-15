@@ -1,6 +1,5 @@
 ﻿using ACS_Trend.Domain.Entities;
 using ACS_Trend.Domain.Interfaces;
-using ACS_Trend.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,7 +11,7 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         {
         }
 
-        public int AddNewRegulator(RegulatorViewModel model)
+        public int AddNewRegulator(Regulator model)
         {
             Regulator Regulator = new Regulator()
             {
@@ -39,10 +38,10 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return false;
         }
 
-        public List<RegulatorViewModel> GetAllRegulators()
+        public List<Regulator> GetAllRegulators()
         {
             var result = _context.Regulators
-                .Select(x => new RegulatorViewModel()
+                .Select(x => new Regulator()
                 {
                     ID_Regulator = x.ID_Regulator,
                     Regulator_name = x.Regulator_name,
@@ -51,11 +50,11 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return result;
         }
 
-        public RegulatorViewModel GetRegulator(int id)
+        public Regulator GetRegulator(int id)
         {
             var result = _context.Regulators
                 .Where(x => x.ID_Regulator == id)
-                .Select(x => new RegulatorViewModel()
+                .Select(x => new Regulator()
                 {
                     ID_Regulator = x.ID_Regulator,
                     Regulator_name = x.Regulator_name
@@ -64,7 +63,7 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return result;
         }
 
-        public bool UpdateRegulator(int id, RegulatorViewModel model)
+        public bool UpdateRegulator(int id, Regulator model)
         {
             var Regulator = _context.Regulators.FirstOrDefault(x => x.ID_Regulator == id);
 

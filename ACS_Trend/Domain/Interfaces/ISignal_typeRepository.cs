@@ -6,10 +6,10 @@ namespace ACS_Trend.Domain.Interfaces
 {
     public interface ISignal_typeRepository : IGenericRepository<Signal_type>
     {
-        int AddNewSignal_type(Signal_typeViewModel model);
-        List<Signal_typeViewModel> GetAllSignal_types();
-        Signal_typeViewModel GetSignal_type(int id);
-        bool UpdateSignal_type(int id, Signal_typeViewModel model);
+        int AddNewSignal_type(Signal_type model);
+        List<Signal_type> GetAllSignal_types();
+        Signal_type GetSignal_type(int id);
+        bool UpdateSignal_type(int id, Signal_type model);
         bool DeleteSignal_type(int id);
     }
 }

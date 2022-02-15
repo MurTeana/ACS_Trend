@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ACS_Trend.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace ACS_Trend.Models
 {
@@ -15,6 +16,6 @@ namespace ACS_Trend.Models
         public string Extend_information { get; set; }
 
         [Display(Name = "Тип объекта управления")]
-        public Control_object_typeViewModel Control_object_type { get; set; }
+        public Control_object_type Control_object_type { get; set; }
     }
 }

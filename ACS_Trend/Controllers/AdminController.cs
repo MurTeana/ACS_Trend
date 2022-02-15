@@ -42,7 +42,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult CONTROL_OBJECT_TYPES_Create(Control_object_typeViewModel model)
+        public ActionResult CONTROL_OBJECT_TYPES_Create(Control_object_type model)
         {
             _unitOfWork.Control_object_types.AddNewControl_object_type(model);
 
@@ -76,7 +76,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult CONTROL_OBJECT_TYPES_Edit(Control_object_typeViewModel model)
+        public ActionResult CONTROL_OBJECT_TYPES_Edit(Control_object_type model)
         {
             if (ModelState.IsValid)
             {
@@ -166,7 +166,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult REGULATORS_Create(RegulatorViewModel model)
+        public ActionResult REGULATORS_Create(Regulator model)
         {
             _unitOfWork.Regulators.AddNewRegulator(model);
 
@@ -200,7 +200,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult REGULATORS_Edit(RegulatorViewModel model)
+        public ActionResult REGULATORS_Edit(Regulator model)
         {
             if (ModelState.IsValid)
             {
@@ -226,7 +226,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult SIGNAL_TYPES_Create(Signal_typeViewModel model)
+        public ActionResult SIGNAL_TYPES_Create(Signal_type model)
         {
             _unitOfWork.Signal_types.AddNewSignal_type(model);
 
@@ -260,7 +260,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult SIGNAL_TYPES_Edit(Signal_typeViewModel model)
+        public ActionResult SIGNAL_TYPES_Edit(Signal_type model)
         {
             if (ModelState.IsValid)
             {
@@ -350,7 +350,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult STATION_TYPES_Create(Station_typeViewModel model)
+        public ActionResult STATION_TYPES_Create(Station_type model)
         {
             _unitOfWork.Station_types.AddNewStation_type(model);
 
@@ -384,7 +384,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult STATION_TYPES_Edit(Station_typeViewModel model)
+        public ActionResult STATION_TYPES_Edit(Station_type model)
         {
             if (ModelState.IsValid)
             {
@@ -410,7 +410,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult TREND_PARAMETER_TYPES_Create(Trend_parameter_typeViewModel model)
+        public ActionResult TREND_PARAMETER_TYPES_Create(Trend_parameter_type model)
         {
             _unitOfWork.Trend_parameter_types.AddNewTrend_parameter_type(model);
 
@@ -444,7 +444,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult TREND_PARAMETER_TYPES_Edit(Trend_parameter_typeViewModel model)
+        public ActionResult TREND_PARAMETER_TYPES_Edit(Trend_parameter_type model)
         {
             if (ModelState.IsValid)
             {

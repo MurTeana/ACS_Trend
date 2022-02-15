@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ACS_Trend.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace ACS_Trend.Models
 {
@@ -18,6 +19,6 @@ namespace ACS_Trend.Models
         public string HeatPower { get; set; }
 
         [Display(Name = "Тип станции")]
-        public Station_typeViewModel Station_Type { get; set; }
+        public Station_type Station_Type { get; set; }
     }
 }

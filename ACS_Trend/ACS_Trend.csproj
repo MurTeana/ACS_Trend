@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Control_object_typeViewModel.cs" />
+    <Compile Remove="Models\RegulatorViewModel.cs" />
+    <Compile Remove="Models\Signal_typeViewModel.cs" />
+    <Compile Remove="Models\Station_typeViewModel.cs" />
+    <Compile Remove="Models\Trend_parameter_typeViewModel.cs" />
     <Compile Remove="Models\UnitViewModel.cs" />
   </ItemGroup>
 

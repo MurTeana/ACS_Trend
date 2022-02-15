@@ -12,17 +12,12 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         {
         }
 
-        public int AddNewSignal_type(Signal_typeViewModel model)
+        public int AddNewSignal_type(Signal_type model)
         {
-            Signal_type Signal_type = new Signal_type()
-            {
-                Signal_type_name = model.Signal_type_name
-            };
-
-            _context.Signal_types.Add(Signal_type);
+            _context.Signal_types.Add(model);
             _context.SaveChanges();
 
-            return Signal_type.ID_Signal_type;
+            return model.ID_Signal_type;
         }
 
         public bool DeleteSignal_type(int id)
@@ -39,10 +34,10 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return false;
         }
 
-        public List<Signal_typeViewModel> GetAllSignal_types()
+        public List<Signal_type> GetAllSignal_types()
         {
             var result = _context.Signal_types
-                .Select(x => new Signal_typeViewModel()
+                .Select(x => new Signal_type()
                 {
                     ID_Signal_type = x.ID_Signal_type,
                     Signal_type_name = x.Signal_type_name,
@@ -51,11 +46,11 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return result;
         }
 
-        public Signal_typeViewModel GetSignal_type(int id)
+        public Signal_type GetSignal_type(int id)
         {
             var result = _context.Signal_types
                 .Where(x => x.ID_Signal_type == id)
-                .Select(x => new Signal_typeViewModel()
+                .Select(x => new Signal_type()
                 {
                     ID_Signal_type = x.ID_Signal_type,
                     Signal_type_name = x.Signal_type_name
@@ -64,7 +59,7 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return result;
         }
 
-        public bool UpdateSignal_type(int id, Signal_typeViewModel model)
+        public bool UpdateSignal_type(int id, Signal_type model)
         {
             var Signal_type = _context.Signal_types.FirstOrDefault(x => x.ID_Signal_type == id);
 

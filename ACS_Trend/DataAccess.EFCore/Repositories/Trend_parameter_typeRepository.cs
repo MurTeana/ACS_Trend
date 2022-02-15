@@ -11,7 +11,7 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         public Trend_parameter_typeRepository(ApplicationContext context) : base(context)
         {
         }
-        public int AddNewTrend_parameter_type(Trend_parameter_typeViewModel model)
+        public int AddNewTrend_parameter_type(Trend_parameter_type model)
         {
             Trend_parameter_type Trend_parameter_type = new Trend_parameter_type()
             {
@@ -38,10 +38,10 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return false;
         }
 
-        public List<Trend_parameter_typeViewModel> GetAllTrend_parameter_types()
+        public List<Trend_parameter_type> GetAllTrend_parameter_types()
         {
             var result = _context.Trend_parameter_types
-                .Select(x => new Trend_parameter_typeViewModel()
+                .Select(x => new Trend_parameter_type()
                 {
                     ID_Trend_parameter_type = x.ID_Trend_parameter_type,
                     Trend_parameter_type_name = x.Trend_parameter_type_name,
@@ -50,11 +50,11 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return result;
         }
 
-        public Trend_parameter_typeViewModel GetTrend_parameter_type(int id)
+        public Trend_parameter_type GetTrend_parameter_type(int id)
         {
             var result = _context.Trend_parameter_types
                 .Where(x => x.ID_Trend_parameter_type == id)
-                .Select(x => new Trend_parameter_typeViewModel()
+                .Select(x => new Trend_parameter_type()
                 {
                     ID_Trend_parameter_type = x.ID_Trend_parameter_type,
                     Trend_parameter_type_name = x.Trend_parameter_type_name
@@ -63,7 +63,7 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return result;
         }
 
-        public bool UpdateTrend_parameter_type(int id, Trend_parameter_typeViewModel model)
+        public bool UpdateTrend_parameter_type(int id, Trend_parameter_type model)
         {
             var Trend_parameter_type = _context.Trend_parameter_types.FirstOrDefault(x => x.ID_Trend_parameter_type == id);
 

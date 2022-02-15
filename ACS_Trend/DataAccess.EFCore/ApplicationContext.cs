@@ -263,8 +263,6 @@ namespace ACS_Trend.DataAccess.EFCore
 
         public DbSet<ACS_Trend.Models.StationViewModel> StationViewModel { get; set; }
 
-        public DbSet<ACS_Trend.Models.Trend_parameter_typeViewModel> Trend_parameter_typeViewModel { get; set; }
-
         public DbSet<ACS_Trend.Models.Trend_parameterViewModel> Trend_parameterViewModel { get; set; }
 
         public DbSet<ACS_Trend.Models.TrendPointViewModel> TrendPointViewModel { get; set; }

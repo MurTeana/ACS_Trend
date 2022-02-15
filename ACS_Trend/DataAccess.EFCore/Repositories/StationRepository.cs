@@ -44,7 +44,7 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
                     ElectricalPower = x.ElectricalPower,
                     HeatPower = x.HeatPower,
 
-                    Station_Type = new Station_typeViewModel()
+                    Station_Type = new Station_type()
                     {
                         ID_Station_type = x.Station_type.ID_Station_type,
                         Station_type_name = x.Station_type.Station_type_name

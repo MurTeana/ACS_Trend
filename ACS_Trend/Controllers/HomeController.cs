@@ -1,4 +1,5 @@
-﻿using ACS_Trend.Domain.Interfaces;
+﻿using ACS_Trend.Domain.Entities;
+using ACS_Trend.Domain.Interfaces;
 using ACS_Trend.Models;
 using CsvHelper;
 using Microsoft.AspNetCore.Hosting;
@@ -133,7 +134,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateStation_type(Station_typeViewModel station_Type)
+        public ActionResult CreateStation_type(Station_type station_Type)
         {
             _unitOfWork.Station_types.AddNewStation_type(station_Type);
 
@@ -167,7 +168,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditStation_type(Station_typeViewModel model)
+        public ActionResult EditStation_type(Station_type model)
         {
             if (ModelState.IsValid)
             {
@@ -194,7 +195,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateControl_object_type(Control_object_typeViewModel control_object_type)
+        public ActionResult CreateControl_object_type(Control_object_type control_object_type)
         {
             _unitOfWork.Control_object_types.AddNewControl_object_type(control_object_type);
 
@@ -228,7 +229,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditControl_object_type(Control_object_typeViewModel model)
+        public ActionResult EditControl_object_type(Control_object_type model)
         {
             if (ModelState.IsValid)
             {
