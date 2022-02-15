@@ -5,12 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Control_objectViewModel.cs" />
     <Compile Remove="Models\Control_object_typeViewModel.cs" />
     <Compile Remove="Models\RegulatorViewModel.cs" />
     <Compile Remove="Models\Signal_typeViewModel.cs" />
+    <Compile Remove="Models\StationViewModel.cs" />
     <Compile Remove="Models\Station_typeViewModel.cs" />
+    <Compile Remove="Models\TrendViewModel.cs" />
+    <Compile Remove="Models\Trend_parameterViewModel.cs" />
     <Compile Remove="Models\Trend_parameter_typeViewModel.cs" />
     <Compile Remove="Models\UnitViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Home\CreateTrend.cshtml" />
+    <Content Remove="Views\Home\GetAllTrends.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

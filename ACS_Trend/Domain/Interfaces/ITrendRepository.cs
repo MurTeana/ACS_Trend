@@ -6,10 +6,10 @@ namespace ACS_Trend.Domain.Interfaces
 {
     public interface ITrendRepository : IGenericRepository<Trend>
     {
-        int AddNewTrend(TrendViewModel model);
-        List<TrendViewModel> GetAllTrends();
-        TrendViewModel GetTrend(int id);
-        bool UpdateTrend(int id, TrendViewModel model);
+        int AddNewTrend(Trend model);
+        List<Trend> GetAllTrends();
+        Trend GetTrend(int id);
+        bool UpdateTrend(int id, Trend model);
         bool DeleteTrend(int id);
     }
 }

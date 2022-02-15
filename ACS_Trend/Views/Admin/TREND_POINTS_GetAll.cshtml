@@ -21,6 +21,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.Parameter)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TP_Station)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TP_Trend_parameter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TP_Unit)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -35,6 +44,15 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Parameter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TP_Station)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TP_Trend_parameter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TP_Unit)
             </td>
             <td>
                 <a asp-action="TREND_POINTS_Edit" asp-route-id="@item.ID_TrendPoint">Edit</a> |

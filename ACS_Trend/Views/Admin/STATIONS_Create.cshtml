@@ -1,4 +1,4 @@
-﻿@model ACS_Trend.Models.StationViewModel
+﻿@model ACS_Trend.Domain.Entities.Station
 
 @{
     ViewData["Title"] = "STATIONS_Create";
@@ -29,9 +29,9 @@
                 <span asp-validation-for="HeatPower" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Station_Type.Station_type_name" class="control-label"></label>
-                @Html.DropDownList("Station_Type.ID_Station_type", ViewBag.Station_Types as SelectList, htmlAttributes: new { @class = "form-control" })
-                <span asp-validation-for="Station_Type.ID_Station_type" class="text-danger"></span>
+                <label asp-for="Station_type.Station_type_name" class="control-label"></label>
+                @Html.DropDownList("Station_type.ID_Station_type", ViewBag.Station_Types as SelectList, htmlAttributes: new { @class = "form-control" })
+                <span asp-validation-for="Station_type.ID_Station_type" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

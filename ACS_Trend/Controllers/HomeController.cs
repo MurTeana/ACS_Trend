@@ -75,7 +75,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateTrend(TrendViewModel trend)
+        public ActionResult CreateTrend(Trend trend)
         {
             _unitOfWork.Trends.AddNewTrend(trend);
 
@@ -102,7 +102,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateStation(StationViewModel station)
+        public ActionResult CreateStation(Station station)
         {
             ViewBag.Station_Types = new SelectList(_unitOfWork.Station_types.GetAllStation_types(), "ID_Station_type", "StationType");
 

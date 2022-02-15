@@ -16,9 +16,9 @@ namespace ACS_Trend.Models
         public int T_ID_Unit { get; set; }
 
         [Display(Name = "Станция")]
-        public StationViewModel Station { get; set; }
+        public Station Station { get; set; }
         [Display(Name = "Параметр тренда")]
-        public Trend_parameterViewModel Trend_parameter { get; set; }
+        public Trend_parameter Trend_parameter { get; set; }
         [Display(Name = "Единица измерения")]
         public Unit Unit { get; set; }
     }

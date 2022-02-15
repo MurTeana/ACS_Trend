@@ -16,13 +16,19 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             TrendPoint tp = new TrendPoint()
             {
                 Date_time = model.Date_time,
-                Parameter = model.Parameter
+                Parameter = model.Parameter,
+            };
+
+            tp.Trend = new Trend()
+            {
+                T_ID_Station = model.Trend.T_ID_Station,
+                T_ID_Trend_parameter = model.Trend.T_ID_Trend_parameter,
+                T_ID_Unit = model.Trend.T_ID_Unit,
             };
 
             if (model.Trend != null)
             {
-                var id = model.Trend.ID_Trend;
-                tp.TP_ID_Trend = id;
+                tp.TP_ID_Trend = tp.Trend.ID_Trend;
             }
 
             _context.Set<TrendPoint>().Add(tp);
@@ -60,29 +66,12 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
                     Date_time = x.Date_time,
                     Parameter = x.Parameter,
                     TP_ID_Trend = x.TP_ID_Trend,
+                    TP_Station = x.Trend.Station.Station_name,
+                    TP_Trend_parameter = x.Trend.Trend_parameter.Trend_parameter_name,
+                    TP_Unit = x.Trend.Unit.Unit_name,
 
-                    Trend = new TrendViewModel()
-                    {
-                        ID_Trend = x.Trend.ID_Trend,
-                        T_ID_Station = x.Trend.T_ID_Station,
-                        T_ID_Trend_parameter = x.Trend.T_ID_Trend_parameter,
-                        T_ID_Unit = x.Trend.T_ID_Unit,
+                    Trend = x.Trend
 
-                        Station = new StationViewModel()
-                        {
-                            Station_name = x.Trend.Station.Station_name
-                        },
-
-                        Trend_parameter = new Trend_parameterViewModel()
-                        {
-                            Trend_parameter_name = x.Trend.Trend_parameter.Trend_parameter_name
-                        },
-
-                        Unit = new Unit()
-                        {
-                            Unit_name = x.Trend.Unit.Unit_name
-                        }
-                    }
                 }).ToList();
 
             return result;

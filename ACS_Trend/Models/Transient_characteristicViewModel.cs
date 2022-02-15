@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ACS_Trend.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace ACS_Trend.Models
 {
@@ -15,6 +16,6 @@ namespace ACS_Trend.Models
         public float Parameter { get; set; }
 
         [Display(Name = "Тренд")]
-        public TrendViewModel Trend { get; set; }
+        public Trend Trend { get; set; }
     }
 }

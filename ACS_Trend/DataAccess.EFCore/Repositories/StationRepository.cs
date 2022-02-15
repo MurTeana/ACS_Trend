@@ -1,18 +1,17 @@
 ﻿using ACS_Trend.Domain.Entities;
 using ACS_Trend.Domain.Interfaces;
-using ACS_Trend.Models;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ACS_Trend.DataAccess.EFCore.Repositories
 {
-    public class StationRepository : GenericRepository<StationViewModel>, IStationRepository
+    public class StationRepository : GenericRepository<Station>, IStationRepository
     {
         public StationRepository(ApplicationContext context) : base(context)
         {
         }
 
-        public int AddNewStation(StationViewModel model)
+        public int AddNewStation(Station model)
         {
             Station st = new Station()
             {
@@ -21,9 +20,9 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
                 HeatPower = model.HeatPower
             };
 
-            if (model.Station_Type != null)
+            if (model.Station_type != null)
             {
-                var id = model.Station_Type.ID_Station_type;
+                var id = model.Station_type.ID_Station_type;
                 st.ST_ID_Station_type = id;
             }
 
@@ -33,10 +32,10 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return st.ID_Station;
         }
 
-        public List<StationViewModel> GetAllStations()
+        public List<Station> GetAllStations()
         {
             var result = _context.Stations
-                .Select(x => new StationViewModel()
+                .Select(x => new Station()
                 {
                     ID_Station = x.ID_Station,
                     Station_name = x.Station_name,
@@ -44,7 +43,7 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
                     ElectricalPower = x.ElectricalPower,
                     HeatPower = x.HeatPower,
 
-                    Station_Type = new Station_type()
+                    Station_type = new Station_type()
                     {
                         ID_Station_type = x.Station_type.ID_Station_type,
                         Station_type_name = x.Station_type.Station_type_name
@@ -68,11 +67,11 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return false;
         }
 
-        public StationViewModel GetStation(int id)
+        public Station GetStation(int id)
         {
             var result = _context.Stations
                 .Where(x => x.ID_Station == id)
-                .Select(x => new StationViewModel()
+                .Select(x => new Station()
                 {
                     ID_Station = x.ID_Station,
                     Station_name = x.Station_name
@@ -81,7 +80,7 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return result;
         }
 
-        public bool UpdateStation(int id, StationViewModel model)
+        public bool UpdateStation(int id, Station model)
         {
             var Station = _context.Stations.FirstOrDefault(x => x.ID_Station == id);
 

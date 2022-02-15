@@ -1,14 +1,14 @@
-﻿using ACS_Trend.Models;
+﻿using ACS_Trend.Domain.Entities;
 using System.Collections.Generic;
 
 namespace ACS_Trend.Domain.Interfaces
 {
-    public interface IStationRepository : IGenericRepository<StationViewModel>
+    public interface IStationRepository : IGenericRepository<Station>
     {
-        int AddNewStation(StationViewModel model);
-        List<StationViewModel> GetAllStations();
-        StationViewModel GetStation(int id);
-        bool UpdateStation(int id, StationViewModel model);
+        int AddNewStation(Station model);
+        List<Station> GetAllStations();
+        Station GetStation(int id);
+        bool UpdateStation(int id, Station model);
         bool DeleteStation(int id);
     }
 }

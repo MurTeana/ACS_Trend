@@ -6,13 +6,13 @@ using System.Linq;
 
 namespace ACS_Trend.DataAccess.EFCore.Repositories
 {
-    public class Trend_parameterRepository : GenericRepository<Trend_parameterViewModel>, ITrend_parameterRepository
+    public class Trend_parameterRepository : GenericRepository<Trend_parameter>, ITrend_parameterRepository
     {
         public Trend_parameterRepository(ApplicationContext context) : base(context)
         {
         }
 
-        public int AddNewTrend_parameter(Trend_parameterViewModel model)
+        public int AddNewTrend_parameter(Trend_parameter model)
         {
             Trend_parameter Trend_parameter = new Trend_parameter()
             {
@@ -39,10 +39,10 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return false;
         }
 
-        public List<Trend_parameterViewModel> GetAllTrend_parameters()
+        public List<Trend_parameter> GetAllTrend_parameters()
         {
             var result = _context.Trend_parameters
-                .Select(x => new Trend_parameterViewModel()
+                .Select(x => new Trend_parameter()
                 {
                     ID_Trend_parameter = x.ID_Trend_parameter,
                     Trend_parameter_name = x.Trend_parameter_name,
@@ -51,11 +51,11 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return result;
         }
 
-        public Trend_parameterViewModel GetTrend_parameter(int id)
+        public Trend_parameter GetTrend_parameter(int id)
         {
             var result = _context.Trend_parameters
                 .Where(x => x.ID_Trend_parameter == id)
-                .Select(x => new Trend_parameterViewModel()
+                .Select(x => new Trend_parameter()
                 {
                     ID_Trend_parameter = x.ID_Trend_parameter,
                     Trend_parameter_name = x.Trend_parameter_name
@@ -64,7 +64,7 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return result;
         }
 
-        public bool UpdateTrend_parameter(int id, Trend_parameterViewModel model)
+        public bool UpdateTrend_parameter(int id, Trend_parameter model)
         {
             var Trend_parameter = _context.Trend_parameters.FirstOrDefault(x => x.ID_Trend_parameter == id);
 

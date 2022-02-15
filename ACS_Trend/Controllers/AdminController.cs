@@ -104,7 +104,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult CONTROL_OBJECTS_Create(Control_objectViewModel model)
+        public ActionResult CONTROL_OBJECTS_Create(Control_object model)
         {
             ViewBag.Control_object_types = new SelectList(_unitOfWork.Control_object_types.GetAllControl_object_types(), "ID_Control_object_type", "Control_object_type_name");
 
@@ -140,7 +140,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult CONTROL_OBJECTS_Edit(Control_objectViewModel model)
+        public ActionResult CONTROL_OBJECTS_Edit(Control_object model)
         {
             if (ModelState.IsValid)
             {
@@ -288,7 +288,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult STATIONS_Create(StationViewModel model)
+        public ActionResult STATIONS_Create(Station model)
         {
             ViewBag.Station_Types = new SelectList(_unitOfWork.Station_types.GetAllStation_types(), "ID_Station_type", "Station_type_name");
 
@@ -324,7 +324,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult STATIONS_Edit(StationViewModel model)
+        public ActionResult STATIONS_Edit(Station model)
         {
             if (ModelState.IsValid)
             {
@@ -466,12 +466,20 @@ namespace ACS_Trend.Controllers
         // 11 - TREND_POINTS
         public ActionResult TREND_POINTS_Create()
         {
+            ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
+            ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
+            ViewBag.Trend_parameters = new SelectList(_unitOfWork.Trend_parameters.GetAllTrend_parameters(), "ID_Trend_parameter", "Trend_parameter_name");
+
             return View();
         }
 
         [HttpPost]
         public ActionResult TREND_POINTS_Create(TrendPointViewModel model)
         {
+            ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
+            ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
+            ViewBag.Trend_parameters = new SelectList(_unitOfWork.Trend_parameters.GetAllTrend_parameters(), "ID_Trend_parameter", "Trend_parameter_name");
+
             _unitOfWork.TrendPoints.AddNewTrendPoint(model);
 
             if (ModelState.IsValid)

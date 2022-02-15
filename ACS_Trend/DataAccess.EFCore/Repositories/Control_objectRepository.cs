@@ -1,17 +1,16 @@
 ﻿using ACS_Trend.Domain.Entities;
 using ACS_Trend.Domain.Interfaces;
-using ACS_Trend.Models;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ACS_Trend.DataAccess.EFCore.Repositories
 {
-    public class Control_objectRepository : GenericRepository<Control_objectViewModel>, IControl_objectRepository
+    public class Control_objectRepository : GenericRepository<Control_object>, IControl_objectRepository
     {
         public Control_objectRepository(ApplicationContext context) : base(context)
         {
         }
-        public int AddNewControl_object(Control_objectViewModel model)
+        public int AddNewControl_object(Control_object model)
         {
             Control_object Control_object = new Control_object()
             {
@@ -40,10 +39,10 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return false;
         }
 
-        public List<Control_objectViewModel> GetAllControl_objects()
+        public List<Control_object> GetAllControl_objects()
         {
             var result = _context.Control_objects
-                .Select(x => new Control_objectViewModel()
+                .Select(x => new Control_object()
                 {
                     ID_Control_object = x.ID_Control_object,
                     Control_object_name = x.Control_object_name,
@@ -54,11 +53,11 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return result;
         }
 
-        public Control_objectViewModel GetControl_object(int id)
+        public Control_object GetControl_object(int id)
         {
             var result = _context.Control_objects
                 .Where(x => x.ID_Control_object == id)
-                .Select(x => new Control_objectViewModel()
+                .Select(x => new Control_object()
                 {
                     ID_Control_object = x.ID_Control_object,
                     Control_object_name = x.Control_object_name
@@ -67,7 +66,7 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return result;
         }
 
-        public bool UpdateControl_object(int id, Control_objectViewModel model)
+        public bool UpdateControl_object(int id, Control_object model)
         {
             var Control_object = _context.Control_objects.FirstOrDefault(x => x.ID_Control_object == id);
 
