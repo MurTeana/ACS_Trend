@@ -24,5 +24,6 @@ namespace ACS_Trend.Models
         public string TP_Unit { get; set; }
 
         public Trend Trend { get; set; }
+        public Trend_parameter Trend_parameter { get; set; }
     }
 }

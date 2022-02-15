@@ -13,6 +13,18 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         }
         public int AddNewTrendPoint(TrendPointViewModel model)
         {
+            Trend_parameter tparam = new Trend_parameter()
+            {
+                Trend_parameter_name = model.Trend.Trend_parameter.Trend_parameter_name,
+                TP_ID_Control_object = model.Trend.Trend_parameter.TP_ID_Control_object,
+                TP_ID_Signal_type = model.Trend.Trend_parameter.TP_ID_Signal_type,
+                TP_ID_Regulator = model.Trend.Trend_parameter.TP_ID_Regulator,
+                TP_ID_Trend_parameter_type = model.Trend.Trend_parameter.TP_ID_Trend_parameter_type
+            };
+
+            _context.Set<Trend_parameter>().Add(tparam);
+            _context.SaveChanges();
+
             TrendPoint tp = new TrendPoint()
             {
                 Date_time = model.Date_time,
@@ -21,9 +33,9 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
 
             tp.Trend = new Trend()
             {
-                T_ID_Station = model.Trend.T_ID_Station,
-                T_ID_Trend_parameter = model.Trend.T_ID_Trend_parameter,
+                T_ID_Station = model.Trend.T_ID_Station,                
                 T_ID_Unit = model.Trend.T_ID_Unit,
+                T_ID_Trend_parameter = tparam.ID_Trend_parameter
             };
 
             if (model.Trend != null)
