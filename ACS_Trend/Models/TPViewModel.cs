@@ -8,6 +8,5 @@ namespace ACS_Trend.Models
     public class TPViewModel
     {
         public TrendPointViewModel TrendPointViewModel { get; set; }
-        public TestLoadCSV TestLoadCSV { get; set; }
     }
 }

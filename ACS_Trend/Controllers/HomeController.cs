@@ -1,7 +1,6 @@
 ﻿using ACS_Trend.Domain.Entities;
 using ACS_Trend.Domain.Interfaces;
 using ACS_Trend.Models;
-using CsvHelper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -293,58 +292,58 @@ namespace ACS_Trend.Controllers
             return lineChartData;
         }
 
-        [HttpGet]
-        public IActionResult LoadData(List<TestLoadCSV> testdata = null)
-        {
-            testdata = testdata == null ? new List<TestLoadCSV>() : testdata;
-            return View(testdata);
-        }
+        //[HttpGet]
+        //public IActionResult LoadData(List<TestLoadCSV> testdata = null)
+        //{
+        //    testdata = testdata == null ? new List<TestLoadCSV>() : testdata;
+        //    return View(testdata);
+        //}
 
-        [HttpPost]
-        public IActionResult LoadData(IFormFile file, [FromServices] IHostingEnvironment hostingEnvironment)
-        {
-            #region Upload CSV
-            string fileName = $"{hostingEnvironment.WebRootPath}\\files\\{file.FileName}";
-            using (FileStream fileStream = System.IO.File.Create(fileName))
-            {
-                file.CopyTo(fileStream);
-                fileStream.Flush();
-            };
-            #endregion
+        //[HttpPost]
+        //public IActionResult LoadData(IFormFile file, [FromServices] IHostingEnvironment hostingEnvironment)
+        //{
+        //    #region Upload CSV
+        //    string fileName = $"{hostingEnvironment.WebRootPath}\\files\\{file.FileName}";
+        //    using (FileStream fileStream = System.IO.File.Create(fileName))
+        //    {
+        //        file.CopyTo(fileStream);
+        //        fileStream.Flush();
+        //    };
+        //    #endregion
 
-            var testdatacsv = this.GetDataList(file.FileName);
-            return View(testdatacsv);
-        }
+        //    var testdatacsv = this.GetDataList(file.FileName);
+        //    return View(testdatacsv);
+        //}
 
-        private object GetDataList(string fileName)
-        {
-            List<TestLoadCSV> testdatacsv = new List<TestLoadCSV>();
-            #region Read CSV
-            var path = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\files"}" + "\\" + fileName;
-            using (var reader = new StreamReader(path))
-            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-            {
-                csv.Read();
-                csv.ReadHeader();
-                while (csv.Read())
-                {
-                    var testdatacsvEnt = csv.GetRecord<TestLoadCSV>();
-                    testdatacsv.Add(testdatacsvEnt);
-                }
-            }
-            #endregion
+        //private object GetDataList(string fileName)
+        //{
+        //    List<TestLoadCSV> testdatacsv = new List<TestLoadCSV>();
+        //    #region Read CSV
+        //    var path = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\files"}" + "\\" + fileName;
+        //    using (var reader = new StreamReader(path))
+        //    using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+        //    {
+        //        csv.Read();
+        //        csv.ReadHeader();
+        //        while (csv.Read())
+        //        {
+        //            var testdatacsvEnt = csv.GetRecord<TestLoadCSV>();
+        //            testdatacsv.Add(testdatacsvEnt);
+        //        }
+        //    }
+        //    #endregion
 
-            #region Create CSV
-            path = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\filesto"}";
-            using (var write = new StreamWriter(path + "\\NewFile.csv"))
-            using (var csv = new CsvWriter(write, CultureInfo.InvariantCulture))
-            {
-                csv.WriteRecords(testdatacsv);
-            }
-            #endregion
+        //    #region Create CSV
+        //    path = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\filesto"}";
+        //    using (var write = new StreamWriter(path + "\\NewFile.csv"))
+        //    using (var csv = new CsvWriter(write, CultureInfo.InvariantCulture))
+        //    {
+        //        csv.WriteRecords(testdatacsv);
+        //    }
+        //    #endregion
 
-            return testdatacsv;
-        }
+        //    return testdatacsv;
+        //}
 
         public IActionResult Privacy()
         {

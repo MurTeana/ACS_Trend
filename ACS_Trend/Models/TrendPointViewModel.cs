@@ -11,9 +11,9 @@ namespace ACS_Trend.Models
         [Display(Name = "Идентификатор тренда")]
         public int TP_ID_Trend { get; set; }
         [Display(Name = "Значение времени")]
-        public float Date_time { get; set; } // DateTime
+        public double Date_time { get; set; } // DateTime
         [Display(Name = "Значение параметра тренда")]
-        public float Parameter { get; set; }
+        public double Parameter { get; set; }
 
         // ТРЕНД
         [Display(Name = "Станция")]

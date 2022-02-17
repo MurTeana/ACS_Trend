@@ -1,9 +1,13 @@
 ﻿using ACS_Trend.Domain.Entities;
 using ACS_Trend.Domain.Interfaces;
 using ACS_Trend.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace ACS_Trend.Controllers
 {
@@ -464,6 +468,34 @@ namespace ACS_Trend.Controllers
         }
 
         // 11 - TREND_POINTS
+        public List<Point> ImportPoints(IFormFile file)
+        {
+            var pointslist = new List<Point>();
+
+            using (var stream = new MemoryStream())
+            {
+                file.CopyTo(stream);
+
+                using (var package = new ExcelPackage(stream))
+                {
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                    var rowcount = worksheet.Dimension.Rows;
+
+                    for (int row = 2; row < rowcount; row++)
+                    {
+                        pointslist.Add(new Point
+                        {
+                            Date = worksheet.Cells[row, 1].Value.ToString().Trim(),
+                            Parameter = worksheet.Cells[row, 2].Value.ToString().Trim()
+                        });
+                    }
+                }
+            }
+
+            return pointslist;
+        }
+
         public ActionResult TREND_POINTS_Create()
         {
             ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
@@ -479,7 +511,7 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpPost]
-        public ActionResult TREND_POINTS_Create(TrendPointViewModel model)
+        public ActionResult TREND_POINTS_Create(TrendPointViewModel model, IFormFile file)
         {
             ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
             ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
@@ -490,7 +522,38 @@ namespace ACS_Trend.Controllers
             ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
             ViewBag.Trend_parameter_types = new SelectList(_unitOfWork.Trend_parameter_types.GetAllTrend_parameter_types(), "ID_Trend_parameter_type", "Trend_parameter_type_name");
 
-            _unitOfWork.TrendPoints.AddNewTrendPoint(model);
+            var trendPointViewModelList = new List<TrendPointViewModel>();
+
+            var pointslist = ImportPoints(file);
+            var pointscount = pointslist.Count;
+
+            for (int point = 0; point < pointscount; point++)
+            {
+                var trendPoint = new TrendPointViewModel { 
+
+                    Date_time = Convert.ToDouble(pointslist[point].Date),
+                    Parameter = Convert.ToDouble(pointslist[point].Parameter),
+
+                    Trend = new Trend
+                    {
+                        T_ID_Station = model.Trend.T_ID_Station,
+                        T_ID_Unit = model.Trend.T_ID_Unit
+                    },
+
+                    Trend_parameter = new Trend_parameter()
+                    {
+                        Trend_parameter_name = model.Trend.Trend_parameter.Trend_parameter_name,
+                        TP_ID_Control_object = model.Trend.Trend_parameter.TP_ID_Control_object,
+                        TP_ID_Signal_type = model.Trend.Trend_parameter.TP_ID_Signal_type,
+                        TP_ID_Regulator = model.Trend.Trend_parameter.TP_ID_Regulator,
+                        TP_ID_Trend_parameter_type = model.Trend.Trend_parameter.TP_ID_Trend_parameter_type,
+                    }                                               
+                };
+ 
+                trendPointViewModelList.Add(trendPoint);
+            }
+
+            _unitOfWork.TrendPoints.AddNewListTrendPoints(trendPointViewModelList);
 
             if (ModelState.IsValid)
             {
