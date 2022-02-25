@@ -571,6 +571,43 @@ namespace ACS_Trend.Controllers
             return View(result);
         }
 
+        public ActionResult TREND_POINTS_ByTrendID(TrendPointViewModel model)
+        {
+            ViewBag.Trends = new SelectList(_unitOfWork.Trends.GetAllTrends(), "ID_Trend", "T_ID_Station");
+
+            ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
+            ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
+            ViewBag.Trend_parameters = new SelectList(_unitOfWork.Trend_parameters.GetAllTrend_parameters(), "ID_Trend_parameter", "Trend_parameter_name");
+
+            ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
+            ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
+            ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
+            ViewBag.Trend_parameter_types = new SelectList(_unitOfWork.Trend_parameter_types.GetAllTrend_parameter_types(), "ID_Trend_parameter_type", "Trend_parameter_type_name");
+
+            var result = _unitOfWork.TrendPoints.GetAllTrendPoints();
+
+            return View(result);
+        }
+
+        [HttpPost]
+        public ActionResult TREND_POINTS_ByTrendID(TrendPointViewModel model, int stationID, int trend_parameterID)
+        {
+            ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
+            ViewBag.Trend_parameters = new SelectList(_unitOfWork.Trend_parameters.GetAllTrend_parameters(), "ID_Trend_parameter", "Trend_parameter_name");
+
+            //ViewBag.Trends = new SelectList(_unitOfWork.Trends.GetAllTrends(), "ID_Trend", "T_ID_Station");
+            //ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
+
+            ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
+            ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
+            ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
+            ViewBag.Trend_parameter_types = new SelectList(_unitOfWork.Trend_parameter_types.GetAllTrend_parameter_types(), "ID_Trend_parameter_type", "Trend_parameter_type_name");
+
+            //trend_parameterID = 1;
+            var result = _unitOfWork.TrendPoints.GetListTrendPoints(stationID, trend_parameterID);
+            return View(result);
+        }
+
         [HttpGet]
         public ActionResult TREND_POINTS_Details(int id)
         {

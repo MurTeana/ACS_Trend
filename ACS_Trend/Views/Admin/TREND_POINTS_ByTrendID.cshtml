@@ -1,0 +1,81 @@
+﻿@model IEnumerable<ACS_Trend.Models.TrendPointViewModel>
+
+@{
+    ViewData["Title"] = "TREND_POINTS_ByTrendID";
+}
+
+<div>
+    <h1>Параметры кривых разгона</h1>
+    <hr />
+    @using (Html.BeginForm("TREND_POINTS_ByTrendID", "Admin", FormMethod.Post))
+    {
+        <div class="form-group">
+            <label asp-for="First().Trend.T_ID_Station" class="control-label"></label>
+            @Html.DropDownList("stationID", ViewBag.Stations as SelectList, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label asp-for="First().Trend.T_ID_Trend_parameter" class="control-label"></label>
+            @Html.DropDownList("trend_parameterID", ViewBag.Trend_parameters as SelectList, htmlAttributes: new { @class = "form-control" })
+        </div>
+
+
+        @*<span name="stationID" class="text-danger"></span>*@
+        @*<input type="number" name="stationID" />*@
+
+        <input type="submit" value="Выбрать точки" />
+    }
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TP_ID_Trend)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_time)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Parameter)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TP_Station)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TP_Trend_parameter)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TP_Unit)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TP_ID_Trend)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_time)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Parameter)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TP_Station)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TP_Trend_parameter)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TP_Unit)
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+</div>

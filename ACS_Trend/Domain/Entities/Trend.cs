@@ -12,12 +12,16 @@ namespace ACS_Trend.Domain.Entities
 
         [Required]
         [Key]
+        [Display(Name = "Идентификатор тренда")]
         public int ID_Trend { get; set; }
         [ForeignKey("Station")]
+        [Display(Name = "Станция")]
         public int T_ID_Station { get; set; }
         [ForeignKey("Trend_parameter")]
+        [Display(Name = "Параметр тренда")]
         public int T_ID_Trend_parameter { get; set; }
         [ForeignKey("Unit")]
+        [Display(Name = "Единица измерения")]
         public int T_ID_Unit { get; set; }
 
 

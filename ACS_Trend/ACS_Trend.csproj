@@ -23,6 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Controllers\AdminController.cs~RF41974cff.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\filesto\" />
     <Folder Include="wwwroot\files\" />
     <Folder Include="wwwroot\js\highcharts\" />

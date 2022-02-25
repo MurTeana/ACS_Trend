@@ -126,6 +126,23 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             return result;
         }
 
+        public List<TrendPointViewModel> GetListTrendPoints(int stid, int trpid)
+        {
+            var result = _context.TrendPoints
+                .Where(x => x.Trend.Station.ID_Station == stid && x.Trend.Trend_parameter.ID_Trend_parameter == trpid)
+                .Select(x => new TrendPointViewModel()
+                {
+                    ID_TrendPoint = x.ID_TrendPoint,
+                    Date_time = x.Date_time,
+                    Parameter = x.Parameter,
+                    TP_Station = x.Trend.Station.Station_name,
+                    TP_Trend_parameter = x.Trend.Trend_parameter.Trend_parameter_name,
+                    TP_Unit = x.Trend.Unit.Unit_name
+                }).ToList();
+
+            return result;
+        }
+
         public bool UpdateTrendPoint(int id, TrendPointViewModel model)
         {
             var TrendPoint = _context.TrendPoints.FirstOrDefault(x => x.ID_TrendPoint == id);
