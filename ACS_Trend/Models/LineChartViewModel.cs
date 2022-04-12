@@ -49,9 +49,39 @@ namespace ACS_Trend.Models
         public XAxis()
         {
             title = new Title();
+            plotBands = new List<PlotBands>();
         }
+
         public Title title { get; set; }
         public List<string> categories { get; set; }
+        public bool crosshair { get; set; }
+        public List<PlotBands> plotBands { get; set; }
+        public List<PlotLines> plotLines { get; set; }
+    }
+
+    public class PlotBands
+    {
+        public PlotBands(string v1, int v2, int v3)
+        {
+            color = v1;
+            from = v2;
+            to = v3;
+        }
+        public string color { get; set; }
+        public int from { get; set; }
+        public int to { get; set; }
+    }
+    public class PlotLines
+    {
+        public PlotLines(string v1, int v2, int v3)
+        {
+            color = v1;
+            value = v2;
+            width = v3;
+        }
+        public string color { get; set; }
+        public int value { get; set; }
+        public int width { get; set; }
     }
 
     // YAxis
@@ -63,6 +93,7 @@ namespace ACS_Trend.Models
         }
         public Title title { get; set; }
         public List<string> categories { get; set; }
+        public bool crosshair { get; set; }
     }
 
     // Series
@@ -71,9 +102,21 @@ namespace ACS_Trend.Models
         public Series()
         {
             data = new List<double[]>();
+            marker = new Marker();
         }
         public string name { get; set; }
+        public string color { get; set; }
+        public string dashStyle { get; set; }  // тип линии     
+        public string type { get; set; } // тип графика??
         public List<double[]> data { get; set; }
+        public Marker marker { get; set; }
+    }
+
+    // Series: Marker
+    public class Marker
+    {
+        public int radius { get; set; }
+        public bool enabled { get; set; }
     }
 
     // PlotOptions
@@ -82,8 +125,21 @@ namespace ACS_Trend.Models
         public PlotOptions()
         {
             line = new Line();
-        }
+            series = new SeriesPT();
+        }       
         public Line line { get; set; }
+        public SeriesPT series { get; set; }
+    }
+
+    public class SeriesPT
+    {
+        public SeriesPT()
+        {
+            marker = new Marker();
+        }
+        public int lineWidth { get; set; }
+        public Marker marker { get; set; }
+        public bool allowPointSelect { get; set; }
     }
 
     // PlotOptions: Line

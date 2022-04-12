@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ACS_Trend.Models.HomeIndexViewModel
+@{
     ViewData["Title"] = "Анализ трендов";
 }
 
@@ -11,43 +12,250 @@
     <h2>Анализ трендов динамических характеристик теплоэнергетического оборудования</h2>
 </div>
 
-<div id="trendINdiv" class="jumbotron" style="text-align:center">
-    <form method="get">
-        <p>
-            <label for="trendIN">Выберите тренд:</label>
-            <select id="trendIN" name="trendIN">
-                <option value="trendIN1">trendIN 1</option>
-                <option value="trendIN2">trendIN 2</option>
-                <option value="trendIN3">trendIN 3</option>
-                <option value="trendIN4">trendIN 4</option>
-            </select>
-        </p>
-        <p>
-            <input type="submit" value="Построить" />
-        </p>
-    </form>
+<style>
+    #mainline_block {
+        width: 100%;
+        display: flex;
+    }
 
-    <figure class="highcharts-figure">
-        <div id="container"></div>
-        <p class="highcharts-description">
-            Тренд входной динамической характеристики теплоэнергетичеcкого оборудования
-        </p>
-    </figure>
+    #line_block {
+        -webkit-flex: 1;
+        flex: 1;
+        background: #f1f1f1;
+        float: left;
+        margin: 0 0px 0px 0;
+        text-align: center;
+        padding: 10px;
+    }
+
+    #mainline_block2 {
+        width: 100%;
+        display: flex;
+    }
+
+    #line_block2 {
+        -webkit-flex: 1;
+        flex: 1;
+        background: #f1f1f1;
+        float: left;
+        margin: 0 0px 0px 0;
+        text-align: center;
+        padding: 10px;
+    }
+
+    #mainline_block3 {
+        width: 100%;
+        display: flex;
+    }
+
+    #line_block3 {
+        -webkit-flex: 1;
+        flex: 1;
+        background: #f1f1f1;
+        float: left;
+        margin: 0 0px 0px 0;
+        text-align: center;
+        padding: 10px;
+    }
+</style>
+
+
+<div>
+    <form asp-controller="Home" asp-action="Index" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" />
+        <p />
+        <div class="form-group">
+            <div class="form-group">
+                <label asp-for="K_Approxy" class="control-label"></label>
+                <input asp-for="K_Approxy" class="form-control" />
+                <span asp-validation-for="K_Approxy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartPoint" class="control-label"></label>
+                <input asp-for="StartPoint" class="form-control" />
+                <span asp-validation-for="StartPoint" class="text-danger"></span>
+            </div>
+            <input type="submit" value="Построить график" asp-for="ProcessType" class="btn btn-primary" />
+        </div>
+    </form>
 </div>
+
+<div style="width:100%; height:1px; clear:both;"></div>
+<div id="mainline_block">
+    <div id="line_block">
+        <figure class="highcharts-figure">
+            <div id="container_1_1"></div>
+            <p class="highcharts-description">
+                Тренд входного сигнала динамической характеристики теплоэнергетичеcкого оборудования 1_1
+            </p>
+        </figure>
+    </div>
+    <div id="line_block">
+        <figure class="highcharts-figure">
+            <div id="container_2_1"></div>
+            <p class="highcharts-description">
+                Тренд выходного сигнала динамической характеристики теплоэнергетичеcкого оборудования 2_1
+            </p>
+        </figure>
+    </div>
+</div>
+<div style="width:100%; height:1px; clear:both;"></div>
+@*<div>
+        <hr />
+        <form asp-controller="Home" asp-action="Index" method="post" enctype="multipart/form-data">
+            <p />
+            <div class="form-group">
+                <input type="submit" value="Сохранить результаты" asp-for="ProcessType" class="btn btn-primary" />
+            </div>
+        </form>
+        <hr />
+    </div>*@
+<div id="mainline_block2">
+    <div id="line_block2">
+        <figure class="highcharts-figure">
+            <div id="container_1_2"></div>
+            <p class="highcharts-description">
+                График сглаженных значений исходного тренда входного сигнала + точки 1_2
+            </p>
+        </figure>
+    </div>
+    <div id="line_block2">
+        <figure class="highcharts-figure">
+            <div id="container_2_2"></div>
+            <p class="highcharts-description">
+                График сглаженных значений исходного тренда выходного сигнала + точки 2_2
+            </p>
+        </figure>
+    </div>
+</div>
+<div id="mainline_block3">
+    <div id="line_block3">
+        <figure class="highcharts-figure">
+            <div id="container_1_3"></div>
+            <p class="highcharts-description">
+                График производных входного сигнала
+            </p>
+        </figure>
+    </div>
+    <div id="line_block3">
+        <figure class="highcharts-figure">
+            <div id="container_2_3"></div>
+            <p class="highcharts-description">
+                График производных выходного сигнала
+            </p>
+        </figure>
+    </div>
+</div>
+<div style="width:100%; height:1px; clear:both;"></div>
+<hr />
 
 
 <script>
-    Highcharts.chart('container', {
+    Highcharts.chart('container_1_1', {
         chart: {
             type: 'line',
             zoomType: 'x'
         },
-        title: @Html.Raw(Json.Serialize(Model.LineChartData.title)),
-        subtitle: @Html.Raw(Json.Serialize(Model.LineChartData.subtitle)),
-        xAxis: @Html.Raw(Json.Serialize(Model.LineChartData.xAxis)),
-        yAxis: @Html.Raw(Json.Serialize(Model.LineChartData.yAxis)),
-        plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData.plotOptions)),
-        series: [@Html.Raw(Json.Serialize(Model.LineChartData.series))]
+        title: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Source.title)),
+        subtitle: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Source.subtitle)),
+        xAxis: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Source.xAxis)),
+        yAxis: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Source.yAxis)),
+        plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Source.plotOptions)),
+        series: [@Html.Raw(Json.Serialize(Model.LineChartData_IN_Source.series))]
     });
 </script>
+
+<script>
+    Highcharts.chart('container_2_1', {
+        chart: {
+            type: 'line',
+            zoomType: 'x'
+        },
+        title: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Source.title)),
+        subtitle: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Source.subtitle)),
+        xAxis: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Source.xAxis)),
+        yAxis: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Source.yAxis)),
+        plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Source.plotOptions)),
+        series: [@Html.Raw(Json.Serialize(Model.LineChartData_OUT_Source.series))]
+    });
+</script>
+
+<script>
+    Highcharts.setOptions({
+        lang: {
+            downloadCSV: 'Скачать CSV',
+            downloadXLS: 'Скачать XLS',
+            downloadPDF: 'Скачать PDF',
+            downloadSVG: 'Скачать SVG',
+            downloadPNG: 'Скачать график в PNG',
+            downloadJPEG: 'Скачать график в JPEG',
+            printChart: 'Печать графика',
+            resetZoom: 'Сбросить масштаб',
+            viewData: 'Просмотреть в таблице',
+            viewFullscreen: 'Полноэкранный режим'
+        }
+    });
+
+    Highcharts.chart('container_1_2', {
+        chart: {
+            zoomType: 'x',
+        },
+        title: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Aproxy.title)),
+        subtitle: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Aproxy.subtitle)),
+        xAxis: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Aproxy.xAxis)),
+        yAxis: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Aproxy.yAxis)),
+        plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Aproxy.plotOptions)),
+        series: [@Html.Raw(Json.Serialize(Model.LineChartData_IN_Aproxy.series)),
+                 @Html.Raw(Json.Serialize(Model.LineChartData_IN_Result.series))],
+
+    });
+</script>
+
+<script>
+    Highcharts.chart('container_2_2', {
+        chart: {
+            type: 'line',
+            zoomType: 'x'
+        },
+        title: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Aproxy.title)),
+        subtitle: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Aproxy.subtitle)),
+        xAxis: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Aproxy.xAxis)),
+        yAxis: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Aproxy.yAxis)),
+        plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Aproxy.plotOptions)),
+        series: [@Html.Raw(Json.Serialize(Model.LineChartData_OUT_Aproxy.series)),
+                 @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Result.series))]
+    });
+</script>
+
+
+<script>
+    Highcharts.chart('container_1_3', {
+        chart: {
+            type: 'line',
+            zoomType: 'x'
+        },
+        title: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Tg.title)),
+        subtitle: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Tg.subtitle)),
+        xAxis: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Tg.xAxis)),
+        yAxis: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Tg.yAxis)),
+        plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Tg.plotOptions)),
+        series: [@Html.Raw(Json.Serialize(Model.LineChartData_IN_Tg.series))]
+    });
+</script>
+
+<script>
+    Highcharts.chart('container_2_3', {
+        chart: {
+            type: 'line',
+            zoomType: 'x'
+        },
+        title: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Tg.title)),
+        subtitle: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Tg.subtitle)),
+        xAxis: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Tg.xAxis)),
+        yAxis: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Tg.yAxis)),
+        plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Tg.plotOptions)),
+        series: [@Html.Raw(Json.Serialize(Model.LineChartData_OUT_Tg.series))],
+    });
+</script>
+
 

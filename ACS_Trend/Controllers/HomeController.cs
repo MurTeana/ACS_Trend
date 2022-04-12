@@ -1,15 +1,12 @@
 ﻿using ACS_Trend.Domain.Entities;
 using ACS_Trend.Domain.Interfaces;
+using ACS_Trend.Functions;
 using ACS_Trend.Models;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
-using System.IO;
 
 namespace ACS_Trend.Controllers
 {
@@ -21,329 +18,150 @@ namespace ACS_Trend.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        // TRENDPOINT
-        [HttpGet]
-        public ActionResult GetAllTrendPoints()
-        {
-            var result = _unitOfWork.TrendPoints.GetAllTrendPoints();
-            return View(result);
-        }
-
-        public ActionResult CreateListTrendPoints()
-        {
-            ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
-            ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
-
-            List<TrendPointViewModel> points = new List<TrendPointViewModel>();
-            points.Add(new TrendPointViewModel { Date_time = 9, Parameter = 9, TP_ID_Trend = 2 });
-            points.Add(new TrendPointViewModel { Date_time = 10, Parameter = 10, TP_ID_Trend = 2 });
-            points.Add(new TrendPointViewModel { Date_time = 11, Parameter = 11, TP_ID_Trend = 2 });
-
-            ViewBag.Points = points;
-
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult CreateListTrendPoints(List<TrendPointViewModel> trendPoints)
-        {
-            //ViewBag.Trends = new SelectList(_unitOfWork.Trends.GetAllTrends(), "ID_Trend", "T_ID_Station");
-
-            List<TrendPointViewModel> points = new List<TrendPointViewModel>();
-            points.Add(new TrendPointViewModel {Date_time = 9, Parameter = 9, TP_ID_Trend = 2 });
-            points.Add(new TrendPointViewModel {Date_time = 10, Parameter = 10, TP_ID_Trend = 2 });
-            points.Add(new TrendPointViewModel {Date_time = 11, Parameter = 11, TP_ID_Trend = 2 });
-
-            _unitOfWork.TrendPoints.AddNewListTrendPoints(points);
-
-            //if (ModelState.IsValid)
-            //{
-            //    ModelState.Clear();
-            //    ViewBag.Issuccess = "Data Added";
-            //}
-
-            return View();
-        }
-
-
-        // TREND
-
-        public ActionResult CreateTrend()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult CreateTrend(Trend trend)
-        {
-            _unitOfWork.Trends.AddNewTrend(trend);
-
-            if (ModelState.IsValid)
-            {
-                ModelState.Clear();
-                ViewBag.Issuccess = "Data Added";
-            }
-                       
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult GetAllTrends()
-        {
-            var result = _unitOfWork.Trends.GetAllTrends();
-            return View(result);
-        }
-
-        public ActionResult CreateStation()
-        {
-            ViewBag.Station_Types = new SelectList(_unitOfWork.Station_types.GetAllStation_types(), "ID_Station_type", "StationType");
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult CreateStation(Station station)
-        {
-            ViewBag.Station_Types = new SelectList(_unitOfWork.Station_types.GetAllStation_types(), "ID_Station_type", "StationType");
-
-            int id = _unitOfWork.Stations.AddNewStation(station);
-
-            if (ModelState.IsValid)
-            {
-                if (id > 0)
-                {
-                    ModelState.Clear();
-                    ViewBag.Issuccess = "Data Added";
-                }                  
-            }
-
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult GetAllStations()
-        {
-            var result = _unitOfWork.Stations.GetAllStations();
-            return View(result);
-        }
-
-        // STATION_TYPE
-        public ActionResult CreateStation_type()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult CreateStation_type(Station_type station_Type)
-        {
-            _unitOfWork.Station_types.AddNewStation_type(station_Type);
-
-            if (ModelState.IsValid)
-            {
-                ModelState.Clear();
-                ViewBag.Issuccess = "Data Added";
-            }
-
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult GetAllStation_types()
-        {
-            var result = _unitOfWork.Station_types.GetAllStation_types();
-            return View(result);
-        }
-
-        [HttpGet]
-        public ActionResult Details_Station_Type(int id)
-        {
-            var result = _unitOfWork.Station_types.GetStation_type(id);
-            return View(result);
-        }
-
-        public ActionResult EditStation_type(int id)
-        {
-            var st_t = _unitOfWork.Station_types.GetStation_type(id);
-            return View(st_t);
-        }
-
-        [HttpPost]
-        public ActionResult EditStation_type(Station_type model)
-        {
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Station_types.UpdateStation_type(model.ID_Station_type, model);
-
-                return RedirectToAction("GetAllStation_types");
-            }
-
-            return View();
-        }
-
-        public ActionResult DeleteStation_type(int id)
-        {
-            _unitOfWork.Station_types.DeleteStation_type(id);
-
-            return RedirectToAction("GetAllStation_types");
-        }
-
-
-        // CONTROL_OBJECT_TYPE
-        public ActionResult CreateControl_object_type()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult CreateControl_object_type(Control_object_type control_object_type)
-        {
-            _unitOfWork.Control_object_types.AddNewControl_object_type(control_object_type);
-
-            if (ModelState.IsValid)
-            {
-                ModelState.Clear();
-                ViewBag.Issuccess = "Data Added";
-            }
-
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult GetAllControl_object_types()
-        {
-            var result = _unitOfWork.Control_object_types.GetAllControl_object_types();
-            return View(result);
-        }
-
-        [HttpGet]
-        public ActionResult Details_Control_object_type(int id)
-        {
-            var result = _unitOfWork.Control_object_types.GetControl_object_type(id);
-            return View(result);
-        }
-
-        public ActionResult EditControl_object_type(int id)
-        {
-            var co_t = _unitOfWork.Control_object_types.GetControl_object_type(id);
-            return View(co_t);
-        }
-
-        [HttpPost]
-        public ActionResult EditControl_object_type(Control_object_type model)
-        {
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Control_object_types.UpdateControl_object_type(model.ID_Control_object_type, model);
-
-                return RedirectToAction("GetAllControl_object_types");
-            }
-
-            return View();
-        }
-
-        public ActionResult DeleteControl_object_type(int id)
-        {
-            _unitOfWork.Control_object_types.DeleteControl_object_type(id);
-
-            return RedirectToAction("GetAllControl_object_types");
-        }
-
-        //private readonly ILogger<HomeController> _logger;
-
-        //public HomeController(ILogger<HomeController> logger)
-        //{
-        //    _logger = logger;
-        //}
-
         public IActionResult Index()
         {
             var masterModel = new HomeIndexViewModel();
 
-            // line chart
-            var lineChartData = GetLineChartData();
-            masterModel.LineChartData = lineChartData;
+            // line chart DEFAULT
+            IChartData chartData = new ChartData_();
+            var lineChartData = chartData.GetLineChartData(null, null, null, null, null, false, null, null);
+
+            masterModel.LineChartData_IN_Source = lineChartData;
+            masterModel.LineChartData_IN_Aproxy = lineChartData;
+            masterModel.LineChartData_IN_Tg = lineChartData;
+            masterModel.LineChartData_IN_Result = lineChartData;
+
+            masterModel.LineChartData_OUT_Source = lineChartData;            
+            masterModel.LineChartData_OUT_Aproxy = lineChartData;            
+            masterModel.LineChartData_OUT_Tg = lineChartData;
+            masterModel.LineChartData_OUT_Result = lineChartData;
+
+            masterModel.K_Approxy = 100;    //6
+            masterModel.StartPoint = 1843;  //183
 
             return View(masterModel);
         }
-        private LineChartViewModel GetLineChartData()
+
+        [HttpPost]
+        public IActionResult Index(HomeIndexViewModel masterModel, IFormFile file)
         {
-            var lineChartData = new LineChartViewModel();
+            int qApproxy = masterModel.K_Approxy;
+            int startpoint = masterModel.StartPoint;
 
-            lineChartData.title.text = "Тренд входной динамической характеристики теплоэнергетичеcкого оборудования";
-            lineChartData.subtitle.text = "Расход пара";
-
-            lineChartData.xAxis.title.text = "TITLE_X";
-            lineChartData.yAxis.title.text = "TITLE_Y";
-
-            lineChartData.plotOptions.line.dataLabels.enabled = true;
-            lineChartData.plotOptions.line.enableMouseTracking = true;
-
-            // DATA
-            lineChartData.series.name = "Tokyo";
-            List<double[]> pointsdata = new List<double[]>();
-
-            for (int i = 0; i < 100; i++)
+            if (masterModel.ProcessType == "Построить график")
             {
-                var point = new double[] { i, i * 3 };
-                pointsdata.Add(point);
+                // точки графика lineChartDataINSource
+                IImportData importData = new ImportData_();
+                List<Point> pointslist_IN_SOURCE = importData.ImportPoints(file); 
+                
+                int pointscount = pointslist_IN_SOURCE.Count;
+
+                List<double[]> pointsdata = new List<double[]>();
+
+                for (int point = 0; point < pointscount; point++)
+                {
+                    var date_time = Convert.ToDouble(pointslist_IN_SOURCE[point].Date);
+                    var parameter = Convert.ToDouble(pointslist_IN_SOURCE[point].Parameter);
+
+                    var pointChart = new double[] { date_time, parameter };
+                    pointsdata.Add(pointChart);
+                }
+
+                List<double[]> pointsdataOUT = new List<double[]>();
+
+                for (int point = 0; point < pointscount; point++)
+                {
+                    var date_time = Convert.ToDouble(pointslist_IN_SOURCE[point].Date);
+                    var parameter = Convert.ToDouble(pointslist_IN_SOURCE[point].ParameterOUT);
+
+                    var pointChart = new double[] { date_time, parameter };
+                    pointsdataOUT.Add(pointChart);
+                }
+
+
+                IMathFunc mathFunc = new MathFunc_();
+
+                // точки графиков
+                List<double[]> pointsdataMovAverage = mathFunc.MovAverageList(pointsdata, qApproxy);
+                List<double[]> pointsdataTg = mathFunc.DerOfFuncList(pointsdataMovAverage);
+
+                ChartZones chartZones = mathFunc.FindPointList(pointsdataMovAverage, pointsdataTg, startpoint);
+                List<int> pointsFind = chartZones.pointFindAll;
+                List<double[]> pointsdataResult = new List<double[]>();
+
+                for (int j = 0; j < pointsFind.Count; j++)
+                {
+                    for (int i = 0; i < pointsdataMovAverage.Count; i++)
+                    {
+                        if (pointsFind[j] == i && pointsFind[j] != 0)
+                        {
+                            pointsdataResult.Add(pointsdataMovAverage[i]);
+                        }
+                    }
+                }
+
+                List<double[]> pointsdataOUTMovAverage = mathFunc.MovAverageList(pointsdataOUT, qApproxy);
+                List<double[]> pointsdataOUTTg = mathFunc.DerOfFuncList(pointsdataOUTMovAverage);
+
+                ChartZones chartZones_OUT = mathFunc.FindPointList(pointsdataOUTMovAverage, pointsdataOUTTg, startpoint);
+                List<int> pointsFind_OUT = chartZones_OUT.pointFindAll;
+                List<double[]> pointsdataResult_OUT = new List<double[]>();
+
+                for (int j = 0; j < pointsFind_OUT.Count; j++)
+                {
+                    for (int i = 0; i < pointsdataOUTMovAverage.Count; i++)
+                    {
+                        if (pointsFind_OUT[j] == i && pointsFind_OUT[j] != 0)
+                        {
+                            pointsdataResult_OUT.Add(pointsdataOUTMovAverage[i]);
+                        }
+                    }
+                }
+
+                // графики
+                string titleIN = "Тренд входной динамической характеристики теплоэнергетичеcкого оборудования";
+                string parameterIN = "parameterIN";
+                string seriesNameTP_IN = "Точки тренда входного сигнала";
+                string seriesNameTPAver_IN = "Точки сглаженных значений тренда входного сигнала";
+                string seriesNameTPTg_IN = "Точки производных графика трендов";
+                string seriesNameFP_IN = "Точки найденные";
+
+                string titleOUT = "Тренд выходной динамической характеристики теплоэнергетичеcкого оборудования";
+                string parameterOUT = "parameterOUT";
+                string seriesNameTP_OUT = "Точки тренда выходного сигнала";
+                string seriesNameTPAver_OUT = "Точки сглаженных значений тренда выходного сигнала";
+                string seriesNameTPTg_OUT = "Точки производных графика трендов";
+                string seriesNameFP_OUT = "Точки найденные";
+
+                string colorMain = "#4682B4"; //255, 99, 71
+                string colorFind = "rgba(255,99,71,.5)";
+
+                bool markerEnable = false;
+                bool markerEnable2 = true;
+
+                // входной сигнал
+                IChartData chartData = new ChartData_();
+
+                masterModel.LineChartData_IN_Source = chartData.GetLineChartData(pointsdata, titleIN, parameterIN, seriesNameTP_IN, colorMain, markerEnable, null, null);
+                masterModel.LineChartData_IN_Aproxy = chartData.GetLineChartData(pointsdataMovAverage, titleIN, parameterIN, seriesNameTPAver_IN, colorMain, markerEnable, chartZones.plotbands, chartZones.plotlines);
+                masterModel.LineChartData_IN_Tg = chartData.GetLineChartData(pointsdataTg, titleIN, parameterIN, seriesNameTPTg_IN, colorMain, markerEnable, null, null);
+                masterModel.LineChartData_IN_Result = chartData.GetLineChartData(pointsdataResult, titleIN, parameterIN, seriesNameFP_IN, colorFind, markerEnable2, null, null);
+
+                // выходной сигнал
+                masterModel.LineChartData_OUT_Source = chartData.GetLineChartData(pointsdataOUT, titleOUT, parameterOUT, seriesNameTP_OUT, colorMain, markerEnable, null, null);
+                masterModel.LineChartData_OUT_Aproxy = chartData.GetLineChartData(pointsdataOUTMovAverage, titleOUT, parameterOUT, seriesNameTPAver_OUT, colorMain, markerEnable, chartZones_OUT.plotbands, chartZones_OUT.plotlines);
+                masterModel.LineChartData_OUT_Tg = chartData.GetLineChartData(pointsdataOUTTg, titleOUT, parameterOUT, seriesNameTPTg_OUT, colorMain, markerEnable, null, null);
+                masterModel.LineChartData_OUT_Result = chartData.GetLineChartData(pointsdataResult_OUT, titleOUT, parameterOUT, seriesNameFP_OUT, colorFind, markerEnable2, null, null);
+
+                return View(masterModel);
             }
 
-            lineChartData.series.data = pointsdata;
+            //if (masterModel.ProcessType == "Сохранить результаты")
+            //{
+            //}
 
-            return lineChartData;
+            return View();
         }
-
-        //[HttpGet]
-        //public IActionResult LoadData(List<TestLoadCSV> testdata = null)
-        //{
-        //    testdata = testdata == null ? new List<TestLoadCSV>() : testdata;
-        //    return View(testdata);
-        //}
-
-        //[HttpPost]
-        //public IActionResult LoadData(IFormFile file, [FromServices] IHostingEnvironment hostingEnvironment)
-        //{
-        //    #region Upload CSV
-        //    string fileName = $"{hostingEnvironment.WebRootPath}\\files\\{file.FileName}";
-        //    using (FileStream fileStream = System.IO.File.Create(fileName))
-        //    {
-        //        file.CopyTo(fileStream);
-        //        fileStream.Flush();
-        //    };
-        //    #endregion
-
-        //    var testdatacsv = this.GetDataList(file.FileName);
-        //    return View(testdatacsv);
-        //}
-
-        //private object GetDataList(string fileName)
-        //{
-        //    List<TestLoadCSV> testdatacsv = new List<TestLoadCSV>();
-        //    #region Read CSV
-        //    var path = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\files"}" + "\\" + fileName;
-        //    using (var reader = new StreamReader(path))
-        //    using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-        //    {
-        //        csv.Read();
-        //        csv.ReadHeader();
-        //        while (csv.Read())
-        //        {
-        //            var testdatacsvEnt = csv.GetRecord<TestLoadCSV>();
-        //            testdatacsv.Add(testdatacsvEnt);
-        //        }
-        //    }
-        //    #endregion
-
-        //    #region Create CSV
-        //    path = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\filesto"}";
-        //    using (var write = new StreamWriter(path + "\\NewFile.csv"))
-        //    using (var csv = new CsvWriter(write, CultureInfo.InvariantCulture))
-        //    {
-        //        csv.WriteRecords(testdatacsv);
-        //    }
-        //    #endregion
-
-        //    return testdatacsv;
-        //}
 
         public IActionResult Privacy()
         {
