@@ -57,26 +57,87 @@
         text-align: center;
         padding: 10px;
     }
-</style>
 
+    #main_val_block {
+        width: 100%;
+        display: flex;
+    }
+
+    #val_block {
+        -webkit-flex: 1;
+        flex: 1;
+        background: #f1f1f1;
+        float: left;
+        margin: 0 0px 0px 0;
+        text-align: center;
+        padding: 10px;
+    }
+</style>
 
 <div>
     <form asp-controller="Home" asp-action="Index" method="post" enctype="multipart/form-data">
         <input type="file" name="file" />
         <p />
-        <div class="form-group">
-            <div class="form-group">
-                <label asp-for="K_Approxy" class="control-label"></label>
-                <input asp-for="K_Approxy" class="form-control" />
-                <span asp-validation-for="K_Approxy" class="text-danger"></span>
+        <div id="main_val_block" class="form-group">
+            <div id="val_block">
+                <div class="form-group">
+                    <label asp-for="StartPoint_IN" class="control-label"></label>
+                    <input asp-for="StartPoint_IN" class="form-control" />
+                    <span asp-validation-for="StartPoint_IN" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UpperLimit_IN" class="control-label"></label>
+                    <input asp-for="UpperLimit_IN" class="form-control" />
+                    <span asp-validation-for="UpperLimit_IN" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LowerLimit_IN" class="control-label"></label>
+                    <input asp-for="LowerLimit_IN" class="form-control" />
+                    <span asp-validation-for="LowerLimit_IN" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TimeLimit_IN" class="control-label"></label>
+                    <input asp-for="TimeLimit_IN" class="form-control" />
+                    <span asp-validation-for="TimeLimit_IN" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="K_Approxy_IN" class="control-label"></label>
+                    <input asp-for="K_Approxy_IN" class="form-control" />
+                    <span asp-validation-for="K_Approxy_IN" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="StartPoint" class="control-label"></label>
-                <input asp-for="StartPoint" class="form-control" />
-                <span asp-validation-for="StartPoint" class="text-danger"></span>
+            <div id="val_block">
+                <div class="form-group">
+                    <label asp-for="StartPoint_OUT" class="control-label"></label>
+                    <input asp-for="StartPoint_OUT" class="form-control" />
+                    <span asp-validation-for="StartPoint_OUT" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UpperLimit_OUT" class="control-label"></label>
+                    <input asp-for="UpperLimit_OUT" class="form-control" />
+                    <span asp-validation-for="UpperLimit_OUT" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LowerLimit_OUT" class="control-label"></label>
+                    <input asp-for="LowerLimit_OUT" class="form-control" />
+                    <span asp-validation-for="LowerLimit_OUT" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TimeLimit_OUT" class="control-label"></label>
+                    <input asp-for="TimeLimit_OUT" class="form-control" />
+                    <span asp-validation-for="TimeLimit_OUT" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="K_Approxy_OUT" class="control-label"></label>
+                    <input asp-for="K_Approxy_OUT" class="form-control" />
+                    <span asp-validation-for="K_Approxy_OUT" class="text-danger"></span>
+                </div>
             </div>
-            <input type="submit" value="Построить график" asp-for="ProcessType" class="btn btn-primary" />
         </div>
+        <div id="val_block">
+            <input type="submit" value="Построить графики" asp-for="ProcessType" class="btn btn-primary" />
+        </div>
+        <p />
     </form>
 </div>
 
@@ -100,16 +161,17 @@
     </div>
 </div>
 <div style="width:100%; height:1px; clear:both;"></div>
-@*<div>
-        <hr />
-        <form asp-controller="Home" asp-action="Index" method="post" enctype="multipart/form-data">
-            <p />
-            <div class="form-group">
-                <input type="submit" value="Сохранить результаты" asp-for="ProcessType" class="btn btn-primary" />
-            </div>
-        </form>
-        <hr />
-    </div>*@
+<div>
+    <hr />
+    <form asp-controller="Home" asp-action="Index" method="post" enctype="multipart/form-data">
+        <p />
+        <div class="form-group">
+
+            <input type="submit" value="Сохранить результаты" asp-for="ProcessType" class="btn btn-primary" />
+        </div>
+    </form>
+    <hr />
+</div>
 <div id="mainline_block2">
     <div id="line_block2">
         <figure class="highcharts-figure">
@@ -149,7 +211,6 @@
 <div style="width:100%; height:1px; clear:both;"></div>
 <hr />
 
-
 <script>
     Highcharts.chart('container_1_1', {
         chart: {
@@ -161,7 +222,35 @@
         xAxis: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Source.xAxis)),
         yAxis: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Source.yAxis)),
         plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Source.plotOptions)),
-        series: [@Html.Raw(Json.Serialize(Model.LineChartData_IN_Source.series))]
+        series: [@Html.Raw(Json.Serialize(Model.LineChartData_IN_Source.series))],
+        exporting: {
+            buttons: {
+                contextButton: {
+                    enabled: false
+                },
+                viewButton: {
+                    text: 'Вид',
+                    menuItems: [
+                        'viewFullscreen',
+                    ]
+                },
+                exportButton: {
+                    text: 'Скачать',
+                    menuItems: [
+                        'downloadPNG',
+                        'downloadJPEG',
+                        'downloadPDF',
+                        'downloadSVG'
+                    ]
+                },
+                printButton: {
+                    text: 'Печать',
+                    onclick: function () {
+                        this.print();
+                    }
+                }
+            }
+        }
     });
 </script>
 
@@ -207,7 +296,34 @@
         plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Aproxy.plotOptions)),
         series: [@Html.Raw(Json.Serialize(Model.LineChartData_IN_Aproxy.series)),
                  @Html.Raw(Json.Serialize(Model.LineChartData_IN_Result.series))],
-
+        exporting: {
+            buttons: {
+                contextButton: {
+                    enabled: false
+                },
+                viewButton: {
+                    text: 'Вид',
+                    menuItems: [
+                        'viewFullscreen',
+                    ]
+                },
+                exportButton: {
+                    text: 'Скачать',
+                    menuItems: [
+                        'downloadPNG',
+                        'downloadJPEG',
+                        'downloadPDF',
+                        'downloadSVG'
+                    ]
+                },
+                printButton: {
+                    text: 'Печать',
+                    onclick: function () {
+                        this.print();
+                    }
+                }
+            }
+        }
     });
 </script>
 

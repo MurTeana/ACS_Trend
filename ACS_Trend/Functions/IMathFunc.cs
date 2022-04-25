@@ -9,7 +9,7 @@ namespace ACS_Trend.Functions
     {
         List<double[]> MovAverageList(List<double[]> pointsdata, int qGO);
         List<double[]> DerOfFuncList(List<double[]> pointsdata);
-        ChartZones FindPointList(List<double[]> pointsY_av, List<double[]> pointsY_av_Tg, int startPoint);
+        ChartZones FindPointList(List<double[]> pointsY_av, List<double[]> pointsY_av_Tg, int startPoint, double upLimit, double lowLimit, double timeLimit);
     }
 
     public class MathFunc_ : IMathFunc
@@ -64,46 +64,38 @@ namespace ACS_Trend.Functions
         }
 
          // Поиск точек LIST
-        public ChartZones FindPointList(List<double[]> pointsY_av, List<double[]> pointsY_av_Tg, int startPoint)
-        {
+        public ChartZones FindPointList(List<double[]> pointsY_av, List<double[]> pointsY_av_Tg, int startPoint, double upLimit, double lowLimit, double timeLimit)
+        {        
             int countParam = pointsY_av.Count;
-            int i = startPoint; // Стартовая точка
-
-            int pointFind_av = 0;
-            int pointFind_tg = 0;
+            int i = startPoint; // Стартовая точка                      
+                       
             int ind_FP = 0;
 
-            double[] pointAver_ = new double[countParam];
-
             List<int> pointFind1 = new List<int>();
+            int pointFind_av = 0;
             List<int> pointFind2 = new List<int>();
+            int pointFind_tg = 0;
             List<int> pointFindAll = new List<int>();
             List<int> wrongPoints = new List<int>();
 
-            pointFindAll.Add(startPoint);
+            double[] pointAver_ = new double[countParam];
 
+            // флаги
             bool flag = false;
             List <bool> staticflags = new List<bool>();
             List <int> staticpoint = new List<int>();
+            List<double> helperval = new List<double>();
 
-            List <double> helperval = new List<double>();
+            // добавляем стартовую точку в массив найденных значений
+            pointFindAll.Add(startPoint);         
 
-            // поиск максимального значения в диапазоне
-            double[] tgY = new double[countParam];
+            // поиск максимального значения в диапазоне (производные)
+            double maxABSVal = MaxABSVal(pointsY_av_Tg, startPoint);
 
-            for (int k = 0; k < countParam; k++)
-            {
-                tgY[k] = pointsY_av_Tg[k][1];
-            }
+            // параметры зоны нечувствительности (производные) - округление (количество знаков)
+            int roundVal = RoundVal(maxABSVal);
 
-            double maxVal = tgY.Max();
-            double minVal = tgY.Min();
-
-            double[] maxminVal = new double[] { Math.Abs(maxVal), Math.Abs(minVal) };
-
-            double maxABSVal = maxminVal.Max();
-
-
+            // Анализ точек тренда
             while (i < (countParam - 1)) // 
             {
                 int qPoints = 2;
@@ -113,7 +105,7 @@ namespace ACS_Trend.Functions
                 double pointAver = pointsY_av[i][1];
 
                 // параметры зоны нечувствительности
-                double tolerance_kAproxy = pointsY_av[i][1] * 0.01; // 1-2 % от искомого значения
+                double tolerance_kAproxy = pointsY_av[i][1] * 0.02; // 1-2 % от искомого значения
 
                 while ((Math.Abs(pointsY_av[i][1] - pointAver) < tolerance_kAproxy) && i < (countParam - 1))
                 {
@@ -123,22 +115,23 @@ namespace ACS_Trend.Functions
                     qPoints++;
 
                     i++;
-                }                    
+                }
 
                 pointFind_av = i; // сдвиг назад на одну точку УБРАЛА
 
+                // проверка выхода точки из заданного интервала
+                // проверка временного интервала
+                if(pointsY_av[pointFind_av][1] > upLimit || pointsY_av[pointFind_av][1] < lowLimit)
+                {
+                    wrongPoints.Add(pointFind_av);
+                }
+                else if (ind_FP != 0 && (pointFind_av - pointFind2[ind_FP - 1]) < timeLimit)
+                {
+                    wrongPoints.Add(pointFind_av);
+                }
+
                 pointFind1.Add(pointFind_av);
                 pointFind_av = 0;
-
-                // параметры зоны нечувствительности
-                int roundVal = 0;
-
-                if (maxABSVal > 1)
-                    roundVal = 2;
-                else if (maxABSVal * 10 > 1)
-                    roundVal = 3;
-                else if (maxABSVal * 100 > 1)
-                    roundVal = 4;
 
                 double tolerance_tgY = Math.Round(maxABSVal * 0.01, roundVal); // 1% от максимума в диапазоне значений (абсолютное)
 
@@ -159,28 +152,10 @@ namespace ACS_Trend.Functions
                     pointFind_tg = pointFind1[ind_FP] + qPoints2;
                 }   
 
-                // + -
+                // проверка на изменение знака + -
                 if (helperval.Count() != 0)
                 {
-                    // поиск экстремумов
-                    double maxValpoint = helperval.Max();
-                    double minValpoint = helperval.Min();
-
-                    double[] maxminValpoint = new double[] { Math.Abs(maxValpoint), Math.Abs(minValpoint) };
-
-                    double maxABSValpoint = maxminValpoint.Max();
-
-                    double pointZ = 0;
-
-                    if (maxminValpoint[0] == maxABSValpoint)
-                        pointZ = maxValpoint;
-                    else
-                        pointZ = minValpoint;
-
-                    if (pointZ > 0)
-                        flag = true;
-                    else
-                        flag = false;
+                    flag = SignOfDerY(helperval);
 
                     staticflags.Add(flag);
                     staticpoint.Add(i);
@@ -188,24 +163,19 @@ namespace ACS_Trend.Functions
                     helperval.Clear();
                 }
 
-                pointFind2.Add(pointFind_tg); // сдвиг назад на одну точку УБРАЛА
-                pointFind_tg = 0;
+                pointFind2.Add(pointFind_tg); // сдвиг назад на одну точку УБРАЛА                
+                pointFind_tg = 0;            
 
-                if (pointFind2[ind_FP] != 0)
+                if (pointFind1[ind_FP] != 0 && pointFind2[ind_FP] != 0)
                 {
                     pointFindAll.Add(pointFind1[ind_FP]);
-                    pointFindAll.Add(pointFind2[ind_FP]);                    
-                }
-                else if (pointFind1[ind_FP] != 0)
-                {
-                    //wrongPoints.Add(pointFind1[ind_FP]);
+                    pointFindAll.Add(pointFind2[ind_FP]);          
                 }
 
                 ind_FP++;
             }
 
-            // отсеивание точек перемена знака на графике производных
-
+            // проверка на изменение знака на графике производных
             for (int stF = 0; stF < staticflags.Count() - 1; stF++)
             {
                 if (staticflags[stF] == staticflags[stF + 1])
@@ -230,7 +200,7 @@ namespace ACS_Trend.Functions
                 plotLines.Add(new PlotLines("grey", point, 1));
             }
 
-            plotLines.Add(new PlotLines("black", pointFindAll.Last(), 3));
+            plotLines.Add(new PlotLines("black", pointsY_av.Count, 3));
 
             int wp = 0;
             int pL = 1;
@@ -238,14 +208,14 @@ namespace ACS_Trend.Functions
 
             while (pL < plotLines.Count() && wp < wrongPoints.Count())
             {
-                if (wrongPoints[wp] > plotLines[pL].value)
+                if (wrongPoints[wp] > plotLines[pL - 1].value && wrongPoints[wp] < plotLines[pL].value)
                 {
-                    plotBands.Add(new PlotBands("rgba(107,201,91,.5)", plotLines[pL - 1].value, plotLines[pL].value));                                     
+                    plotBands.Add(new PlotBands("rgba(255,211,208,.5)", plotLines[pL - 1].value, plotLines[pL].value)); // red
+                    wp++;                                 
                 }
                 else
                 {
-                    plotBands.Add(new PlotBands("rgba(255,211,208,.5)", plotLines[pL - 1].value, plotLines[pL].value));
-                    wp++;
+                    plotBands.Add(new PlotBands("rgba(107,201,91,.5)", plotLines[pL - 1].value, plotLines[pL].value)); // green    
                 }
                    
                 pL++;
@@ -255,6 +225,65 @@ namespace ACS_Trend.Functions
 
             return chartZones;
         }
- 
+
+        private double MaxABSVal( List<double[]> pointsY_av_Tg, int startPoint)
+        {
+            int countParam = pointsY_av_Tg.Count; //pointsY_av_Tg.Count;
+
+            double[] tgY = new double[countParam];
+
+            for (int k = startPoint; k < countParam; k++)
+            {
+                tgY[k] = pointsY_av_Tg[k][1];
+            }
+
+            double maxVal = tgY.Max();
+            double minVal = tgY.Min();
+
+            double[] maxminVal = new double[] { Math.Abs(maxVal), Math.Abs(minVal) };
+
+            double maxABSVal = maxminVal.Max();
+
+            return maxABSVal;
+        }
+
+        private bool SignOfDerY(List<double> helperval)
+        {
+            bool flag = false;
+
+            // поиск экстремумов
+            double maxValpoint = helperval.Max();
+            double minValpoint = helperval.Min();
+
+            double[] maxminValpoint = new double[] { Math.Abs(maxValpoint), Math.Abs(minValpoint) };
+
+            double maxABSValpoint = maxminValpoint.Max();
+
+            double pointZ = 0;
+
+            if (maxminValpoint[0] == maxABSValpoint)
+                pointZ = maxValpoint;
+            else
+                pointZ = minValpoint;
+
+            if (pointZ > 0)
+                flag = true;
+            else
+                flag = false;
+
+            return flag;
+        }
+
+        private int RoundVal(double maxABSVal)
+        {
+            if (maxABSVal > 1)
+                return 2;
+            else if (maxABSVal * 10 > 1)
+                return 3;
+            else if (maxABSVal * 100 > 1)
+                return 4;
+            else
+                return 0;
+        }
     }
 }

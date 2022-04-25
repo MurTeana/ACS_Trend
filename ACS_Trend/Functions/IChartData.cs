@@ -13,7 +13,8 @@ namespace ACS_Trend.Functions
             string color,
             bool markerEnable,
             List<PlotBands> plotBands,
-            List<PlotLines> plotLines);
+            List<PlotLines> plotLinesX,
+            List<PlotLines> plotLinesY);
     }
 
     public class ChartData_ : IChartData
@@ -26,7 +27,8 @@ namespace ACS_Trend.Functions
             string color,
             bool markerEnable,
             List<PlotBands> plotBands,
-            List<PlotLines> plotLines)
+            List<PlotLines> plotLinesX,
+            List<PlotLines> plotLinesY)
         {
             var lineChartData = new LineChartViewModel();
 
@@ -42,7 +44,8 @@ namespace ACS_Trend.Functions
             //// PLOTBANDS
             //// PLOTLINES
             lineChartData.xAxis.plotBands = plotBands;
-            lineChartData.xAxis.plotLines = plotLines;
+            lineChartData.xAxis.plotLines = plotLinesX;
+            lineChartData.yAxis.plotLines = plotLinesY;
 
             // PLOTOPTIONS
             lineChartData.plotOptions.line.dataLabels.enabled = false;

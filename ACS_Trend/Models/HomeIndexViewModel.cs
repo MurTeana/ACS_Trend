@@ -19,10 +19,34 @@ namespace ACS_Trend.Models
 
         // дополнительные параметры для анализа
 
-        [Display(Name = "Коэффициент сглаживания")]
-        public int K_Approxy { get; set; }
+        [Display(Name = "Коэффициент сглаживания графика тренда входного сигнала")]
+        public int K_Approxy_IN { get; set; } = 100;
 
-        [Display(Name = "Точка старта")]
-        public int StartPoint { get; set; }
+        [Display(Name = "Коэффициент сглаживания графика тренда выходного сигнала")]
+        public int K_Approxy_OUT { get; set; } = 100;
+
+        [Display(Name = "Точка старта графика тренда входного сигнала")]
+        public int StartPoint_IN { get; set; } = 32;
+
+        [Display(Name = "Точка старта графика тренда выходного сигнала")]
+        public int StartPoint_OUT { get; set; } = 32;
+
+        [Display(Name = "Верхнее ограничение точек тренда входного сигнала")]
+        public double UpperLimit_IN { get; set; } = 17;
+
+        [Display(Name = "Верхнее ограничение точек тренда выходного сигнала")]
+        public double UpperLimit_OUT { get; set; } = 950;
+
+        [Display(Name = "Нижнее ограничение точек тренда входного сигнала")]
+        public double LowerLimit_IN { get; set; } = 4.5;
+
+        [Display(Name = "Нижнее ограничение точек тренда выходного сигнала")]
+        public double LowerLimit_OUT { get; set; } = 250;
+
+        [Display(Name = "Ограничение по времени тренда входного сигнала")]
+        public int TimeLimit_IN { get; set; } = 50;
+
+        [Display(Name = "Ограничение по времени тренда выходного сигнала")]
+        public int TimeLimit_OUT { get; set; } = 50;
     }
 }

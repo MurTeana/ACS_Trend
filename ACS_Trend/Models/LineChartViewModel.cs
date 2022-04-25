@@ -61,26 +61,26 @@ namespace ACS_Trend.Models
 
     public class PlotBands
     {
-        public PlotBands(string v1, int v2, int v3)
+        public PlotBands(string _color, double _from, double _to)
         {
-            color = v1;
-            from = v2;
-            to = v3;
+            color = _color;
+            from = _from;
+            to = _to;
         }
         public string color { get; set; }
-        public int from { get; set; }
-        public int to { get; set; }
+        public double from { get; set; }
+        public double to { get; set; }
     }
     public class PlotLines
     {
-        public PlotLines(string v1, int v2, int v3)
+        public PlotLines(string _color, double _value, int _width)
         {
-            color = v1;
-            value = v2;
-            width = v3;
+            color = _color;
+            value = _value;
+            width = _width;
         }
         public string color { get; set; }
-        public int value { get; set; }
+        public double value { get; set; }
         public int width { get; set; }
     }
 
@@ -93,6 +93,7 @@ namespace ACS_Trend.Models
         }
         public Title title { get; set; }
         public List<string> categories { get; set; }
+        public List<PlotLines> plotLines { get; set; }
         public bool crosshair { get; set; }
     }
 

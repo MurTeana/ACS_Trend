@@ -1,0 +1,59 @@
+﻿#mainline_block {
+    width: 100%;
+    display: flex;
+}
+
+#line_block {
+    -webkit-flex: 1;
+    flex: 1;
+    background: #f1f1f1;
+    float: left;
+    margin: 0 0px 0px 0;
+    text-align: center;
+    padding: 10px;
+}
+
+#mainline_block2 {
+    width: 100%;
+    display: flex;
+}
+
+#line_block2 {
+    -webkit-flex: 1;
+    flex: 1;
+    background: #f1f1f1;
+    float: left;
+    margin: 0 0px 0px 0;
+    text-align: center;
+    padding: 10px;
+}
+
+#mainline_block3 {
+    width: 100%;
+    display: flex;
+}
+
+#line_block3 {
+    -webkit-flex: 1;
+    flex: 1;
+    background: #f1f1f1;
+    float: left;
+    margin: 0 0px 0px 0;
+    text-align: center;
+    padding: 10px;
+}
+
+#main_val_block {
+    width: 100%;
+    display: flex;
+}
+
+#val_block {
+    -webkit-flex: 1;
+    flex: 1;
+    background: #f1f1f1;
+    float: left;
+    margin: 0 0px 0px 0;
+    text-align: center;
+    padding: 10px;
+}
