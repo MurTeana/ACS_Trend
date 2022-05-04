@@ -68,22 +68,59 @@
         flex: 1;
         background: #f1f1f1;
         float: left;
-        margin: 0 0px 0px 0;
+        margin: 0 0px 0 0px;
         text-align: center;
         padding: 10px;
     }
 </style>
 
 <div>
+    <hr />
     <form asp-controller="Home" asp-action="Index" method="post" enctype="multipart/form-data">
         <input type="file" name="file" />
+        <p />
+        <div>
+            <input type="submit" value="Построить графики трендов" asp-for="ProcessType" class="btn btn-primary" />
+        </div>
+    </form>
+    <hr />
+</div>
+
+<div>
+    <label>@ViewBag.Temp</label>
+</div>
+
+<div style="width:100%; height:1px; clear:both;"></div>
+<div>
+    <div id="mainline_block">
+        <div id="line_block">
+            <figure class="highcharts-figure">
+                <div id="container_1_1"></div>
+                <p class="highcharts-description">
+                    Тренд входного сигнала динамической характеристики теплоэнергетичеcкого оборудования 1_1
+                </p>
+            </figure>
+        </div>
+        <div id="line_block">
+            <figure class="highcharts-figure">
+                <div id="container_2_1"></div>
+                <p class="highcharts-description">
+                    Тренд выходного сигнала динамической характеристики теплоэнергетичеcкого оборудования 2_1
+                </p>
+            </figure>
+        </div>
+    </div>
+</div>
+
+<div>
+    <form asp-controller="Home" asp-action="Index" method="post" enctype="multipart/form-data">
         <p />
         <div id="main_val_block" class="form-group">
             <div id="val_block">
                 <div class="form-group">
-                    <label asp-for="StartPoint_IN" class="control-label"></label>
-                    <input asp-for="StartPoint_IN" class="form-control" />
-                    <span asp-validation-for="StartPoint_IN" class="text-danger"></span>
+                    <label asp-for="StartPoint" class="control-label"></label>
+                    <input asp-for="StartPoint" class="form-control" />
+                    <span asp-validation-for="StartPoint" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="UpperLimit_IN" class="control-label"></label>
@@ -108,9 +145,9 @@
             </div>
             <div id="val_block">
                 <div class="form-group">
-                    <label asp-for="StartPoint_OUT" class="control-label"></label>
-                    <input asp-for="StartPoint_OUT" class="form-control" />
-                    <span asp-validation-for="StartPoint_OUT" class="text-danger"></span>
+                    <label asp-for="ToleranceZone_K" class="control-label"></label>
+                    <input asp-for="ToleranceZone_K" class="form-control" />
+                    <span asp-validation-for="ToleranceZone_K" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="UpperLimit_OUT" class="control-label"></label>
@@ -134,44 +171,15 @@
                 </div>
             </div>
         </div>
-        <div id="val_block">
-            <input type="submit" value="Построить графики" asp-for="ProcessType" class="btn btn-primary" />
+        <p />
+        <div>
+            <input type="submit" value="Выполнить анализ" asp-for="ProcessType" class="btn btn-primary" />
         </div>
         <p />
     </form>
 </div>
 
 <div style="width:100%; height:1px; clear:both;"></div>
-<div id="mainline_block">
-    <div id="line_block">
-        <figure class="highcharts-figure">
-            <div id="container_1_1"></div>
-            <p class="highcharts-description">
-                Тренд входного сигнала динамической характеристики теплоэнергетичеcкого оборудования 1_1
-            </p>
-        </figure>
-    </div>
-    <div id="line_block">
-        <figure class="highcharts-figure">
-            <div id="container_2_1"></div>
-            <p class="highcharts-description">
-                Тренд выходного сигнала динамической характеристики теплоэнергетичеcкого оборудования 2_1
-            </p>
-        </figure>
-    </div>
-</div>
-<div style="width:100%; height:1px; clear:both;"></div>
-<div>
-    <hr />
-    <form asp-controller="Home" asp-action="Index" method="post" enctype="multipart/form-data">
-        <p />
-        <div class="form-group">
-
-            <input type="submit" value="Сохранить результаты" asp-for="ProcessType" class="btn btn-primary" />
-        </div>
-    </form>
-    <hr />
-</div>
 <div id="mainline_block2">
     <div id="line_block2">
         <figure class="highcharts-figure">
@@ -209,7 +217,63 @@
     </div>
 </div>
 <div style="width:100%; height:1px; clear:both;"></div>
-<hr />
+
+<div>
+    <hr />
+    <form asp-controller="Home" asp-action="Index" method="post" enctype="multipart/form-data">
+        <p />
+        <div id="main_val_block" class="form-group">
+            <div id="val_block">
+                <div class="form-group">
+                    <label asp-for="TrendPointViewModel_.Trend.T_ID_Station" class="control-label"></label>
+                    @Html.DropDownList("TrendPointViewModel_.Trend.T_ID_Station", ViewBag.Stations as SelectList, htmlAttributes: new { @class = "form-control" })
+                    <span asp-validation-for="TrendPointViewModel_.Trend.T_ID_Station" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TrendPointViewModel_.Trend.Trend_parameter.Trend_parameter_name" class="control-label"></label>
+                    @Html.DropDownList("TrendPointViewModel_.Trend.Trend_parameter.Trend_parameter_name", ViewBag.Trend_parameters as SelectList, htmlAttributes: new { @class = "form-control" })
+                    <span asp-validation-for="TrendPointViewModel_.Trend.Trend_parameter.Trend_parameter_name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Regulator" class="control-label"></label>
+                    @Html.DropDownList("TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Regulator", ViewBag.Regulators as SelectList, htmlAttributes: new { @class = "form-control" })
+                    <span asp-validation-for="TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Regulator" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Signal_type" class="control-label"></label>
+                    @Html.DropDownList("TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Signal_type", ViewBag.Signal_types as SelectList, htmlAttributes: new { @class = "form-control" })
+                    <span asp-validation-for="TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Signal_type" class="text-danger"></span>
+                </div>
+            </div>
+            <div id="val_block">
+                <div class="form-group">
+                    <label asp-for="TrendPointViewModel_.Trend.T_ID_Unit" class="control-label"></label>
+                    @Html.DropDownList("TrendPointViewModel_.Trend.T_ID_Unit", ViewBag.Units as SelectList, htmlAttributes: new { @class = "form-control" })
+                    <span asp-validation-for="TrendPointViewModel_.Trend.T_ID_Unit" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Control_object" class="control-label"></label>
+                    @Html.DropDownList("TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Control_object", ViewBag.Control_objects as SelectList, htmlAttributes: new { @class = "form-control" })
+                    <span asp-validation-for="TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Control_object" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Trend_parameter_type" class="control-label"></label>
+                    @Html.DropDownList("Trend.Trend_parameter.TP_ID_Trend_parameter_type", ViewBag.Trend_parameter_types as SelectList, htmlAttributes: new { @class = "form-control" })
+                    <span asp-validation-for="TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Trend_parameter_type" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <p />
+        <div class="form-group">
+            <input type="submit" value="Сохранить результаты" asp-for="ProcessType" class="btn btn-primary" />
+        </div>
+    </form>
+    <hr />
+</div>
+
+
+
+
 
 <script>
     Highcharts.chart('container_1_1', {
@@ -222,37 +286,44 @@
         xAxis: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Source.xAxis)),
         yAxis: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Source.yAxis)),
         plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Source.plotOptions)),
-        series: [@Html.Raw(Json.Serialize(Model.LineChartData_IN_Source.series))],
-        exporting: {
-            buttons: {
-                contextButton: {
-                    enabled: false
-                },
-                viewButton: {
-                    text: 'Вид',
-                    menuItems: [
-                        'viewFullscreen',
-                    ]
-                },
-                exportButton: {
-                    text: 'Скачать',
-                    menuItems: [
-                        'downloadPNG',
-                        'downloadJPEG',
-                        'downloadPDF',
-                        'downloadSVG'
-                    ]
-                },
-                printButton: {
-                    text: 'Печать',
-                    onclick: function () {
-                        this.print();
-                    }
-                }
-            }
-        }
+        series: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Source.series))
     });
 </script>
+
+@*@Html.Raw(Json.Serialize(Model.LineChartData_IN_Source_Result.series))]*@
+@*//exporting: {
+    //    buttons: {
+    //        contextButton: {
+    //            enabled: false
+    //        },
+    //        viewButton: {
+    //            text: 'Вид',
+    //            menuItems: [
+    //                'viewFullscreen',
+    //            ]
+    //        },
+    //        exportButton: {
+    //            text: 'Скачать',
+    //            menuItems: [
+    //                'downloadPNG',
+    //                'downloadJPEG',
+    //                'downloadPDF',
+    //                'downloadSVG'
+    //            ]
+    //        },
+    //        printButton: {
+    //            text: 'Печать',
+    //            onclick: function () {
+    //                this.print();
+    //            }
+    //        }
+    //    }
+    //}*@
+
+
+
+
+
 
 <script>
     Highcharts.chart('container_2_1', {
@@ -265,7 +336,7 @@
         xAxis: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Source.xAxis)),
         yAxis: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Source.yAxis)),
         plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Source.plotOptions)),
-        series: [@Html.Raw(Json.Serialize(Model.LineChartData_OUT_Source.series))]
+        series: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Source.series))
     });
 </script>
 
@@ -294,36 +365,35 @@
         xAxis: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Aproxy.xAxis)),
         yAxis: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Aproxy.yAxis)),
         plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Aproxy.plotOptions)),
-        series: [@Html.Raw(Json.Serialize(Model.LineChartData_IN_Aproxy.series)),
-                 @Html.Raw(Json.Serialize(Model.LineChartData_IN_Result.series))],
-        exporting: {
-            buttons: {
-                contextButton: {
-                    enabled: false
-                },
-                viewButton: {
-                    text: 'Вид',
-                    menuItems: [
-                        'viewFullscreen',
-                    ]
-                },
-                exportButton: {
-                    text: 'Скачать',
-                    menuItems: [
-                        'downloadPNG',
-                        'downloadJPEG',
-                        'downloadPDF',
-                        'downloadSVG'
-                    ]
-                },
-                printButton: {
-                    text: 'Печать',
-                    onclick: function () {
-                        this.print();
-                    }
-                }
-            }
-        }
+        series: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Aproxy.series))
+        //exporting: {
+        //    buttons: {
+        //        contextButton: {
+        //            enabled: false
+        //        },
+        //        viewButton: {
+        //            text: 'Вид',
+        //            menuItems: [
+        //                'viewFullscreen',
+        //            ]
+        //        },
+        //        exportButton: {
+        //            text: 'Скачать',
+        //            menuItems: [
+        //                'downloadPNG',
+        //                'downloadJPEG',
+        //                'downloadPDF',
+        //                'downloadSVG'
+        //            ]
+        //        },
+        //        printButton: {
+        //            text: 'Печать',
+        //            onclick: function () {
+        //                this.print();
+        //            }
+        //        }
+        //    }
+        //}
     });
 </script>
 
@@ -338,11 +408,9 @@
         xAxis: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Aproxy.xAxis)),
         yAxis: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Aproxy.yAxis)),
         plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Aproxy.plotOptions)),
-        series: [@Html.Raw(Json.Serialize(Model.LineChartData_OUT_Aproxy.series)),
-                 @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Result.series))]
+        series: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Aproxy.series))
     });
 </script>
-
 
 <script>
     Highcharts.chart('container_1_3', {
@@ -355,7 +423,7 @@
         xAxis: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Tg.xAxis)),
         yAxis: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Tg.yAxis)),
         plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Tg.plotOptions)),
-        series: [@Html.Raw(Json.Serialize(Model.LineChartData_IN_Tg.series))]
+        series: @Html.Raw(Json.Serialize(Model.LineChartData_IN_Tg.series))
     });
 </script>
 
@@ -370,8 +438,7 @@
         xAxis: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Tg.xAxis)),
         yAxis: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Tg.yAxis)),
         plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Tg.plotOptions)),
-        series: [@Html.Raw(Json.Serialize(Model.LineChartData_OUT_Tg.series))],
+        series: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Tg.series))
     });
 </script>
-
 

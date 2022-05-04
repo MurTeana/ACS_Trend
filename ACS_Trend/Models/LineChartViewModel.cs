@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ACS_Trend.Models.Charts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,14 +15,14 @@ namespace ACS_Trend.Models
             xAxis = new XAxis();
             yAxis = new YAxis();
             plotOptions = new PlotOptions();
-            series = new Series();
+            series = new List<Series>();
         }
         public Title title { get; set; }
         public Subtitle subtitle { get; set; }
         public XAxis xAxis { get; set; }
         public YAxis yAxis { get; set; }
         public PlotOptions plotOptions { get; set; }
-        public Series series { get; set; }
+        public List<Series> series { get; set; }
     }
 
     // Title
@@ -102,6 +103,8 @@ namespace ACS_Trend.Models
     {
         public Series()
         {
+            //name = _name;
+            //color = _color;
             data = new List<double[]>();
             marker = new Marker();
         }
@@ -109,15 +112,15 @@ namespace ACS_Trend.Models
         public string color { get; set; }
         public string dashStyle { get; set; }  // тип линии     
         public string type { get; set; } // тип графика??
-        public List<double[]> data { get; set; }
+        public List<double[]> data { get; set; } = new List<double[]>();
         public Marker marker { get; set; }
     }
 
     // Series: Marker
     public class Marker
     {
-        public int radius { get; set; }
         public bool enabled { get; set; }
+        public int radius { get; set; }
     }
 
     // PlotOptions

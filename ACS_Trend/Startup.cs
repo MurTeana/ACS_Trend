@@ -9,6 +9,7 @@ using ACS_Trend.Domain.Interfaces;
 using ACS_Trend.DataAccess.EFCore;
 using ACS_Trend.DataAccess.EFCore.Repositories;
 using ACS_Trend.DataAccess.EFCore.UnitOfWorks;
+using System;
 
 namespace ACS_Trend
 {
@@ -44,6 +45,10 @@ namespace ACS_Trend
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             //Add Controllers
             services.AddControllers();
+            //Add Session
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(15);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +69,7 @@ namespace ACS_Trend
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthorization();
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

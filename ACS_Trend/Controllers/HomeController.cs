@@ -1,12 +1,15 @@
-﻿using ACS_Trend.Domain.Entities;
-using ACS_Trend.Domain.Interfaces;
+﻿using ACS_Trend.Domain.Interfaces;
 using ACS_Trend.Functions;
 using ACS_Trend.Models;
+using ACS_Trend.Models.Charts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 
 namespace ACS_Trend.Controllers
 {
@@ -20,27 +23,33 @@ namespace ACS_Trend.Controllers
 
         public IActionResult Index()
         {
+            //БД
+            ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
+            ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
+            ViewBag.Trend_parameters = new SelectList(_unitOfWork.Trend_parameters.GetAllTrend_parameters(), "Trend_parameter_name", "Trend_parameter_name");
+
+            ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
+            ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
+            ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
+            ViewBag.Trend_parameter_types = new SelectList(_unitOfWork.Trend_parameter_types.GetAllTrend_parameter_types(), "ID_Trend_parameter_type", "Trend_parameter_type_name");
+
             var masterModel = new HomeIndexViewModel();
 
             // line chart DEFAULT
+            var chartsParam_default = new List<LineChartData> { new ChartsParameters().LineChartData_Default };
+
             IChartData chartData = new ChartData_();
-            var lineChartData = chartData.GetLineChartData(null, null, null, null, null, false, null, null, null);
 
-            masterModel.LineChartData_IN_Source = lineChartData;
-            masterModel.LineChartData_IN_Aproxy = lineChartData;
-            masterModel.LineChartData_IN_Tg = lineChartData;
-            masterModel.LineChartData_IN_Result = lineChartData;
+            masterModel.LineChartData_IN_Source = chartData.GetLineChartData(chartsParam_default);
+            masterModel.LineChartData_IN_Source_Result = chartData.GetLineChartData(chartsParam_default);
+            masterModel.LineChartData_IN_Aproxy = chartData.GetLineChartData(chartsParam_default);
+            masterModel.LineChartData_IN_Tg = chartData.GetLineChartData(chartsParam_default);
+            masterModel.LineChartData_IN_Result = chartData.GetLineChartData(chartsParam_default);
 
-            masterModel.LineChartData_OUT_Source = lineChartData;            
-            masterModel.LineChartData_OUT_Aproxy = lineChartData;            
-            masterModel.LineChartData_OUT_Tg = lineChartData;
-            masterModel.LineChartData_OUT_Result = lineChartData;
-
-            //masterModel.K_Approxy_IN = 100;
-            //masterModel.StartPoint_IN = 32; //1843;
-
-            //masterModel.K_Approxy_OUT = 100;
-            //masterModel.StartPoint_OUT = 32; //1843;
+            masterModel.LineChartData_OUT_Source = chartData.GetLineChartData(chartsParam_default);         
+            masterModel.LineChartData_OUT_Aproxy = chartData.GetLineChartData(chartsParam_default);
+            masterModel.LineChartData_OUT_Tg = chartData.GetLineChartData(chartsParam_default);
+            masterModel.LineChartData_OUT_Result = chartData.GetLineChartData(chartsParam_default);
 
             return View(masterModel);
         }
@@ -48,11 +57,24 @@ namespace ACS_Trend.Controllers
         [HttpPost]
         public IActionResult Index(HomeIndexViewModel masterModel, IFormFile file)
         {
+            //try
+            //{
+            //БД ViewBag
+            ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
+            ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
+            ViewBag.Trend_parameters = new SelectList(_unitOfWork.Trend_parameters.GetAllTrend_parameters(), "Trend_parameter_name", "Trend_parameter_name");
+
+            ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
+            ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
+            ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
+            ViewBag.Trend_parameter_types = new SelectList(_unitOfWork.Trend_parameter_types.GetAllTrend_parameter_types(), "ID_Trend_parameter_type", "Trend_parameter_type_name");
+
+            // параметры анализа
             int kMovAver_IN = masterModel.K_Approxy_IN;
             int kMovAver_OUT = masterModel.K_Approxy_IN;
 
-            int startpoint_IN = masterModel.StartPoint_IN;
-            int startpoint_OUT = masterModel.StartPoint_OUT;
+            int startpoint = masterModel.StartPoint;
+            double toleranceZone_K = masterModel.ToleranceZone_K;
 
             // Зона ограничений поиска по точкам      
             double upperLimit_IN = masterModel.UpperLimit_IN;
@@ -62,147 +84,237 @@ namespace ACS_Trend.Controllers
             double lowerLimit_OUT = masterModel.LowerLimit_OUT;
 
             int timeLimit_IN = masterModel.TimeLimit_IN;
-            int timeLimit_OUT = masterModel.TimeLimit_OUT;
+            int timeLimit_OUT = masterModel.TimeLimit_OUT;            
 
+            if (masterModel.ProcessType == "Построить графики трендов") //&& (file != null))
+            {
+                if (file == null)
+                {
+                    var chartsParam_default = new List<LineChartData> { new ChartsParameters().LineChartData_Default };
 
-            if (masterModel.ProcessType == "Построить графики")
+                    IChartData chartData = new ChartData_();
+
+                    masterModel.LineChartData_IN_Source = chartData.GetLineChartData(chartsParam_default);
+                    masterModel.LineChartData_IN_Source_Result = chartData.GetLineChartData(chartsParam_default);
+                    masterModel.LineChartData_IN_Aproxy = chartData.GetLineChartData(chartsParam_default);
+                    masterModel.LineChartData_IN_Tg = chartData.GetLineChartData(chartsParam_default);
+                    masterModel.LineChartData_IN_Result = chartData.GetLineChartData(chartsParam_default);
+
+                    masterModel.LineChartData_OUT_Source = chartData.GetLineChartData(chartsParam_default);
+                    masterModel.LineChartData_OUT_Aproxy = chartData.GetLineChartData(chartsParam_default);
+                    masterModel.LineChartData_OUT_Tg = chartData.GetLineChartData(chartsParam_default);
+                    masterModel.LineChartData_OUT_Result = chartData.GetLineChartData(chartsParam_default);
+
+                    ViewBag.Temp = "Файл не выбран! Для проведения анализа выберите  файл!";
+
+                    return View(masterModel);
+                    //throw new FileNotFoundException();
+                }
+                else
+                {
+                    // точки графика lineChartDataINSource
+                    IImportData importData = new ImportData_();
+                    List<Point> pointslist_SOURCE = importData.ImportPoints(file);
+
+                    IPoint_handler point_Handler = new IPoint_handler_();
+
+                    List<double[]> pointsdataIN = point_Handler.ParsePoints(pointslist_SOURCE, "IN");
+                    List<double[]> pointsdataOUT = point_Handler.ParsePoints(pointslist_SOURCE, "OUT");
+
+                    HttpContext.Session.SetString("PointsDataIN", JsonConvert.SerializeObject(pointsdataIN));
+                    HttpContext.Session.SetString("PointsDataOUT", JsonConvert.SerializeObject(pointsdataOUT));
+
+                    // графики
+                    IChartData chartData = new ChartData_();
+
+                    var chartsParam_default = new List<LineChartData> { new ChartsParameters().LineChartData_Default };
+
+                    // параметры графиков входного сигнала
+                    var chartsParam_IN_Source = new List<LineChartData> { new ChartsParameters().LineChartData_IN_Source };
+                    chartsParam_IN_Source[0].pointsdata = pointsdataIN; //
+
+                    //модели входного сигнала
+                    masterModel.LineChartData_IN_Source = chartData.GetLineChartData(chartsParam_IN_Source);
+                    masterModel.LineChartData_IN_Source_Result = chartData.GetLineChartData(chartsParam_default);
+                    masterModel.LineChartData_IN_Aproxy = chartData.GetLineChartData(chartsParam_default);
+                    masterModel.LineChartData_IN_Tg = chartData.GetLineChartData(chartsParam_default);
+                    masterModel.LineChartData_IN_Result = chartData.GetLineChartData(chartsParam_default);
+
+                    // параметры графиков выходного сигнала
+                    var chartsParam_OUT_Source = new List<LineChartData> { new ChartsParameters().LineChartData_OUT_Source };
+                    chartsParam_OUT_Source[0].pointsdata = pointsdataOUT;
+
+                    //модели выходного сигнала
+                    masterModel.LineChartData_OUT_Source = chartData.GetLineChartData(chartsParam_OUT_Source);
+                    masterModel.LineChartData_OUT_Aproxy = chartData.GetLineChartData(chartsParam_default);
+                    masterModel.LineChartData_OUT_Tg = chartData.GetLineChartData(chartsParam_default);
+                    masterModel.LineChartData_OUT_Result = chartData.GetLineChartData(chartsParam_default);
+
+                    return View(masterModel);
+                }               
+            }
+
+            if (masterModel.ProcessType == "Выполнить анализ")
             {
                 // точки графика lineChartDataINSource
-                IImportData importData = new ImportData_();
-                List<Point> pointslist_IN_SOURCE = importData.ImportPoints(file); 
-                
-                int pointscount = pointslist_IN_SOURCE.Count;
+                var pointsdataIN = JsonConvert.DeserializeObject<List<double[]>>(HttpContext.Session.GetString("PointsDataIN"));
+                var pointsdataOUT = JsonConvert.DeserializeObject<List<double[]>>(HttpContext.Session.GetString("PointsDataOUT"));
 
-                List<double[]> pointsdata = new List<double[]>();
-
-                for (int point = 0; point < pointscount; point++)
-                {
-                    var date_time = Convert.ToDouble(pointslist_IN_SOURCE[point].Date);
-                    var parameter = Convert.ToDouble(pointslist_IN_SOURCE[point].Parameter);
-
-                    var pointChart = new double[] { date_time, parameter };
-                    pointsdata.Add(pointChart);
-                }
-
-                List<double[]> pointsdataOUT = new List<double[]>();
-
-                for (int point = 0; point < pointscount; point++)
-                {
-                    var date_time = Convert.ToDouble(pointslist_IN_SOURCE[point].Date);
-                    var parameter = Convert.ToDouble(pointslist_IN_SOURCE[point].ParameterOUT);
-
-                    var pointChart = new double[] { date_time, parameter };
-                    pointsdataOUT.Add(pointChart);
-                }
-
-
+                // ТОЧКИ ГРАФИКОВ
                 IMathFunc mathFunc = new MathFunc_();
 
-                // обработка точек по диапазону ограничений
-                List<double[]> limitpointsdata = new List<double[]>();
-                int k = 0;
+                // IN
+                List<double[]> pointsdataMovAverage_IN = mathFunc.MovAverageList(pointsdataIN, kMovAver_IN);
+                List<double[]> pointsdataDerF_IN = mathFunc.DerOfFuncList(pointsdataMovAverage_IN);
 
-                for (int i = 0; i < pointsdata.Count; i++)
+                // анализ точек входного сигнала
+                IPoint_handler point_Handler = new IPoint_handler_();
+
+                Analysis_result analysis_result_IN = mathFunc.FindPointList(pointsdataMovAverage_IN, pointsdataDerF_IN, startpoint, upperLimit_IN, lowerLimit_IN, timeLimit_IN, toleranceZone_K, true);
+                HttpContext.Session.SetString("Analysis_result_IN", JsonConvert.SerializeObject(analysis_result_IN));
+                List<double[]> pointsdataResult = point_Handler.GetPointsDataResult(analysis_result_IN._PointsStat, pointsdataMovAverage_IN);
+
+                // OUT
+                List<double[]> pointsdataMovAverage_OUT = mathFunc.MovAverageList(pointsdataOUT, kMovAver_OUT);
+                List<double[]> pointsdataDerF_OUT = mathFunc.DerOfFuncList(pointsdataMovAverage_OUT);
+
+                // анализ точек выходного сигнала
+                Analysis_result analysis_result_OUT = mathFunc.FindPointList(pointsdataMovAverage_OUT, pointsdataDerF_OUT, startpoint, upperLimit_OUT, lowerLimit_OUT, timeLimit_OUT, toleranceZone_K, false);
+                HttpContext.Session.SetString("Analysis_result_OUT", JsonConvert.SerializeObject(analysis_result_OUT));
+                List<double[]> pointsdataResult_OUT = point_Handler.GetPointsDataResult(analysis_result_OUT._PointsStat, pointsdataMovAverage_OUT);
+
+                // зоны графика для получения переходных характеристик
+                List<Dchar_Zone> newZones = mathFunc.GetDchar_ZonesState(analysis_result_IN, analysis_result_OUT);
+                List<PointStat> pointStats = new List<PointStat>();
+                
+                int kMoving = Convert.ToInt32(kMovAver_IN * 0.78);
+
+                foreach (var item in analysis_result_IN._PointsStat)
                 {
-                    if (pointsdata[i][1] > lowerLimit_IN && pointsdata[i][1] < upperLimit_IN)
+                    if (item.IsEndOfSteadyState == true)
                     {
-                        limitpointsdata.Add(new double []{ k, pointsdata[i][1] });
-                        k++;
-                    }                        
-                }
-
-                List<double[]> limitpointsdataOUT = new List<double[]>();
-                int s = 0;
-
-                for (int i = 0; i < pointsdataOUT.Count; i++)
-                {
-                    if (pointsdataOUT[i][1] > lowerLimit_OUT && pointsdataOUT[i][1] < upperLimit_OUT)
+                        pointStats.Add(new PointStat(item.PointIndex + kMoving, item.PointValue, item.IsWP, item.IsEndOfSteadyState));
+                    }
+                    else
                     {
-                        limitpointsdataOUT.Add(new double[] { s, pointsdataOUT[i][1] });
-                        s++;
+                        pointStats.Add(new PointStat(item.PointIndex, item.PointValue, item.IsWP, item.IsEndOfSteadyState));
                     }
                 }
 
-                // точки графиков
-                List<double[]> pointsdataMovAverage = mathFunc.MovAverageList(limitpointsdata, kMovAver_IN); // pointsdata
-                List<double[]> pointsdataTg = mathFunc.DerOfFuncList(pointsdataMovAverage);
+                List<Dchar_Zone> dchar_ZonesSource_Result = new List<Dchar_Zone>();
 
-                ChartZones chartZones = mathFunc.FindPointList(pointsdataMovAverage, pointsdataTg, startpoint_IN, upperLimit_IN, lowerLimit_IN, timeLimit_IN);
-                List<int> pointsFind = chartZones.pointFindAll;
-                List<double[]> pointsdataResult = new List<double[]>();
-
-                for (int j = 0; j < pointsFind.Count; j++)
+                foreach (var item in analysis_result_IN._Dchar_Zones)
                 {
-                    for (int i = 0; i < pointsdataMovAverage.Count; i++)
-                    {
-                        if (pointsFind[j] == i && pointsFind[j] != 0)
-                        {
-                            pointsdataResult.Add(pointsdataMovAverage[i]);
-                        }
-                    }
+                    dchar_ZonesSource_Result.Add(new Dchar_Zone(item.LeftPoint + kMoving, item.MiddlePoint, item.RightPoint + kMoving, item.StateZone));
                 }
 
-                List<double[]> pointsdataOUTMovAverage = mathFunc.MovAverageList(limitpointsdataOUT, kMovAver_OUT);
-                List<double[]> pointsdataOUTTg = mathFunc.DerOfFuncList(pointsdataOUTMovAverage);
-
-                ChartZones chartZones_OUT = mathFunc.FindPointList(pointsdataOUTMovAverage, pointsdataOUTTg, startpoint_OUT, upperLimit_OUT, lowerLimit_OUT, timeLimit_OUT);
-                List<int> pointsFind_OUT = chartZones_OUT.pointFindAll;
-                List<double[]> pointsdataResult_OUT = new List<double[]>();
-
-                for (int j = 0; j < pointsFind_OUT.Count; j++)
-                {
-                    for (int i = 0; i < pointsdataOUTMovAverage.Count; i++)
-                    {
-                        if (pointsFind_OUT[j] == i && pointsFind_OUT[j] != 0)
-                        {
-                            pointsdataResult_OUT.Add(pointsdataOUTMovAverage[i]);
-                        }
-                    }
-                }
-
-                // графики
-                string titleIN = "Тренд входной динамической характеристики теплоэнергетичеcкого оборудования";
-                string parameterIN = "parameterIN";
-                string seriesNameTP_IN = "Точки тренда входного сигнала";
-                string seriesNameTPAver_IN = "Точки сглаженных значений тренда входного сигнала";
-                string seriesNameTPTg_IN = "Точки производных графика трендов";
-                string seriesNameFP_IN = "Точки найденные";
-
-                string titleOUT = "Тренд выходной динамической характеристики теплоэнергетичеcкого оборудования";
-                string parameterOUT = "parameterOUT";
-                string seriesNameTP_OUT = "Точки тренда выходного сигнала";
-                string seriesNameTPAver_OUT = "Точки сглаженных значений тренда выходного сигнала";
-                string seriesNameTPTg_OUT = "Точки производных графика трендов";
-                string seriesNameFP_OUT = "Точки найденные";
-
-                string colorMain = "#4682B4"; //255, 99, 71
-                string colorFind = "rgba(255,99,71,.5)";
-
-                bool markerEnable = false;
-                bool markerEnable2 = true;
-
-                var plotlinesY_IN = new List<PlotLines> { new PlotLines("red", 4, 1), new PlotLines("red", 17, 1) };
-                var plotlinesY_OUT = new List<PlotLines> { new PlotLines("red", 293, 1), new PlotLines("red", 950, 1) };
-
-                // входной сигнал
+                // параметры графиков входного сигнала
                 IChartData chartData = new ChartData_();
 
-                masterModel.LineChartData_IN_Source = chartData.GetLineChartData(pointsdata, titleIN, parameterIN, seriesNameTP_IN, colorMain, markerEnable, null, null, plotlinesY_IN);
-                masterModel.LineChartData_IN_Aproxy = chartData.GetLineChartData(pointsdataMovAverage, titleIN, parameterIN, seriesNameTPAver_IN, colorMain, markerEnable, chartZones.plotbands, chartZones.plotlines, plotlinesY_IN);
-                masterModel.LineChartData_IN_Tg = chartData.GetLineChartData(pointsdataTg, titleIN, parameterIN, seriesNameTPTg_IN, colorMain, markerEnable, null, null, null);
-                masterModel.LineChartData_IN_Result = chartData.GetLineChartData(pointsdataResult, titleIN, parameterIN, seriesNameFP_IN, colorFind, markerEnable2, null, null, null);
+                var chartsParam_IN_Source = new List<LineChartData> {
+                    new ChartsParameters().LineChartData_IN_Source,
+                    new ChartsParameters().LineChartData_IN_Result,
+                };
+                chartsParam_IN_Source[0].pointsdata = pointsdataIN;
+                chartsParam_IN_Source[1].pointsdata = point_Handler.GetPointsDataResult(pointStats, pointsdataIN);
 
-                // выходной сигнал
-                masterModel.LineChartData_OUT_Source = chartData.GetLineChartData(pointsdataOUT, titleOUT, parameterOUT, seriesNameTP_OUT, colorMain, markerEnable, null, null, plotlinesY_OUT);
-                masterModel.LineChartData_OUT_Aproxy = chartData.GetLineChartData(pointsdataOUTMovAverage, titleOUT, parameterOUT, seriesNameTPAver_OUT, colorMain, markerEnable, chartZones_OUT.plotbands, chartZones_OUT.plotlines, plotlinesY_OUT);
-                masterModel.LineChartData_OUT_Tg = chartData.GetLineChartData(pointsdataOUTTg, titleOUT, parameterOUT, seriesNameTPTg_OUT, colorMain, markerEnable, null, null, null);
-                masterModel.LineChartData_OUT_Result = chartData.GetLineChartData(pointsdataResult_OUT, titleOUT, parameterOUT, seriesNameFP_OUT, colorFind, markerEnable2, null, null, null);
+                var chartsParam_IN_MovAver = new List<LineChartData> { 
+                    new ChartsParameters().LineChartData_IN_MovAver, 
+                    new ChartsParameters().LineChartData_IN_Result
+                    };
+
+                chartsParam_IN_MovAver[0].pointsdata = pointsdataMovAverage_IN;
+                chartsParam_IN_MovAver[0].plotBands = analysis_result_IN._Plotbands;
+                chartsParam_IN_MovAver[0].plotLinesX = analysis_result_IN._Plotlines;
+                chartsParam_IN_MovAver[0].plotLinesY = new List<PlotLines> { new PlotLines("red", upperLimit_IN, 1), new PlotLines("red", lowerLimit_IN, 1) };
+
+                chartsParam_IN_MovAver[1].pointsdata = pointsdataResult;
+
+                var chartsParam_IN_DerF = new List<LineChartData> { new ChartsParameters().LineChartData_IN_DerF };
+                chartsParam_IN_DerF[0].pointsdata = pointsdataDerF_IN;
+
+                //модели входного сигнала
+                masterModel.LineChartData_IN_Source = chartData.GetLineChartData(chartsParam_IN_Source);
+                masterModel.LineChartData_IN_Aproxy = chartData.GetLineChartData(chartsParam_IN_MovAver);
+                masterModel.LineChartData_IN_Tg = chartData.GetLineChartData(chartsParam_IN_DerF);
+
+                // параметры графиков выходного сигнала
+                var chartsParam_OUT_Source = new List<LineChartData> { 
+                    new ChartsParameters().LineChartData_OUT_Source 
+                };
+                chartsParam_OUT_Source[0].pointsdata = pointsdataOUT;
+
+                var chartsParam_OUT_MovAver = new List<LineChartData> { 
+                    new ChartsParameters().LineChartData_OUT_MovAver,
+                    new ChartsParameters().LineChartData_OUT_Result
+                };
+
+                chartsParam_OUT_MovAver[0].pointsdata = pointsdataMovAverage_OUT;
+                chartsParam_OUT_MovAver[0].plotLinesY = new List<PlotLines> { new PlotLines("red", upperLimit_OUT, 1), new PlotLines("red", lowerLimit_OUT, 1) };
+                chartsParam_OUT_MovAver[1].pointsdata = pointsdataResult_OUT;
+
+                var chartsParam_OUT_DerF = new List<LineChartData> { new ChartsParameters().LineChartData_OUT_DerF };
+                chartsParam_OUT_DerF[0].pointsdata = pointsdataDerF_OUT;
+
+                //модели выходного сигнала
+                masterModel.LineChartData_OUT_Source = chartData.GetLineChartData(chartsParam_OUT_Source);
+                masterModel.LineChartData_OUT_Aproxy = chartData.GetLineChartData(chartsParam_OUT_MovAver);
+                masterModel.LineChartData_OUT_Tg = chartData.GetLineChartData(chartsParam_OUT_DerF);
 
                 return View(masterModel);
             }
 
-            //if (masterModel.ProcessType == "Сохранить результаты")
+            if (masterModel.ProcessType == "Сохранить результаты")
+            {
+                var analysis_result_IN = JsonConvert.DeserializeObject<Analysis_result>(HttpContext.Session.GetString("Analysis_result_IN"));
+                var analysis_result_OUT = JsonConvert.DeserializeObject<Analysis_result>(HttpContext.Session.GetString("Analysis_result_OUT"));
+
+                //var trendPointViewModelList = new List<TrendPointViewModel>();
+
+                //var pointslist = ImportPoints(file);
+                //var pointscount = pointslist.Count;
+
+                //for (int point = 0; point < pointscount; point++)
+                //{
+                //    var trendPoint = new TrendPointViewModel
+                //    {
+
+                //        Date_time = Convert.ToDouble(pointslist[point].Date),
+                //        Parameter = Convert.ToDouble(pointslist[point].Parameter),
+
+                //        Trend = new Trend
+                //        {
+                //            T_ID_Station = model.Trend.T_ID_Station,
+                //            T_ID_Unit = model.Trend.T_ID_Unit
+                //        },
+
+                //        Trend_parameter = new Trend_parameter()
+                //        {
+                //            Trend_parameter_name = model.Trend.Trend_parameter.Trend_parameter_name,
+                //            TP_ID_Control_object = model.Trend.Trend_parameter.TP_ID_Control_object,
+                //            TP_ID_Signal_type = model.Trend.Trend_parameter.TP_ID_Signal_type,
+                //            TP_ID_Regulator = model.Trend.Trend_parameter.TP_ID_Regulator,
+                //            TP_ID_Trend_parameter_type = model.Trend.Trend_parameter.TP_ID_Trend_parameter_type,
+                //        }
+                //    };
+
+                //    trendPointViewModelList.Add(trendPoint);
+                //}
+
+                //_unitOfWork.TrendPoints.AddNewListTrendPoints(trendPointViewModelList);
+
+                //if (ModelState.IsValid)
+                //{
+                //    ModelState.Clear();
+                //    ViewBag.Issuccess = "Data Added";
+                //}
+
+                return View(masterModel);
+            }
+            //}
+            //catch (Exception ex)
             //{
+            //    return BadRequest(ex);
             //}
 
             return View();
