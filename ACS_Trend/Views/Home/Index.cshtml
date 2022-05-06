@@ -169,6 +169,11 @@
                     <input asp-for="K_Approxy_OUT" class="form-control" />
                     <span asp-validation-for="K_Approxy_OUT" class="text-danger"></span>
                 </div>
+                <div class="form-group">
+                    <label asp-for="K_Moving" class="control-label"></label>
+                    <input asp-for="K_Moving" class="form-control" />
+                    <span asp-validation-for="K_Moving" class="text-danger"></span>
+                </div>
             </div>
         </div>
         <p />
@@ -217,6 +222,15 @@
     </div>
 </div>
 <div style="width:100%; height:1px; clear:both;"></div>
+
+<div>
+    <figure class="highcharts-figure">
+        <div id="container_4"></div>
+        <p class="highcharts-description">
+            Переходные характеристики объекта управления
+        </p>
+    </figure>
+</div>
 
 <div>
     <hr />
@@ -439,6 +453,21 @@
         yAxis: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Tg.yAxis)),
         plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Tg.plotOptions)),
         series: @Html.Raw(Json.Serialize(Model.LineChartData_OUT_Tg.series))
+    });
+</script>
+
+<script>
+    Highcharts.chart('container_4', {
+        chart: {
+            type: 'line',
+            zoomType: 'x'
+        },
+        title: @Html.Raw(Json.Serialize(Model.LineChartData_TransCh.title)),
+        subtitle: @Html.Raw(Json.Serialize(Model.LineChartData_TransCh.subtitle)),
+        xAxis: @Html.Raw(Json.Serialize(Model.LineChartData_TransCh.xAxis)),
+        yAxis: @Html.Raw(Json.Serialize(Model.LineChartData_TransCh.yAxis)),
+        plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData_TransCh.plotOptions)),
+        series: @Html.Raw(Json.Serialize(Model.LineChartData_TransCh.series))
     });
 </script>
 

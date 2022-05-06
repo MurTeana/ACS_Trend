@@ -13,6 +13,7 @@ namespace ACS_Trend.Functions
         List<double[]> DerOfFuncList(List<double[]> pointsdata);
         Analysis_result FindPointList(List<double[]> pointsY_av, List<double[]> pointsY_av_Tg, int startPoint, double upLimit, double lowLimit, double timeLimit, double toleranceZone_K, bool isIN);
         public List<Dchar_Zone> GetDchar_ZonesState(Analysis_result analysis_Result_IN, Analysis_result analysis_Result_OUT);
+        public List<List<double[]>> GetTransCh(List<double[]> pointsIN, List<double[]> pointsOUT, List<Dchar_Zone> dchar_Zones);
     }
 
     public class MathFunc_ : IMathFunc
@@ -239,18 +240,6 @@ namespace ACS_Trend.Functions
 
                     pf++;
                 }
-                //else if(pf < pointStatistics.Count - 2 &&
-                //    pointStatistics[pf].IsWP != true &&
-                //    pointStatistics[pf + 1].IsWP != true &&
-                //    pointStatistics[pf + 2].IsWP != false)
-                //{
-                //    leftLine = pointStatistics[pf].PointIndex + 1;
-                //    rightLine = pointStatistics[pf + 1].PointIndex + 1;
-
-                //    plotBands.Add(new PlotBands("rgba(107,201,91,.5)", leftLine, rightLine));
-
-                //    //dchar_Zones.Add(new Dchar_Zone(leftLine - 1, 0, rightLine - 1, false));
-                //}
 
                 pf++;
             }
@@ -333,8 +322,6 @@ namespace ACS_Trend.Functions
 
             return new_Zones;
         }
-
-
         private double MaxABSVal( List<double[]> pointsY_av_Tg, int startPoint)
         {
             int countParam = pointsY_av_Tg.Count; //pointsY_av_Tg.Count;
@@ -354,6 +341,29 @@ namespace ACS_Trend.Functions
             double maxABSVal = maxminVal.Max();
 
             return maxABSVal;
+        }
+
+        public List<List<double[]>> GetTransCh(List<double[]> pointsIN, List<double[]> pointsOUT, List<Dchar_Zone> dchar_Zones)
+        {
+            List<List<double[]>> transCharacteristics = new List<List<double[]>>();
+            
+            foreach (var item in dchar_Zones)
+            {
+                List<double[]> transpoints = new List<double[]>();
+
+                var left = item.LeftPoint;
+                var right = item.RightPoint;
+                var delta = pointsIN[right][1] - pointsIN[left][1];
+
+                for (int i = left; i < right; i++)
+                {
+                    transpoints.Add(new double[] {i - left, ((pointsOUT[i][1] - pointsOUT[left][1] ) / delta ) });
+                }
+
+                transCharacteristics.Add(transpoints);
+            }
+
+            return transCharacteristics;
         }
 
         private bool SignOfDerY(List<double> helperval)

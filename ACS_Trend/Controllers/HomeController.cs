@@ -51,6 +51,8 @@ namespace ACS_Trend.Controllers
             masterModel.LineChartData_OUT_Tg = chartData.GetLineChartData(chartsParam_default);
             masterModel.LineChartData_OUT_Result = chartData.GetLineChartData(chartsParam_default);
 
+            masterModel.LineChartData_TransCh = chartData.GetLineChartData(chartsParam_default);
+
             return View(masterModel);
         }
 
@@ -105,6 +107,8 @@ namespace ACS_Trend.Controllers
                     masterModel.LineChartData_OUT_Tg = chartData.GetLineChartData(chartsParam_default);
                     masterModel.LineChartData_OUT_Result = chartData.GetLineChartData(chartsParam_default);
 
+                    masterModel.LineChartData_TransCh = chartData.GetLineChartData(chartsParam_default);
+
                     ViewBag.Temp = "Файл не выбран! Для проведения анализа выберите  файл!";
 
                     return View(masterModel);
@@ -150,6 +154,8 @@ namespace ACS_Trend.Controllers
                     masterModel.LineChartData_OUT_Tg = chartData.GetLineChartData(chartsParam_default);
                     masterModel.LineChartData_OUT_Result = chartData.GetLineChartData(chartsParam_default);
 
+                    masterModel.LineChartData_TransCh = chartData.GetLineChartData(chartsParam_default);
+
                     return View(masterModel);
                 }               
             }
@@ -183,17 +189,17 @@ namespace ACS_Trend.Controllers
                 HttpContext.Session.SetString("Analysis_result_OUT", JsonConvert.SerializeObject(analysis_result_OUT));
                 List<double[]> pointsdataResult_OUT = point_Handler.GetPointsDataResult(analysis_result_OUT._PointsStat, pointsdataMovAverage_OUT);
 
-                // зоны графика для получения переходных характеристик
-                List<Dchar_Zone> newZones = mathFunc.GetDchar_ZonesState(analysis_result_IN, analysis_result_OUT);
+                // зоны графика для получения переходных характеристик СМЕЩЕНИЕ
                 List<PointStat> pointStats = new List<PointStat>();
-                
-                int kMoving = Convert.ToInt32(kMovAver_IN * 0.78);
+                double k_Moving = masterModel.K_Moving;
+
+                int kMovingPoints = Convert.ToInt32(kMovAver_IN * k_Moving);
 
                 foreach (var item in analysis_result_IN._PointsStat)
                 {
                     if (item.IsEndOfSteadyState == true)
                     {
-                        pointStats.Add(new PointStat(item.PointIndex + kMoving, item.PointValue, item.IsWP, item.IsEndOfSteadyState));
+                        pointStats.Add(new PointStat(item.PointIndex + kMovingPoints, item.PointValue, item.IsWP, item.IsEndOfSteadyState));
                     }
                     else
                     {
@@ -205,8 +211,22 @@ namespace ACS_Trend.Controllers
 
                 foreach (var item in analysis_result_IN._Dchar_Zones)
                 {
-                    dchar_ZonesSource_Result.Add(new Dchar_Zone(item.LeftPoint + kMoving, item.MiddlePoint, item.RightPoint + kMoving, item.StateZone));
+                    dchar_ZonesSource_Result.Add(new Dchar_Zone(item.LeftPoint + kMovingPoints, item.MiddlePoint, item.RightPoint + kMovingPoints, item.StateZone));
                 }
+
+                // получение переходных характеристик
+                List<List<double[]>> transCharacteristics = mathFunc.GetTransCh(pointsdataIN, pointsdataOUT, dchar_ZonesSource_Result);
+
+                var chartsParam_TransCh = new List<LineChartData>();
+
+                foreach (var item in transCharacteristics)
+                {
+                    var chartsParameters = new ChartsParameters().LineChartData_IN_Source;
+                    chartsParameters.pointsdata = item;
+                    chartsParam_TransCh.Add(chartsParameters);
+                }
+
+                HttpContext.Session.SetString("СhartsParam_TransCh", JsonConvert.SerializeObject(chartsParam_TransCh));
 
                 // параметры графиков входного сигнала
                 IChartData chartData = new ChartData_();
@@ -227,7 +247,6 @@ namespace ACS_Trend.Controllers
                 chartsParam_IN_MovAver[0].plotBands = analysis_result_IN._Plotbands;
                 chartsParam_IN_MovAver[0].plotLinesX = analysis_result_IN._Plotlines;
                 chartsParam_IN_MovAver[0].plotLinesY = new List<PlotLines> { new PlotLines("red", upperLimit_IN, 1), new PlotLines("red", lowerLimit_IN, 1) };
-
                 chartsParam_IN_MovAver[1].pointsdata = pointsdataResult;
 
                 var chartsParam_IN_DerF = new List<LineChartData> { new ChartsParameters().LineChartData_IN_DerF };
@@ -261,13 +280,20 @@ namespace ACS_Trend.Controllers
                 masterModel.LineChartData_OUT_Aproxy = chartData.GetLineChartData(chartsParam_OUT_MovAver);
                 masterModel.LineChartData_OUT_Tg = chartData.GetLineChartData(chartsParam_OUT_DerF);
 
+                masterModel.LineChartData_TransCh = chartData.GetLineChartData(chartsParam_TransCh);
+
+                HttpContext.Session.SetString("MasterModel", JsonConvert.SerializeObject(masterModel));
+
                 return View(masterModel);
             }
 
             if (masterModel.ProcessType == "Сохранить результаты")
             {
+                var masterModel_ = JsonConvert.DeserializeObject<HomeIndexViewModel>(HttpContext.Session.GetString("MasterModel"));
+
                 var analysis_result_IN = JsonConvert.DeserializeObject<Analysis_result>(HttpContext.Session.GetString("Analysis_result_IN"));
                 var analysis_result_OUT = JsonConvert.DeserializeObject<Analysis_result>(HttpContext.Session.GetString("Analysis_result_OUT"));
+                var chartsParam_TransCh = JsonConvert.DeserializeObject<List<LineChartData>> (HttpContext.Session.GetString("СhartsParam_TransCh"));
 
                 //var trendPointViewModelList = new List<TrendPointViewModel>();
 
@@ -309,7 +335,7 @@ namespace ACS_Trend.Controllers
                 //    ViewBag.Issuccess = "Data Added";
                 //}
 
-                return View(masterModel);
+                return View(masterModel_);
             }
             //}
             //catch (Exception ex)
