@@ -17,6 +17,6 @@ namespace ACS_Trend.Domain.Entities
         public string Unit_name { get; set; }
 
         [Display(Name = "Тренды")]
-        public virtual ICollection<Trend> Trend { get; set; }
+        public virtual ICollection<Trend> Trends { get; set; }
     }
 }

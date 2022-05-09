@@ -123,6 +123,11 @@
                     <span asp-validation-for="StartPoint" class="text-danger"></span>
                 </div>
                 <div class="form-group">
+                    <label asp-for="ToleranceZone_K_IN" class="control-label"></label>
+                    <input asp-for="ToleranceZone_K_IN" class="form-control" />
+                    <span asp-validation-for="ToleranceZone_K_IN" class="text-danger"></span>
+                </div>
+                <div class="form-group">
                     <label asp-for="UpperLimit_IN" class="control-label"></label>
                     <input asp-for="UpperLimit_IN" class="form-control" />
                     <span asp-validation-for="UpperLimit_IN" class="text-danger"></span>
@@ -145,9 +150,14 @@
             </div>
             <div id="val_block">
                 <div class="form-group">
-                    <label asp-for="ToleranceZone_K" class="control-label"></label>
-                    <input asp-for="ToleranceZone_K" class="form-control" />
-                    <span asp-validation-for="ToleranceZone_K" class="text-danger"></span>
+                    <label asp-for="K_Moving" class="control-label"></label>
+                    <input asp-for="K_Moving" class="form-control" />
+                    <span asp-validation-for="K_Moving" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ToleranceZone_K_OUT" class="control-label"></label>
+                    <input asp-for="ToleranceZone_K_OUT" class="form-control" />
+                    <span asp-validation-for="ToleranceZone_K_OUT" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="UpperLimit_OUT" class="control-label"></label>
@@ -168,11 +178,6 @@
                     <label asp-for="K_Approxy_OUT" class="control-label"></label>
                     <input asp-for="K_Approxy_OUT" class="form-control" />
                     <span asp-validation-for="K_Approxy_OUT" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="K_Moving" class="control-label"></label>
-                    <input asp-for="K_Moving" class="form-control" />
-                    <span asp-validation-for="K_Moving" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -221,59 +226,77 @@
         </figure>
     </div>
 </div>
+
+<div id="mainline_block">
+    <div id="line_block">
+        <figure class="highcharts-figure">
+            <div id="container_4"></div>
+            <p class="highcharts-description">
+                Переходные характеристики объекта управления
+            </p>
+        </figure>
+    </div>
+</div>
+
 <div style="width:100%; height:1px; clear:both;"></div>
 
-<div>
-    <figure class="highcharts-figure">
-        <div id="container_4"></div>
-        <p class="highcharts-description">
-            Переходные характеристики объекта управления
-        </p>
-    </figure>
-</div>
 
 <div>
     <hr />
     <form asp-controller="Home" asp-action="Index" method="post" enctype="multipart/form-data">
         <p />
+        <h5>
+            Параметры сохранения в базу данных
+        </h5>
         <div id="main_val_block" class="form-group">
             <div id="val_block">
+                <p class="highcharts-description">
+                    Общие параметры трендов
+                </p>
                 <div class="form-group">
-                    <label asp-for="TrendPointViewModel_.Trend.T_ID_Station" class="control-label"></label>
-                    @Html.DropDownList("TrendPointViewModel_.Trend.T_ID_Station", ViewBag.Stations as SelectList, htmlAttributes: new { @class = "form-control" })
-                    <span asp-validation-for="TrendPointViewModel_.Trend.T_ID_Station" class="text-danger"></span>
+                    <label asp-for="Transient_characteristicPointViewModel_.TrendIN.T_ID_Station" class="control-label"></label>
+                    @Html.DropDownList("Transient_characteristicPointViewModel_.TrendIN.T_ID_Station", ViewBag.Stations as SelectList, htmlAttributes: new { @class = "form-control" })
+                    <span asp-validation-for="Transient_characteristicPointViewModel_.TrendIN.T_ID_Station" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="TrendPointViewModel_.Trend.Trend_parameter.Trend_parameter_name" class="control-label"></label>
-                    @Html.DropDownList("TrendPointViewModel_.Trend.Trend_parameter.Trend_parameter_name", ViewBag.Trend_parameters as SelectList, htmlAttributes: new { @class = "form-control" })
-                    <span asp-validation-for="TrendPointViewModel_.Trend.Trend_parameter.Trend_parameter_name" class="text-danger"></span>
+                    <label asp-for="Transient_characteristicPointViewModel_.TrendIN.Trend_parameter.TP_ID_Control_object" class="control-label"></label>
+                    @Html.DropDownList("Transient_characteristicPointViewModel_.TrendIN.Trend_parameter.TP_ID_Control_object", ViewBag.Control_objects as SelectList, htmlAttributes: new { @class = "form-control" })
+                    <span asp-validation-for="Transient_characteristicPointViewModel_.TrendIN.Trend_parameter.TP_ID_Control_object" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Regulator" class="control-label"></label>
-                    @Html.DropDownList("TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Regulator", ViewBag.Regulators as SelectList, htmlAttributes: new { @class = "form-control" })
-                    <span asp-validation-for="TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Regulator" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Signal_type" class="control-label"></label>
-                    @Html.DropDownList("TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Signal_type", ViewBag.Signal_types as SelectList, htmlAttributes: new { @class = "form-control" })
-                    <span asp-validation-for="TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Signal_type" class="text-danger"></span>
+                    <label asp-for="Transient_characteristicPointViewModel_.TrendIN.Trend_parameter.TP_ID_Regulator" class="control-label"></label>
+                    @Html.DropDownList("Transient_characteristicPointViewModel_.TrendIN.Trend_parameter.TP_ID_Regulator", ViewBag.Regulators as SelectList, htmlAttributes: new { @class = "form-control" })
+                    <span asp-validation-for="Transient_characteristicPointViewModel_.TrendIN.Trend_parameter.TP_ID_Regulator" class="text-danger"></span>
                 </div>
             </div>
             <div id="val_block">
+                <p class="highcharts-description">
+                    Параметры тренда входного сигнала
+                </p>
                 <div class="form-group">
-                    <label asp-for="TrendPointViewModel_.Trend.T_ID_Unit" class="control-label"></label>
-                    @Html.DropDownList("TrendPointViewModel_.Trend.T_ID_Unit", ViewBag.Units as SelectList, htmlAttributes: new { @class = "form-control" })
-                    <span asp-validation-for="TrendPointViewModel_.Trend.T_ID_Unit" class="text-danger"></span>
+                    <label asp-for="Transient_characteristicPointViewModel_.TrendIN.Trend_parameter.Trend_parameter_name" class="control-label"></label>
+                    @Html.DropDownList("Transient_characteristicPointViewModel_.TrendIN.Trend_parameter.Trend_parameter_name", ViewBag.Trend_parameters as SelectList, htmlAttributes: new { @class = "form-control" })
+                    <span asp-validation-for="Transient_characteristicPointViewModel_.TrendIN.Trend_parameter.Trend_parameter_name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Control_object" class="control-label"></label>
-                    @Html.DropDownList("TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Control_object", ViewBag.Control_objects as SelectList, htmlAttributes: new { @class = "form-control" })
-                    <span asp-validation-for="TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Control_object" class="text-danger"></span>
+                    <label asp-for="Transient_characteristicPointViewModel_.TrendIN.T_ID_Unit" class="control-label"></label>
+                    @Html.DropDownList("Transient_characteristicPointViewModel_.TrendIN.T_ID_Unit", ViewBag.Units as SelectList, htmlAttributes: new { @class = "form-control" })
+                    <span asp-validation-for="Transient_characteristicPointViewModel_.TrendIN.T_ID_Unit" class="text-danger"></span>
+                </div>
+            </div>
+            <div id="val_block">
+                <p class="highcharts-description">
+                    Параметры тренда выходного сигнала
+                </p>
+                <div class="form-group">
+                    <label asp-for="Transient_characteristicPointViewModel_.TrendOUT.Trend_parameter.Trend_parameter_name" class="control-label"></label>
+                    @Html.DropDownList("Transient_characteristicPointViewModel_.TrendOUT.Trend_parameter.Trend_parameter_name", ViewBag.Trend_parameters as SelectList, htmlAttributes: new { @class = "form-control" })
+                    <span asp-validation-for="Transient_characteristicPointViewModel_.TrendOUT.Trend_parameter.Trend_parameter_name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Trend_parameter_type" class="control-label"></label>
-                    @Html.DropDownList("Trend.Trend_parameter.TP_ID_Trend_parameter_type", ViewBag.Trend_parameter_types as SelectList, htmlAttributes: new { @class = "form-control" })
-                    <span asp-validation-for="TrendPointViewModel_.Trend.Trend_parameter.TP_ID_Trend_parameter_type" class="text-danger"></span>
+                    <label asp-for="Transient_characteristicPointViewModel_.TrendOUT.T_ID_Unit" class="control-label"></label>
+                    @Html.DropDownList("Transient_characteristicPointViewModel_.TrendOUT.T_ID_Unit", ViewBag.Units as SelectList, htmlAttributes: new { @class = "form-control" })
+                    <span asp-validation-for="Transient_characteristicPointViewModel_.TrendOUT.T_ID_Unit" class="text-danger"></span>
                 </div>
             </div>
         </div>

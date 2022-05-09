@@ -16,7 +16,6 @@ namespace ACS_Trend.DataAccess.EFCore.UnitOfWorks
             Station_types = new Station_typeRepository(_context);
             Stations = new StationRepository(_context);
             Transient_characteristics = new Transient_characteristicRepository(_context);
-            Trend_parameter_types = new Trend_parameter_typeRepository(_context);
             Trend_parameters = new Trend_parameterRepository(_context);
             TrendPoints = new TrendPointRepository(_context);
             Trends = new TrendRepository(_context);
@@ -29,7 +28,6 @@ namespace ACS_Trend.DataAccess.EFCore.UnitOfWorks
         public IStation_typeRepository Station_types { get; private set; }
         public IStationRepository Stations { get; private set; }
         public ITransient_characteristicRepository Transient_characteristics { get; private set; }
-        public ITrend_parameter_typeRepository Trend_parameter_types { get; private set; }
         public ITrend_parameterRepository Trend_parameters { get; private set; }
         public ITrendPointRepository TrendPoints { get; private set; }
         public ITrendRepository Trends { get; private set; }

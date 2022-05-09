@@ -30,9 +30,8 @@ namespace ACS_Trend.Domain.Entities
         public int TP_ID_Regulator { get; set; }
 
 
-        public virtual ICollection<Trend> Trend { get; set; }
-        [Display(Name = "Тип параметра тренда")]
-        public virtual Trend_parameter_type Trend_parameter_type { get; set; }
+        public virtual ICollection<Trend> Trends { get; set; }
+
         [Display(Name = "Объект управления")]
         public virtual Control_object Control_object { get; set; }
         [Display(Name = "Тип сигнала")]

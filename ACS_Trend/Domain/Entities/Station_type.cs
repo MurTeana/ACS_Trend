@@ -17,6 +17,6 @@ namespace ACS_Trend.Domain.Entities
         public string Station_type_name { get; set; }
 
         [Display(Name = "Станции")]
-        public virtual ICollection<Station> Station { get; set; }
+        public virtual ICollection<Station> Stations { get; set; }
     }
 }

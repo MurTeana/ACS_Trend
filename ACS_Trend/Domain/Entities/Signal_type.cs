@@ -17,7 +17,7 @@ namespace ACS_Trend.Domain.Entities
         public string Signal_type_name { get; set; }
 
         [Display(Name = "Параметры трендов")]
-        public virtual ICollection<Trend_parameter> Trend_parameter { get; set; }
+        public virtual ICollection<Trend_parameter> Trend_parameters { get; set; }
 
     }
 

@@ -31,7 +31,6 @@ namespace ACS_Trend.Controllers
             ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
             ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
             ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
-            ViewBag.Trend_parameter_types = new SelectList(_unitOfWork.Trend_parameter_types.GetAllTrend_parameter_types(), "ID_Trend_parameter_type", "Trend_parameter_type_name");
 
             var masterModel = new HomeIndexViewModel();
 
@@ -69,14 +68,14 @@ namespace ACS_Trend.Controllers
             ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
             ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
             ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
-            ViewBag.Trend_parameter_types = new SelectList(_unitOfWork.Trend_parameter_types.GetAllTrend_parameter_types(), "ID_Trend_parameter_type", "Trend_parameter_type_name");
 
             // параметры анализа
             int kMovAver_IN = masterModel.K_Approxy_IN;
             int kMovAver_OUT = masterModel.K_Approxy_IN;
 
             int startpoint = masterModel.StartPoint;
-            double toleranceZone_K = masterModel.ToleranceZone_K;
+            double toleranceZone_K_IN = masterModel.ToleranceZone_K_IN;
+            double toleranceZone_K_OUT = masterModel.ToleranceZone_K_OUT;
 
             // Зона ограничений поиска по точкам      
             double upperLimit_IN = masterModel.UpperLimit_IN;
@@ -176,7 +175,7 @@ namespace ACS_Trend.Controllers
                 // анализ точек входного сигнала
                 IPoint_handler point_Handler = new IPoint_handler_();
 
-                Analysis_result analysis_result_IN = mathFunc.FindPointList(pointsdataMovAverage_IN, pointsdataDerF_IN, startpoint, upperLimit_IN, lowerLimit_IN, timeLimit_IN, toleranceZone_K, true);
+                Analysis_result analysis_result_IN = mathFunc.FindPointList(pointsdataMovAverage_IN, pointsdataDerF_IN, startpoint, upperLimit_IN, lowerLimit_IN, timeLimit_IN, toleranceZone_K_IN, true);
                 HttpContext.Session.SetString("Analysis_result_IN", JsonConvert.SerializeObject(analysis_result_IN));
                 List<double[]> pointsdataResult = point_Handler.GetPointsDataResult(analysis_result_IN._PointsStat, pointsdataMovAverage_IN);
 
@@ -185,7 +184,7 @@ namespace ACS_Trend.Controllers
                 List<double[]> pointsdataDerF_OUT = mathFunc.DerOfFuncList(pointsdataMovAverage_OUT);
 
                 // анализ точек выходного сигнала
-                Analysis_result analysis_result_OUT = mathFunc.FindPointList(pointsdataMovAverage_OUT, pointsdataDerF_OUT, startpoint, upperLimit_OUT, lowerLimit_OUT, timeLimit_OUT, toleranceZone_K, false);
+                Analysis_result analysis_result_OUT = mathFunc.FindPointList(pointsdataMovAverage_OUT, pointsdataDerF_OUT, startpoint, upperLimit_OUT, lowerLimit_OUT, timeLimit_OUT, toleranceZone_K_OUT, false);
                 HttpContext.Session.SetString("Analysis_result_OUT", JsonConvert.SerializeObject(analysis_result_OUT));
                 List<double[]> pointsdataResult_OUT = point_Handler.GetPointsDataResult(analysis_result_OUT._PointsStat, pointsdataMovAverage_OUT);
 

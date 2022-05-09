@@ -25,7 +25,7 @@ namespace ACS_Trend.Domain.Entities
         [Display(Name = "Тип объекта управления")]
         public virtual Control_object_type Control_object_type { get; set; }
         [Display(Name = "Параметры трендов")]
-        public virtual ICollection<Trend_parameter> Trend_parameter { get; set; }
+        public virtual ICollection<Trend_parameter> Trend_parameters { get; set; }
 
     }
 }

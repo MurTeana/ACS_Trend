@@ -16,14 +16,14 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
         {
             Transient_characteristic tch = new Transient_characteristic()
             {
-                Date_time = model.Date_time,
-                Parameter = model.Parameter
+                //Date_time = model.Date_time,
+                //Parameter = model.Parameter
             };
 
             if (model.Trend != null)
             {
                 var id = model.Trend.ID_Trend;
-                tch.TCH_ID_Trend = id;
+                //tch.TCH_ID_Trend = id;
             }
 
             _context.Transient_characteristics.Add(tch);
@@ -52,8 +52,8 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
                 .Select(x => new Transient_characteristicViewModel()
                 {
                     ID_Transient_characteristic = x.ID_Transient_characteristic,
-                    Date_time = x.Date_time,
-                    Parameter = x.Parameter
+                    //Date_time = x.Date_time,
+                    //Parameter = x.Parameter
                 }).ToList();
 
             return result;
@@ -66,8 +66,8 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
                 .Select(x => new Transient_characteristicViewModel()
                 {
                     ID_Transient_characteristic = x.ID_Transient_characteristic,
-                    Date_time = x.Date_time,
-                    Parameter = x.Parameter
+                    //Date_time = x.Date_time,
+                    //Parameter = x.Parameter
                 }).FirstOrDefault();
 
             return result;
@@ -79,8 +79,8 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
 
             if (Transient_characteristic != null)
             {
-                Transient_characteristic.Date_time = model.Date_time;
-                Transient_characteristic.Parameter = model.Parameter;
+                //Transient_characteristic.Date_time = model.Date_time;
+                //Transient_characteristic.Parameter = model.Parameter;
             }
 
             _context.SaveChanges();

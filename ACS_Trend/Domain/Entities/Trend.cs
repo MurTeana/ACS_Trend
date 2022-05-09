@@ -8,6 +8,8 @@ namespace ACS_Trend.Domain.Entities
     {
         public Trend()
         {
+            Trend_Transient_characteristics = new List<Trend_Transient_characteristic>();
+            TrendPoints = new List<TrendPoint>();
         }
 
         [Required]
@@ -25,8 +27,8 @@ namespace ACS_Trend.Domain.Entities
         public int T_ID_Unit { get; set; }
 
 
-        public virtual ICollection<TrendPoint> TrendPoint { get; set; }
-        public virtual ICollection<Transient_characteristic> Transient_characteristic { get; set; }
+        public virtual ICollection<TrendPoint> TrendPoints { get; set; }
+        public virtual ICollection<Trend_Transient_characteristic> Trend_Transient_characteristics { get; set; }
         public virtual Station Station { get; set; }
         public virtual Trend_parameter Trend_parameter { get; set; }
         public virtual Unit Unit { get; set; }

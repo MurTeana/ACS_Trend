@@ -17,6 +17,6 @@ namespace ACS_Trend.Domain.Entities
         public string Control_object_type_name { get; set; }
 
         [Display(Name = "Объект управления")]
-        public virtual ICollection<Control_object> Control_object { get; set; }
+        public virtual ICollection<Control_object> Control_objects { get; set; }
     }
 }

@@ -18,23 +18,23 @@ namespace ACS_Trend.Models
 
         //
         public TrendPointViewModel TrendPointViewModel_ { get; set; }
+        public Transient_characteristicPointViewModel Transient_characteristicPointViewModel_ { get; set; }
 
         // дополнительные параметры кнопок
         public string ProcessType { get; set; }
 
         // дополнительные параметры для анализа
 
-        [Display(Name = "Коэффициент сглаживания графика тренда входного сигнала")]
-        public int K_Approxy_IN { get; set; } = 40;
-
-        [Display(Name = "Коэффициент сглаживания графика тренда выходного сигнала")]
-        public int K_Approxy_OUT { get; set; } = 40;
-
-        [Display(Name = "Точка старта графика тренда входного сигнала")]
+        [Display(Name = "Точка старта")]
         public int StartPoint { get; set; } = 1843;
+        [Display(Name = "Коэффициент смещения")]
+        public double K_Moving { get; set; } = 0.8;
 
-        [Display(Name = "Параметр зоны нечувствительности")]
-        public double ToleranceZone_K { get; set; } = 0.015; 
+        [Display(Name = "Параметр зоны нечувствительности графика тренда входного сигнала")]
+        public double ToleranceZone_K_IN { get; set; } = 0.015;
+
+        [Display(Name = "Параметр зоны нечувствительности графика тренда выходного сигнала")]
+        public double ToleranceZone_K_OUT { get; set; } = 0.015;
 
         [Display(Name = "Верхнее ограничение точек тренда входного сигнала")]
         public double UpperLimit_IN { get; set; } = 17;
@@ -53,8 +53,13 @@ namespace ACS_Trend.Models
 
         [Display(Name = "Ограничение по времени тренда выходного сигнала")]
         public int TimeLimit_OUT { get; set; } = 50;
+        [Display(Name = "Коэффициент сглаживания графика тренда входного сигнала")]
+        public int K_Approxy_IN { get; set; } = 40;
 
-        [Display(Name = "Коэффициент смещения")]
-        public double K_Moving { get; set; } = 0.8;
+        [Display(Name = "Коэффициент сглаживания графика тренда выходного сигнала")]
+        public int K_Approxy_OUT { get; set; } = 40;
+
+
+
     }
 }

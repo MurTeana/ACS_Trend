@@ -28,6 +28,6 @@ namespace ACS_Trend.Domain.Entities
         [Display(Name = "Тип станции")]
         public virtual Station_type Station_type { get; set; }
         [Display(Name = "Тренды")]
-        public virtual ICollection<Trend> Trend { get; set; }
+        public virtual ICollection<Trend> Trends { get; set; }
     }
 }

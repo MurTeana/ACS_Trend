@@ -21,8 +21,9 @@ namespace ACS_Trend.DataAccess.EFCore
         public DbSet<Transient_characteristic> Transient_characteristics { get; set; }
         public DbSet<Trend> Trends { get; set; }
         public DbSet<Trend_parameter> Trend_parameters { get; set; }
-        public DbSet<Trend_parameter_type> Trend_parameter_types { get; set; }
         public DbSet<TrendPoint> TrendPoints { get; set; }
+        public DbSet<Transient_characteristicPoint> Transient_characteristicPoints { get; set; }
+        public DbSet<Trend_Transient_characteristic> Trend_Transient_characteristics { get; set; }
         public DbSet<Unit> Units { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,7 +32,7 @@ namespace ACS_Trend.DataAccess.EFCore
             modelBuilder
                 .Entity<Station>()
                 .HasOne(u => u.Station_type)
-                .WithMany(p => p.Station)
+                .WithMany(p => p.Stations)
                 .HasForeignKey(p => p.ST_ID_Station_type);
 
             // STATION DATA
@@ -77,7 +78,7 @@ namespace ACS_Trend.DataAccess.EFCore
             modelBuilder
                 .Entity<Control_object>()
                 .HasOne(u => u.Control_object_type)
-                .WithMany(p => p.Control_object)
+                .WithMany(p => p.Control_objects)
                 .HasForeignKey(p => p.CO_ID_Control_object_type);
 
             // CONTROL_OBJECT DATA
@@ -105,20 +106,43 @@ namespace ACS_Trend.DataAccess.EFCore
             modelBuilder
                 .Entity<Trend>()
                 .HasOne(u => u.Station)
-                .WithMany(p => p.Trend)
+                .WithMany(p => p.Trends)
                 .HasForeignKey(p => p.T_ID_Station);
 
             modelBuilder
                 .Entity<Trend>()
                 .HasOne(u => u.Trend_parameter)
-                .WithMany(p => p.Trend)
+                .WithMany(p => p.Trends)
                 .HasForeignKey(p => p.T_ID_Trend_parameter);
 
             modelBuilder
                 .Entity<Trend>()
                 .HasOne(u => u.Unit)
-                .WithMany(p => p.Trend)
+                .WithMany(p => p.Trends)
                 .HasForeignKey(p => p.T_ID_Unit);
+
+            modelBuilder
+                .Entity<Trend>()
+                .HasMany(u => u.Trend_Transient_characteristics);
+
+            modelBuilder
+                .Entity<Transient_characteristic>()
+                .HasMany(u => u.Trend_Transient_characteristics);
+
+            // Trend_Transient_characteristic
+
+            modelBuilder.Entity<Trend_Transient_characteristic>()
+                .HasKey(t => new { t.TTCH_ID_Trend, t.TTCH_ID_Transient_characteristic });
+
+            modelBuilder.Entity<Trend_Transient_characteristic>()
+                .HasOne(ttrc => ttrc.Trend)
+                .WithMany(tch => tch.Trend_Transient_characteristics)
+                .HasForeignKey(ttrc => ttrc.TTCH_ID_Trend);
+
+            modelBuilder.Entity<Trend_Transient_characteristic>()
+                .HasOne(ttrc => ttrc.Transient_characteristic)
+                .WithMany(tr => tr.Trend_Transient_characteristics)
+                .HasForeignKey(ttrc => ttrc.TTCH_ID_Transient_characteristic);
 
             // TREND DATA
             modelBuilder
@@ -134,23 +158,18 @@ namespace ACS_Trend.DataAccess.EFCore
             modelBuilder
                 .Entity<Trend_parameter>()
                 .HasOne(u => u.Control_object)
-                .WithMany(p => p.Trend_parameter)
+                .WithMany(p => p.Trend_parameters)
                 .HasForeignKey(p => p.TP_ID_Control_object);
             modelBuilder
                 .Entity<Trend_parameter>()
                 .HasOne(u => u.Regulator)
-                .WithMany(p => p.Trend_parameter)
+                .WithMany(p => p.Trend_parameters)
                 .HasForeignKey(p => p.TP_ID_Regulator);
             modelBuilder
                 .Entity<Trend_parameter>()
                 .HasOne(u => u.Signal_type)
-                .WithMany(p => p.Trend_parameter)
+                .WithMany(p => p.Trend_parameters)
                 .HasForeignKey(p => p.TP_ID_Signal_type);
-            modelBuilder
-                .Entity<Trend_parameter>()
-                .HasOne(u => u.Trend_parameter_type)
-                .WithMany(p => p.Trend_parameter)
-                .HasForeignKey(p => p.TP_ID_Trend_parameter_type);
 
             // TREND_PARAMETER DATA
             modelBuilder
@@ -182,16 +201,6 @@ namespace ACS_Trend.DataAccess.EFCore
                 new Signal_type { ID_Signal_type = 2, Signal_type_name = "выходной сигнал"},
                 });
 
-            // TREND_PARAMETER_TYPE DATA
-            modelBuilder
-                .Entity<Trend_parameter_type>()
-                .HasData(
-                new Trend_parameter_type[]
-                {
-                new Trend_parameter_type { ID_Trend_parameter_type = 1, Trend_parameter_type_name = "Trend_parameter_type_name"},
-                new Trend_parameter_type { ID_Trend_parameter_type = 2, Trend_parameter_type_name = "Trend_parameter_type_name"},
-                });
-
             // UNIT
             //
             // UNIT DATA
@@ -204,11 +213,18 @@ namespace ACS_Trend.DataAccess.EFCore
                 new Unit { ID_Unit = 2, Unit_name = "м.куб."},
                 });
 
+            // TRANSIENTCHARACTERISTICPOINT
+            modelBuilder
+                .Entity<Transient_characteristicPoint>()
+                .HasOne(u => u.Transient_characteristic)
+                .WithMany(p => p.Transient_characteristicPoints)
+                .HasForeignKey(p => p.TPCHP_ID_Transient_characteristic);
+
             // TRENDPOINT
             modelBuilder
                 .Entity<TrendPoint>()
                 .HasOne(u => u.Trend)
-                .WithMany(p => p.TrendPoint)
+                .WithMany(p => p.TrendPoints)
                 .HasForeignKey(p => p.TP_ID_Trend);
             // TRENDPOINTDATA
             modelBuilder

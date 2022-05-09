@@ -17,6 +17,6 @@ namespace ACS_Trend.Domain.Entities
         public string Regulator_name { get; set; }
 
         [Display(Name = "Параметры тренда")]
-        public virtual ICollection<Trend_parameter> Trend_parameter { get; set; }
+        public virtual ICollection<Trend_parameter> Trend_parameters { get; set; }
     }
 }

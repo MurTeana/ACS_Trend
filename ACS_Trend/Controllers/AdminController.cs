@@ -407,66 +407,6 @@ namespace ACS_Trend.Controllers
             return RedirectToAction("STATION_TYPES_GetAll");
         }
 
-        // 10 - TREND_PARAMETER_TYPES
-        public ActionResult TREND_PARAMETER_TYPES_Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult TREND_PARAMETER_TYPES_Create(Trend_parameter_type model)
-        {
-            _unitOfWork.Trend_parameter_types.AddNewTrend_parameter_type(model);
-
-            if (ModelState.IsValid)
-            {
-                ModelState.Clear();
-                ViewBag.Issuccess = "Data Added";
-            }
-
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult TREND_PARAMETER_TYPES_GetAll()
-        {
-            var result = _unitOfWork.Trend_parameter_types.GetAllTrend_parameter_types();
-            return View(result);
-        }
-
-        [HttpGet]
-        public ActionResult TREND_PARAMETER_TYPES_Details(int id)
-        {
-            var result = _unitOfWork.Trend_parameter_types.GetTrend_parameter_type(id);
-            return View(result);
-        }
-
-        public ActionResult TREND_PARAMETER_TYPES_Edit(int id)
-        {
-            var result = _unitOfWork.Trend_parameter_types.GetTrend_parameter_type(id);
-            return View(result);
-        }
-
-        [HttpPost]
-        public ActionResult TREND_PARAMETER_TYPES_Edit(Trend_parameter_type model)
-        {
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Trend_parameter_types.UpdateTrend_parameter_type(model.ID_Trend_parameter_type, model);
-
-                return RedirectToAction("TREND_PARAMETER_TYPES_GetAll");
-            }
-
-            return View();
-        }
-
-        public ActionResult TREND_PARAMETER_TYPES_Delete(int id)
-        {
-            _unitOfWork.Trend_parameter_types.DeleteTrend_parameter_type(id);
-
-            return RedirectToAction("TREND_PARAMETER_TYPES_GetAll");
-        }
-
         // 11 - TREND_POINTS
         public List<Point> ImportPoints(IFormFile file)
         {
@@ -505,7 +445,6 @@ namespace ACS_Trend.Controllers
             ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
             ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
             ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
-            ViewBag.Trend_parameter_types = new SelectList(_unitOfWork.Trend_parameter_types.GetAllTrend_parameter_types(), "ID_Trend_parameter_type", "Trend_parameter_type_name");
 
             return View();
         }
@@ -520,7 +459,6 @@ namespace ACS_Trend.Controllers
             ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
             ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
             ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
-            ViewBag.Trend_parameter_types = new SelectList(_unitOfWork.Trend_parameter_types.GetAllTrend_parameter_types(), "ID_Trend_parameter_type", "Trend_parameter_type_name");
 
             var trendPointViewModelList = new List<TrendPointViewModel>();
 
@@ -582,7 +520,6 @@ namespace ACS_Trend.Controllers
             ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
             ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
             ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
-            ViewBag.Trend_parameter_types = new SelectList(_unitOfWork.Trend_parameter_types.GetAllTrend_parameter_types(), "ID_Trend_parameter_type", "Trend_parameter_type_name");
 
             var result = _unitOfWork.TrendPoints.GetAllTrendPoints();
 
@@ -601,7 +538,6 @@ namespace ACS_Trend.Controllers
             ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
             ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
             ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
-            ViewBag.Trend_parameter_types = new SelectList(_unitOfWork.Trend_parameter_types.GetAllTrend_parameter_types(), "ID_Trend_parameter_type", "Trend_parameter_type_name");
 
             //trend_parameterID = 1;
             var result = _unitOfWork.TrendPoints.GetListTrendPoints(stationID, trend_parameterID);
