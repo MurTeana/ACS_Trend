@@ -48,6 +48,7 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
                     Control_object_name = x.Control_object_name,
                     Extend_information = x.Extend_information,
                     CO_ID_Control_object_type = x.CO_ID_Control_object_type,
+                    Control_object_type = x.Control_object_type
                 }).ToList();
 
             return result;
@@ -60,7 +61,10 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
                 .Select(x => new Control_object()
                 {
                     ID_Control_object = x.ID_Control_object,
-                    Control_object_name = x.Control_object_name
+                    Control_object_name = x.Control_object_name,
+                    Extend_information = x.Extend_information,
+                    CO_ID_Control_object_type = x.CO_ID_Control_object_type,
+                    Control_object_type = x.Control_object_type
                 }).FirstOrDefault();
 
             return result;
@@ -73,6 +77,8 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             if (Control_object != null)
             {
                 Control_object.Control_object_name = model.Control_object_name;
+                Control_object.Extend_information= model.Extend_information;
+                Control_object.CO_ID_Control_object_type = model.CO_ID_Control_object_type;
             }
 
             _context.SaveChanges();

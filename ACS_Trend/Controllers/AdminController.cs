@@ -23,15 +23,15 @@ namespace ACS_Trend.Controllers
         {
             List<EntityDB> entitiesList = new List<EntityDB>
             {
-                new EntityDB {Id = 1, Entity = "Типы объектов управления (Control_object_types)", Method = "CONTROL_OBJECT_TYPES_GetAll" },
-                new EntityDB {Id = 2, Entity = "Объекты управления (Control_objects)", Method = "CONTROL_OBJECTS_GetAll" },
-                new EntityDB {Id = 3, Entity = "Регуляторы (Regulators)", Method = "REGULATORS_GetAll" },
-                new EntityDB {Id = 4, Entity = "Типы сигналов тренда (Signal_types)", Method = "SIGNAL_TYPES_GetAll" },
-                new EntityDB {Id = 5, Entity = "Станции (Stations)", Method = "STATIONS_GetAll" },
-                new EntityDB {Id = 6, Entity = "Типы станций (Station_types)", Method = "STATION_TYPES_GetAll" },
-                new EntityDB {Id = 10, Entity = "Типы параметра тренда (Trend_parameter_types)", Method = "TREND_PARAMETER_TYPES_GetAll" },
-                new EntityDB {Id = 11, Entity = "Точки тренда (TrendPoints)", Method = "TREND_POINTS_GetAll" },
-                new EntityDB {Id = 12, Entity = "Единицы измерения (Units)", Method = "UNITS_GetAll" },                
+                new EntityDB {Id = 1, Entity = "Станции (Stations)", Method = "STATIONS_GetAll" },
+                new EntityDB {Id = 2, Entity = "Типы станций (Station_types)", Method = "STATION_TYPES_GetAll" },
+                new EntityDB {Id = 3, Entity = "Объекты управления (Control_objects)", Method = "CONTROL_OBJECTS_GetAll" },
+                new EntityDB {Id = 4, Entity = "Типы объектов управления (Control_object_types)", Method = "CONTROL_OBJECT_TYPES_GetAll" },
+                new EntityDB {Id = 5, Entity = "Регуляторы (Regulators)", Method = "REGULATORS_GetAll" },
+                new EntityDB {Id = 6, Entity = "Типы сигналов тренда (Signal_types)", Method = "SIGNAL_TYPES_GetAll" },
+                new EntityDB {Id = 8, Entity = "Наименования параметров трендов (Trend_parameter_names)", Method = "TREND_PARAMETER_NAMES_GetAll" },
+                new EntityDB {Id = 9, Entity = "Единицы измерения (Units)", Method = "UNITS_GetAll" },                   
+                //new EntityDB {Id = 11, Entity = "Точки тренда (TrendPoints)", Method = "TREND_POINTS_GetAll" },            
             };
 
             ViewBag.EntitiesList = entitiesList;
@@ -139,6 +139,8 @@ namespace ACS_Trend.Controllers
 
         public ActionResult CONTROL_OBJECTS_Edit(int id)
         {
+            ViewBag.Control_object_types = new SelectList(_unitOfWork.Control_object_types.GetAllControl_object_types(), "ID_Control_object_type", "Control_object_type_name");
+
             var result = _unitOfWork.Control_objects.GetControl_object(id);
             return View(result);
         }
@@ -150,7 +152,7 @@ namespace ACS_Trend.Controllers
             {
                 _unitOfWork.Control_objects.UpdateControl_object(model.ID_Control_object, model);
 
-                return RedirectToAction("CONTROL_OBJECT_TYPES_GetAll");
+                return RedirectToAction("CONTROL_OBJECTS_GetAll");
             }
 
             return View();
@@ -323,6 +325,8 @@ namespace ACS_Trend.Controllers
 
         public ActionResult STATIONS_Edit(int id)
         {
+            ViewBag.Station_Types = new SelectList(_unitOfWork.Station_types.GetAllStation_types(), "ID_Station_type", "Station_type_name");
+
             var result = _unitOfWork.Stations.GetStation(id);
             return View(result);
         }
@@ -407,91 +411,16 @@ namespace ACS_Trend.Controllers
             return RedirectToAction("STATION_TYPES_GetAll");
         }
 
-        // 11 - TREND_POINTS
-        public List<Point> ImportPoints(IFormFile file)
+        // 3 - TREND_PARAMETER_NAMES
+        public ActionResult TREND_PARAMETER_NAMES_Create()
         {
-            var pointslist = new List<Point>();
-
-            using (var stream = new MemoryStream())
-            {
-                file.CopyTo(stream);
-
-                using (var package = new ExcelPackage(stream))
-                {
-                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
-                    var rowcount = worksheet.Dimension.Rows;
-
-                    for (int row = 2; row < rowcount; row++)
-                    {
-                        pointslist.Add(new Point
-                        {
-                            Date = worksheet.Cells[row, 1].Value.ToString().Trim(),
-                            Parameter = worksheet.Cells[row, 2].Value.ToString().Trim()
-                        });
-                    }
-                }
-            }
-
-            return pointslist;
-        }
-
-        public ActionResult TREND_POINTS_Create()
-        {
-            ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
-            ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
-            ViewBag.Trend_parameters = new SelectList(_unitOfWork.Trend_parameters.GetAllTrend_parameters(), "Trend_parameter_name", "Trend_parameter_name");
-            
-            ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
-            ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
-            ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
-
             return View();
         }
 
         [HttpPost]
-        public ActionResult TREND_POINTS_Create(TrendPointViewModel model, IFormFile file)
+        public ActionResult TREND_PARAMETER_NAMES_Create(Trend_parameter_name model)
         {
-            ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
-            ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
-            ViewBag.Trend_parameters = new SelectList(_unitOfWork.Trend_parameters.GetAllTrend_parameters(), "Trend_parameter_name", "Trend_parameter_name");
-
-            ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
-            ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
-            ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
-
-            var trendPointViewModelList = new List<TrendPointViewModel>();
-
-            var pointslist = ImportPoints(file);
-            var pointscount = pointslist.Count;
-
-            for (int point = 0; point < pointscount; point++)
-            {
-                var trendPoint = new TrendPointViewModel { 
-
-                    Date_time = Convert.ToDouble(pointslist[point].Date),
-                    Parameter = Convert.ToDouble(pointslist[point].Parameter),
-
-                    Trend = new Trend
-                    {
-                        T_ID_Station = model.Trend.T_ID_Station,
-                        T_ID_Unit = model.Trend.T_ID_Unit
-                    },
-
-                    Trend_parameter = new Trend_parameter()
-                    {
-                        Trend_parameter_name = model.Trend.Trend_parameter.Trend_parameter_name,
-                        TP_ID_Control_object = model.Trend.Trend_parameter.TP_ID_Control_object,
-                        TP_ID_Signal_type = model.Trend.Trend_parameter.TP_ID_Signal_type,
-                        TP_ID_Regulator = model.Trend.Trend_parameter.TP_ID_Regulator,
-                        TP_ID_Trend_parameter_type = model.Trend.Trend_parameter.TP_ID_Trend_parameter_type,
-                    }                                               
-                };
- 
-                trendPointViewModelList.Add(trendPoint);
-            }
-
-            _unitOfWork.TrendPoints.AddNewListTrendPoints(trendPointViewModelList);
+            _unitOfWork.Trend_parameter_names.AddNewTrend_parameter_name(model);
 
             if (ModelState.IsValid)
             {
@@ -503,78 +432,106 @@ namespace ACS_Trend.Controllers
         }
 
         [HttpGet]
-        public ActionResult TREND_POINTS_GetAll()
+        public ActionResult TREND_PARAMETER_NAMES_GetAll()
         {
-            var result = _unitOfWork.TrendPoints.GetAllTrendPoints();
-            return View(result);
-        }
-
-        public ActionResult TREND_POINTS_ByTrendID(TrendPointViewModel model)
-        {
-            ViewBag.Trends = new SelectList(_unitOfWork.Trends.GetAllTrends(), "ID_Trend", "T_ID_Station");
-
-            ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
-            ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
-            ViewBag.Trend_parameters = new SelectList(_unitOfWork.Trend_parameters.GetAllTrend_parameters(), "ID_Trend_parameter", "Trend_parameter_name");
-
-            ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
-            ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
-            ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
-
-            var result = _unitOfWork.TrendPoints.GetAllTrendPoints();
-
-            return View(result);
-        }
-
-        [HttpPost]
-        public ActionResult TREND_POINTS_ByTrendID(TrendPointViewModel model, int stationID, int trend_parameterID)
-        {
-            ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
-            ViewBag.Trend_parameters = new SelectList(_unitOfWork.Trend_parameters.GetAllTrend_parameters(), "ID_Trend_parameter", "Trend_parameter_name");
-
-            //ViewBag.Trends = new SelectList(_unitOfWork.Trends.GetAllTrends(), "ID_Trend", "T_ID_Station");
-            //ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
-
-            ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
-            ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
-            ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
-
-            //trend_parameterID = 1;
-            var result = _unitOfWork.TrendPoints.GetListTrendPoints(stationID, trend_parameterID);
+            var result = _unitOfWork.Trend_parameter_names.GetAllTrend_parameter_names();
             return View(result);
         }
 
         [HttpGet]
-        public ActionResult TREND_POINTS_Details(int id)
+        public ActionResult TREND_PARAMETER_NAMES_Details(int id)
         {
-            var result = _unitOfWork.TrendPoints.GetTrendPoint(id);
+            var result = _unitOfWork.Trend_parameter_names.GetTrend_parameter_name(id);
             return View(result);
         }
 
-        public ActionResult TREND_POINTS_Edit(int id)
+        public ActionResult TREND_PARAMETER_NAMES_Edit(int id)
         {
-            var result = _unitOfWork.TrendPoints.GetTrendPoint(id);
+            var result = _unitOfWork.Trend_parameter_names.GetTrend_parameter_name(id);
             return View(result);
         }
 
         [HttpPost]
-        public ActionResult TREND_POINTS_Edit(TrendPointViewModel model)
+        public ActionResult TREND_PARAMETER_NAMES_Edit(Trend_parameter_name model)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.TrendPoints.UpdateTrendPoint(model.ID_TrendPoint, model);
+                _unitOfWork.Trend_parameter_names.UpdateTrend_parameter_name(model.ID_Trend_parameter_name, model);
 
-                return RedirectToAction("UNITS_GetAll");
+                return RedirectToAction("TREND_PARAMETER_NAMES_GetAll");
             }
 
             return View();
         }
 
-        public ActionResult TREND_POINTS_Delete(int id)
+        public ActionResult TREND_PARAMETER_NAMES_Delete(int id)
         {
-            _unitOfWork.TrendPoints.DeleteTrendPoint(id);
+            _unitOfWork.Trend_parameter_names.DeleteTrend_parameter_name(id);
 
-            return RedirectToAction("TREND_POINTS_GetAll");
+            return RedirectToAction("TREND_PARAMETER_NAMES_GetAll");
+        }
+
+
+
+
+        // 7 - TRANSIENT_CHARACTERISTICPOINTS
+        public ActionResult TRANSIENT_CHARACTERISTICPOINTS_Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult TRANSIENT_CHARACTERISTICPOINTS_Create(Transient_characteristicPoint model)
+        {
+            //_unitOfWork.Transient_characteristicPoints.AddNewTransient_characteristicPoint(model);
+
+            if (ModelState.IsValid)
+            {
+                ModelState.Clear();
+                ViewBag.Issuccess = "Data Added";
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult TRANSIENT_CHARACTERISTICPOINTS_GetAll()
+        {
+            var result = _unitOfWork.Transient_characteristicPoints.GetAllTransient_characteristicPoints();
+            return View(result);
+        }
+
+        [HttpGet]
+        public ActionResult TRANSIENT_CHARACTERISTICPOINTS_Details(int id)
+        {
+            var result = _unitOfWork.Transient_characteristicPoints.GetTransient_characteristicPoint(id);
+            return View(result);
+        }
+
+        public ActionResult TRANSIENT_CHARACTERISTICPOINTS_Edit(int id)
+        {
+            var result = _unitOfWork.Transient_characteristicPoints.GetTransient_characteristicPoint(id);
+            return View(result);
+        }
+
+        [HttpPost]
+        public ActionResult TRANSIENT_CHARACTERISTICPOINTS_Edit(Transient_characteristicPoint model)
+        {
+            if (ModelState.IsValid)
+            {
+                //_unitOfWork.Transient_characteristicPoints.UpdateTransient_characteristicPoint(model.ID_Transient_characteristicPoint, model);
+
+                return RedirectToAction("TRANSIENT_CHARACTERISTICPOINTS_GetAll");
+            }
+
+            return View();
+        }
+
+        public ActionResult TRANSIENT_CHARACTERISTICPOINTS_Delete(int id)
+        {
+            _unitOfWork.Transient_characteristicPoints.DeleteTransient_characteristicPoint(id);
+
+            return RedirectToAction("TRANSIENT_CHARACTERISTICPOINTS_GetAll");
         }
 
         // 12 - UNITS
@@ -636,5 +593,170 @@ namespace ACS_Trend.Controllers
 
             return RedirectToAction("UNITS_GetAll");
         }
+
+        //// 11 - TREND_POINTS
+        //public List<Point> ImportPoints(IFormFile file)
+        //{
+        //    var pointslist = new List<Point>();
+
+        //    using (var stream = new MemoryStream())
+        //    {
+        //        file.CopyTo(stream);
+
+        //        using (var package = new ExcelPackage(stream))
+        //        {
+        //            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+        //            ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+        //            var rowcount = worksheet.Dimension.Rows;
+
+        //            for (int row = 2; row < rowcount; row++)
+        //            {
+        //                pointslist.Add(new Point
+        //                {
+        //                    Date = worksheet.Cells[row, 1].Value.ToString().Trim(),
+        //                    Parameter = worksheet.Cells[row, 2].Value.ToString().Trim()
+        //                });
+        //            }
+        //        }
+        //    }
+
+        //    return pointslist;
+        //}
+
+        //public ActionResult TREND_POINTS_Create()
+        //{
+        //    ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
+        //    ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
+        //    ViewBag.Trend_parameters = null;// new SelectList(_unitOfWork.Trend_parameters.GetAllTrend_parameters(), "Trend_parameter_name", "Trend_parameter_name");
+
+        //    ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
+        //    ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
+        //    ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
+
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //public ActionResult TREND_POINTS_Create(TrendPointViewModel model, IFormFile file)
+        //{
+        //    ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
+        //    ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
+        //    ViewBag.Trend_parameters = null;// new SelectList(_unitOfWork.Trend_parameters.GetAllTrend_parameters(), "Trend_parameter_name", "Trend_parameter_name");
+
+        //    ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
+        //    ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
+        //    ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
+
+        //    var trendPointViewModelList = new List<TrendPointViewModel>();
+
+        //    var pointslist = ImportPoints(file);
+        //    var pointscount = pointslist.Count;
+
+        //    for (int point = 0; point < pointscount; point++)
+        //    {
+        //        var trendPoint = new TrendPointViewModel { 
+
+        //            Date_time = Convert.ToDouble(pointslist[point].Date),
+        //            Parameter = Convert.ToDouble(pointslist[point].Parameter),
+
+        //            Trend = new Trend
+        //            {
+        //                T_ID_Station = model.Trend.T_ID_Station,
+        //                T_ID_Unit = model.Trend.T_ID_Unit,
+        //                T_ID_Trend_parameter_name = model.Trend.T_ID_Trend_parameter_name,
+        //                T_ID_Control_object = model.Trend.T_ID_Control_object,
+        //                T_ID_Signal_type = model.Trend.T_ID_Signal_type,
+        //                T_ID_Regulator = model.Trend.T_ID_Regulator,
+        //            }                                            
+        //        };
+
+        //        trendPointViewModelList.Add(trendPoint);
+        //    }
+
+        //    //_unitOfWork.TrendPoints.AddNewListTrendPoints(trendPointViewModelList);
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        ModelState.Clear();
+        //        ViewBag.Issuccess = "Data Added";
+        //    }
+
+        //    return View();
+        //}
+
+        //[HttpGet]
+        //public ActionResult TREND_POINTS_GetAll()
+        //{
+        //    var result = _unitOfWork.TrendPoints.GetAllTrendPoints();
+        //    return View(result);
+        //}
+
+        //public ActionResult TREND_POINTS_ByTrendID(TrendPointViewModel model)
+        //{
+        //    ViewBag.Trends = new SelectList(_unitOfWork.Trends.GetAllTrends(), "ID_Trend", "T_ID_Station");
+
+        //    ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
+        //    ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
+        //    ViewBag.Trend_parameters = null;// new SelectList(_unitOfWork.Trend_parameters.GetAllTrend_parameters(), "ID_Trend_parameter", "Trend_parameter_name");
+
+        //    ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
+        //    ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
+        //    ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
+
+        //    var result = _unitOfWork.TrendPoints.GetAllTrendPoints();
+
+        //    return View(result);
+        //}
+
+        //[HttpPost]
+        //public ActionResult TREND_POINTS_ByTrendID(TrendPointViewModel model, int stationID, int trend_parameterID)
+        //{
+        //    ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
+        //    ViewBag.Trend_parameters = null;// new SelectList(_unitOfWork.Trend_parameters.GetAllTrend_parameters(), "ID_Trend_parameter", "Trend_parameter_name");
+
+        //    //ViewBag.Trends = new SelectList(_unitOfWork.Trends.GetAllTrends(), "ID_Trend", "T_ID_Station");
+        //    //ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
+
+        //    ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
+        //    ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
+        //    ViewBag.Regulators = new SelectList(_unitOfWork.Regulators.GetAllRegulators(), "ID_Regulator", "Regulator_name");
+
+        //    //trend_parameterID = 1;
+        //    var result = _unitOfWork.TrendPoints.GetListTrendPoints(stationID, trend_parameterID);
+        //    return View(result);
+        //}
+
+        //[HttpGet]
+        //public ActionResult TREND_POINTS_Details(int id)
+        //{
+        //    var result = _unitOfWork.TrendPoints.GetTrendPoint(id);
+        //    return View(result);
+        //}
+
+        //public ActionResult TREND_POINTS_Edit(int id)
+        //{
+        //    var result = _unitOfWork.TrendPoints.GetTrendPoint(id);
+        //    return View(result);
+        //}
+
+        //[HttpPost]
+        //public ActionResult TREND_POINTS_Edit(TrendPointViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _unitOfWork.TrendPoints.UpdateTrendPoint(model.ID_TrendPoint, model);
+
+        //        return RedirectToAction("UNITS_GetAll");
+        //    }
+
+        //    return View();
+        //}
+
+        //public ActionResult TREND_POINTS_Delete(int id)
+        //{
+        //    _unitOfWork.TrendPoints.DeleteTrendPoint(id);
+
+        //    return RedirectToAction("TREND_POINTS_GetAll");
+        //}
     }
 }

@@ -4,7 +4,7 @@
     ViewData["Title"] = "STATIONS_GetAll";
 }
 
-<h1>STATIONS_GetAll</h1>
+<h1>Станции</h1>
 
 <p>
     <a asp-action="STATIONS_Create">Create New</a>
@@ -16,7 +16,7 @@
                 @Html.DisplayNameFor(model => model.Station_name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ST_ID_Station_type)
+                @Html.DisplayNameFor(model => model.Station_type.Station_type_name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ElectricalPower)
@@ -34,7 +34,7 @@
                 @Html.DisplayFor(modelItem => item.Station_name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ST_ID_Station_type)
+                @Html.DisplayFor(modelItem => item.Station_type.Station_type_name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ElectricalPower)

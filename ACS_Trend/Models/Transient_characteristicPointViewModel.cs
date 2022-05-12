@@ -24,8 +24,8 @@ namespace ACS_Trend.Models
         public Trend TrendOUT { get; set; }
 
         // ТОЧКИ
-        public List<TrendPoint> pointsIN { get; set; }
-        public List<TrendPoint> pointsOUT { get; set; }
-        public List<Transient_characteristicPoint> trCharpoints  { get; set; } 
+        public List<double[]> pointsIN { get; set; }
+        public List<double[]> pointsOUT { get; set; }
+        public List<List<double[]>> trCharListpoints  { get; set; } 
     }
 }

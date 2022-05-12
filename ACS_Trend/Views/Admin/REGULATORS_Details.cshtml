@@ -4,10 +4,9 @@
     ViewData["Title"] = "REGULATORS_Details";
 }
 
-<h1>REGULATORS_Details</h1>
+<h1>Регулятор</h1>
 
 <div>
-    <h4>RegulatorViewModel</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -19,6 +18,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID_Regulator">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="REGULATORS_Edit" asp-route-id="@Model.ID_Regulator">Edit</a> |
+    <a asp-action="REGULATORS_GetAll">Back to List</a>
 </div>

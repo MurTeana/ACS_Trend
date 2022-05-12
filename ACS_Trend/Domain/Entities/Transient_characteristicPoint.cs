@@ -5,8 +5,10 @@ namespace ACS_Trend.Domain.Entities
 {
     public class Transient_characteristicPoint
     {
-        public Transient_characteristicPoint()
+        public Transient_characteristicPoint(double date_time, double parameter)
         {
+            Date_time = date_time;
+            Parameter = parameter;
         }
 
         [Required]

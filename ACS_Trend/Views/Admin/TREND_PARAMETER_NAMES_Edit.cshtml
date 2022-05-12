@@ -1,0 +1,30 @@
+﻿@model ACS_Trend.Domain.Entities.Trend_parameter_name
+
+@{
+    ViewData["Title"] = "TREND_PARAMETER_NAMES_Edit";
+}
+
+<h1>Изменить наименование параметра</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="TREND_PARAMETER_NAMES_Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID_Trend_parameter_name" />
+            <div class="form-group">
+                <label asp-for="Trend_parameter_name_val" class="control-label"></label>
+                <input asp-for="Trend_parameter_name_val" class="form-control" />
+                <span asp-validation-for="Trend_parameter_name_val" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="TREND_PARAMETER_NAMES_GetAll">Back to List</a>
+</div>
+

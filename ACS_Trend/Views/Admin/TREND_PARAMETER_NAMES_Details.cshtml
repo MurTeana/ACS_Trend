@@ -1,0 +1,23 @@
+﻿@model ACS_Trend.Domain.Entities.Trend_parameter_name
+
+@{
+    ViewData["Title"] = "TREND_PARAMETER_NAMES_Details";
+}
+
+<h1>Наименование параметра тренда</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Trend_parameter_name_val)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Trend_parameter_name_val)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="TREND_PARAMETER_NAMES_Edit" asp-route-id="@Model.ID_Trend_parameter_name">Edit</a> |
+    <a asp-action="TREND_PARAMETER_NAMES_GetAll">Back to List</a>
+</div>

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ACS_Trend.Domain.Entities.Trend_parameter_name>
+
+@{
+    ViewData["Title"] = "TREND_PARAMETER_NAMES_GetAll";
+}
+
+<h1>Наименования параметров трендов</h1>
+
+<p>
+    <a asp-action="TREND_PARAMETER_NAMES_Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Trend_parameter_name_val)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trend_parameter_name_val)
+            </td>
+            <td>
+                <a asp-action="TREND_PARAMETER_NAMES_Edit" asp-route-id="@item.ID_Trend_parameter_name">Edit</a> |
+                <a asp-action="TREND_PARAMETER_NAMES_Details" asp-route-id="@item.ID_Trend_parameter_name">Details</a> |
+                <a asp-action="TREND_PARAMETER_NAMES_Delete" asp-route-id="@item.ID_Trend_parameter_name">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

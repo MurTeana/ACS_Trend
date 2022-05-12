@@ -20,7 +20,7 @@ namespace ACS_Trend.DataAccess.EFCore
         public DbSet<Station_type> Station_types { get; set; }
         public DbSet<Transient_characteristic> Transient_characteristics { get; set; }
         public DbSet<Trend> Trends { get; set; }
-        public DbSet<Trend_parameter> Trend_parameters { get; set; }
+        public DbSet<Trend_parameter_name> Trend_parameter_names { get; set; }
         public DbSet<TrendPoint> TrendPoints { get; set; }
         public DbSet<Transient_characteristicPoint> Transient_characteristicPoints { get; set; }
         public DbSet<Trend_Transient_characteristic> Trend_Transient_characteristics { get; set; }
@@ -101,6 +101,7 @@ namespace ACS_Trend.DataAccess.EFCore
                 new Control_object_type { ID_Control_object_type = 1, Control_object_type_name = "котел"},
                 new Control_object_type { ID_Control_object_type = 2, Control_object_type_name = "турбина"}
                 });
+            // TREND_PARAMETER NAME
 
             // TREND
             modelBuilder
@@ -111,15 +112,33 @@ namespace ACS_Trend.DataAccess.EFCore
 
             modelBuilder
                 .Entity<Trend>()
-                .HasOne(u => u.Trend_parameter)
+                .HasOne(u => u.Trend_parameter_name)
                 .WithMany(p => p.Trends)
-                .HasForeignKey(p => p.T_ID_Trend_parameter);
+                .HasForeignKey(p => p.T_ID_Trend_parameter_name);
 
             modelBuilder
                 .Entity<Trend>()
                 .HasOne(u => u.Unit)
                 .WithMany(p => p.Trends)
                 .HasForeignKey(p => p.T_ID_Unit);
+
+            modelBuilder
+                .Entity<Trend>()
+                .HasOne(u => u.Control_object)
+                .WithMany(p => p.Trends)
+                .HasForeignKey(p => p.T_ID_Control_object);
+
+            modelBuilder
+                .Entity<Trend>()
+                .HasOne(u => u.Regulator)
+                .WithMany(p => p.Trends)
+                .HasForeignKey(p => p.T_ID_Regulator);
+
+            modelBuilder
+                .Entity<Trend>()
+                .HasOne(u => u.Signal_type)
+                .WithMany(p => p.Trends)
+                .HasForeignKey(p => p.T_ID_Signal_type);
 
             modelBuilder
                 .Entity<Trend>()
@@ -145,40 +164,26 @@ namespace ACS_Trend.DataAccess.EFCore
                 .HasForeignKey(ttrc => ttrc.TTCH_ID_Transient_characteristic);
 
             // TREND DATA
-            modelBuilder
-                .Entity<Trend>()
-                .HasData(
-                new Trend[]
-                {
-                new Trend { ID_Trend = 1, T_ID_Station = 2, T_ID_Trend_parameter = 1, T_ID_Unit = 2},
-                new Trend { ID_Trend = 2, T_ID_Station = 1, T_ID_Trend_parameter = 1, T_ID_Unit = 1},
-                });
+            //modelBuilder
+            //    .Entity<Trend>()
+            //    .HasData(
+            //    new Trend[]
+            //    {
+            //    new Trend { ID_Trend = 1, T_ID_Station = 2, T_ID_Trend_parameter = 1, T_ID_Unit = 2},
+            //    new Trend { ID_Trend = 2, T_ID_Station = 1, T_ID_Trend_parameter = 1, T_ID_Unit = 1},
+            //    });
 
-            // TREND_PARAMETER
-            modelBuilder
-                .Entity<Trend_parameter>()
-                .HasOne(u => u.Control_object)
-                .WithMany(p => p.Trend_parameters)
-                .HasForeignKey(p => p.TP_ID_Control_object);
-            modelBuilder
-                .Entity<Trend_parameter>()
-                .HasOne(u => u.Regulator)
-                .WithMany(p => p.Trend_parameters)
-                .HasForeignKey(p => p.TP_ID_Regulator);
-            modelBuilder
-                .Entity<Trend_parameter>()
-                .HasOne(u => u.Signal_type)
-                .WithMany(p => p.Trend_parameters)
-                .HasForeignKey(p => p.TP_ID_Signal_type);
 
-            // TREND_PARAMETER DATA
+            // TREND_PARAMETER NAME DATA
             modelBuilder
-                .Entity<Trend_parameter>()
+                .Entity<Trend_parameter_name>()
                 .HasData(
-                new Trend_parameter[]
+                new Trend_parameter_name[]
                 {
-                new Trend_parameter { ID_Trend_parameter = 1, Trend_parameter_name = "расход пара", TP_ID_Trend_parameter_type = 1, TP_ID_Control_object = 1, TP_ID_Regulator = 1, TP_ID_Signal_type = 1 },
-                new Trend_parameter { ID_Trend_parameter = 2, Trend_parameter_name = "расход воды", TP_ID_Trend_parameter_type = 1, TP_ID_Control_object = 1, TP_ID_Regulator = 1, TP_ID_Signal_type = 1},
+                new Trend_parameter_name { ID_Trend_parameter_name = 1, Trend_parameter_name_val = "расход пара" },
+                new Trend_parameter_name { ID_Trend_parameter_name = 2, Trend_parameter_name_val = "расход воды"},
+                new Trend_parameter_name { ID_Trend_parameter_name = 3, Trend_parameter_name_val = "расход топлива"},
+                new Trend_parameter_name { ID_Trend_parameter_name = 4, Trend_parameter_name_val = "мощность"},
                 });
 
             // REGULATOR DATA
@@ -211,6 +216,8 @@ namespace ACS_Trend.DataAccess.EFCore
                 {
                 new Unit { ID_Unit = 1, Unit_name = "кг"},
                 new Unit { ID_Unit = 2, Unit_name = "м.куб."},
+                new Unit { ID_Unit = 3, Unit_name = "м.куб./ч"},
+                new Unit { ID_Unit = 4, Unit_name = "МВт"},
                 });
 
             // TRANSIENTCHARACTERISTICPOINT
@@ -226,21 +233,22 @@ namespace ACS_Trend.DataAccess.EFCore
                 .HasOne(u => u.Trend)
                 .WithMany(p => p.TrendPoints)
                 .HasForeignKey(p => p.TP_ID_Trend);
+
             // TRENDPOINTDATA
-            modelBuilder
-                .Entity<TrendPoint>()
-                .HasData(
-                new TrendPoint[]
-                {
-                    new TrendPoint { ID_TrendPoint = 1, Date_time = 1, Parameter = 2, TP_ID_Trend = 1},
-                    new TrendPoint { ID_TrendPoint = 2, Date_time = 2, Parameter = 4, TP_ID_Trend = 1},
-                    new TrendPoint { ID_TrendPoint = 3, Date_time = 3, Parameter = 8, TP_ID_Trend = 1},
-                    new TrendPoint { ID_TrendPoint = 4, Date_time = 4, Parameter = 12, TP_ID_Trend = 1},
-                    new TrendPoint { ID_TrendPoint = 5, Date_time = 4, Parameter = 12, TP_ID_Trend = 2},
-                    new TrendPoint { ID_TrendPoint = 6, Date_time = 4, Parameter = 12, TP_ID_Trend = 2},
-                    new TrendPoint { ID_TrendPoint = 7, Date_time = 4, Parameter = 12, TP_ID_Trend = 2},
-                    new TrendPoint { ID_TrendPoint = 8, Date_time = 4, Parameter = 12, TP_ID_Trend = 2},
-                });
+            //modelBuilder
+            //    .Entity<TrendPoint>()
+            //    .HasData(
+            //    new TrendPoint[]
+            //    {
+            //        new TrendPoint { ID_TrendPoint = 1, Date_time = 1, Parameter = 2, TP_ID_Trend = 1},
+            //        new TrendPoint { ID_TrendPoint = 2, Date_time = 2, Parameter = 4, TP_ID_Trend = 1},
+            //        new TrendPoint { ID_TrendPoint = 3, Date_time = 3, Parameter = 8, TP_ID_Trend = 1},
+            //        new TrendPoint { ID_TrendPoint = 4, Date_time = 4, Parameter = 12, TP_ID_Trend = 1},
+            //        new TrendPoint { ID_TrendPoint = 5, Date_time = 4, Parameter = 12, TP_ID_Trend = 2},
+            //        new TrendPoint { ID_TrendPoint = 6, Date_time = 4, Parameter = 12, TP_ID_Trend = 2},
+            //        new TrendPoint { ID_TrendPoint = 7, Date_time = 4, Parameter = 12, TP_ID_Trend = 2},
+            //        new TrendPoint { ID_TrendPoint = 8, Date_time = 4, Parameter = 12, TP_ID_Trend = 2},
+            //    });
 
             // В: Расход топлива - вх
             // Видимый расход пара

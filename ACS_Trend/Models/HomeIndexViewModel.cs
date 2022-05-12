@@ -28,7 +28,7 @@ namespace ACS_Trend.Models
         [Display(Name = "Точка старта")]
         public int StartPoint { get; set; } = 1843;
         [Display(Name = "Коэффициент смещения")]
-        public double K_Moving { get; set; } = 0.8;
+        public double K_Moving { get; set; } = 0.6;
 
         [Display(Name = "Параметр зоны нечувствительности графика тренда входного сигнала")]
         public double ToleranceZone_K_IN { get; set; } = 0.015;

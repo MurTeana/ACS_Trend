@@ -10,9 +10,8 @@ namespace ACS_Trend.Domain.Interfaces
         ISignal_typeRepository Signal_types { get; }
         IStation_typeRepository Station_types { get; }
         IStationRepository Stations { get; }
-        ITransient_characteristicRepository Transient_characteristics { get; }
-        ITrend_parameterRepository Trend_parameters { get; }
-        ITrendPointRepository TrendPoints { get; }
+        ITransient_characteristicPointRepository Transient_characteristicPoints { get; }
+        ITrend_parameter_nameRepository Trend_parameter_names { get; }
         ITrendRepository Trends { get; }
         IUnitRepository Units { get; }
 

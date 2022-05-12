@@ -42,12 +42,7 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
                     ST_ID_Station_type = x.ST_ID_Station_type,
                     ElectricalPower = x.ElectricalPower,
                     HeatPower = x.HeatPower,
-
-                    Station_type = new Station_type()
-                    {
-                        ID_Station_type = x.Station_type.ID_Station_type,
-                        Station_type_name = x.Station_type.Station_type_name
-                    }
+                    Station_type = x.Station_type
                 }).ToList();
 
             return result;
@@ -74,7 +69,11 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
                 .Select(x => new Station()
                 {
                     ID_Station = x.ID_Station,
-                    Station_name = x.Station_name
+                    Station_name = x.Station_name,
+                    ElectricalPower = x.ElectricalPower,
+                    HeatPower = x.HeatPower,
+                    ST_ID_Station_type = x.ST_ID_Station_type,
+                    Station_type = x.Station_type
                 }).FirstOrDefault();
 
             return result;
@@ -87,6 +86,7 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
             if (Station != null)
             {
                 Station.Station_name = model.Station_name;
+                Station.ST_ID_Station_type = model.ST_ID_Station_type;
             }
 
             _context.SaveChanges();

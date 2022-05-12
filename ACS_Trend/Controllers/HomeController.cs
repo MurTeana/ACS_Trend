@@ -26,7 +26,7 @@ namespace ACS_Trend.Controllers
             //БД
             ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
             ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
-            ViewBag.Trend_parameters = new SelectList(_unitOfWork.Trend_parameters.GetAllTrend_parameters(), "Trend_parameter_name", "Trend_parameter_name");
+            ViewBag.Trend_parameters = new SelectList(_unitOfWork.Trend_parameter_names.GetAllTrend_parameter_names(), "ID_Trend_parameter_name", "Trend_parameter_name_val");
 
             ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
             ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
@@ -63,7 +63,7 @@ namespace ACS_Trend.Controllers
             //БД ViewBag
             ViewBag.Stations = new SelectList(_unitOfWork.Stations.GetAllStations(), "ID_Station", "Station_name");
             ViewBag.Units = new SelectList(_unitOfWork.Units.GetAllUnits(), "ID_Unit", "Unit_name");
-            ViewBag.Trend_parameters = new SelectList(_unitOfWork.Trend_parameters.GetAllTrend_parameters(), "Trend_parameter_name", "Trend_parameter_name");
+            ViewBag.Trend_parameters = new SelectList(_unitOfWork.Trend_parameter_names.GetAllTrend_parameter_names(), "ID_Trend_parameter_name", "Trend_parameter_name_val");
 
             ViewBag.Control_objects = new SelectList(_unitOfWork.Control_objects.GetAllControl_objects(), "ID_Control_object", "Control_object_name");
             ViewBag.Signal_types = new SelectList(_unitOfWork.Signal_types.GetAllSignal_types(), "ID_Signal_type", "Signal_type_name");
@@ -215,18 +215,22 @@ namespace ACS_Trend.Controllers
 
                 // получение переходных характеристик
                 List<List<double[]>> transCharacteristics = mathFunc.GetTransCh(pointsdataIN, pointsdataOUT, dchar_ZonesSource_Result);
+                HttpContext.Session.SetString("TransCharacteristics", JsonConvert.SerializeObject(transCharacteristics));
 
                 var chartsParam_TransCh = new List<LineChartData>();
 
+                int pch = 1;
+
                 foreach (var item in transCharacteristics)
                 {
-                    var chartsParameters = new ChartsParameters().LineChartData_IN_Source;
+                    var chartsParameters = new ChartsParameters().LineChartData_TransCh;
                     chartsParameters.pointsdata = item;
+                    chartsParameters.seriesName = "Переходная характеристика - " + pch;
                     chartsParam_TransCh.Add(chartsParameters);
+
+                    pch++;
                 }
-
-                HttpContext.Session.SetString("СhartsParam_TransCh", JsonConvert.SerializeObject(chartsParam_TransCh));
-
+              
                 // параметры графиков входного сигнала
                 IChartData chartData = new ChartData_();
 
@@ -290,43 +294,19 @@ namespace ACS_Trend.Controllers
             {
                 var masterModel_ = JsonConvert.DeserializeObject<HomeIndexViewModel>(HttpContext.Session.GetString("MasterModel"));
 
-                var analysis_result_IN = JsonConvert.DeserializeObject<Analysis_result>(HttpContext.Session.GetString("Analysis_result_IN"));
-                var analysis_result_OUT = JsonConvert.DeserializeObject<Analysis_result>(HttpContext.Session.GetString("Analysis_result_OUT"));
-                var chartsParam_TransCh = JsonConvert.DeserializeObject<List<LineChartData>> (HttpContext.Session.GetString("СhartsParam_TransCh"));
+                Transient_characteristicPointViewModel transient_CharacteristicPointViewModel = new Transient_characteristicPointViewModel();
 
-                //var trendPointViewModelList = new List<TrendPointViewModel>();
+                transient_CharacteristicPointViewModel.pointsIN = JsonConvert.DeserializeObject<List<double[]>>(HttpContext.Session.GetString("PointsDataIN"));
+                transient_CharacteristicPointViewModel.pointsOUT = JsonConvert.DeserializeObject<List<double[]>>(HttpContext.Session.GetString("PointsDataOUT"));
+                transient_CharacteristicPointViewModel.trCharListpoints = JsonConvert.DeserializeObject<List<List<double[]>>> (HttpContext.Session.GetString("TransCharacteristics"));
 
-                //var pointslist = ImportPoints(file);
-                //var pointscount = pointslist.Count;
+                masterModel.Transient_characteristicPointViewModel_.TrendIN.T_ID_Signal_type = 1;
+                masterModel.Transient_characteristicPointViewModel_.TrendOUT.T_ID_Signal_type = 2;
 
-                //for (int point = 0; point < pointscount; point++)
-                //{
-                //    var trendPoint = new TrendPointViewModel
-                //    {
+                transient_CharacteristicPointViewModel.TrendIN = masterModel.Transient_characteristicPointViewModel_.TrendIN;
+                transient_CharacteristicPointViewModel.TrendOUT = masterModel.Transient_characteristicPointViewModel_.TrendOUT;
 
-                //        Date_time = Convert.ToDouble(pointslist[point].Date),
-                //        Parameter = Convert.ToDouble(pointslist[point].Parameter),
-
-                //        Trend = new Trend
-                //        {
-                //            T_ID_Station = model.Trend.T_ID_Station,
-                //            T_ID_Unit = model.Trend.T_ID_Unit
-                //        },
-
-                //        Trend_parameter = new Trend_parameter()
-                //        {
-                //            Trend_parameter_name = model.Trend.Trend_parameter.Trend_parameter_name,
-                //            TP_ID_Control_object = model.Trend.Trend_parameter.TP_ID_Control_object,
-                //            TP_ID_Signal_type = model.Trend.Trend_parameter.TP_ID_Signal_type,
-                //            TP_ID_Regulator = model.Trend.Trend_parameter.TP_ID_Regulator,
-                //            TP_ID_Trend_parameter_type = model.Trend.Trend_parameter.TP_ID_Trend_parameter_type,
-                //        }
-                //    };
-
-                //    trendPointViewModelList.Add(trendPoint);
-                //}
-
-                //_unitOfWork.TrendPoints.AddNewListTrendPoints(trendPointViewModelList);
+                _unitOfWork.Transient_characteristicPoints.AddNewListTransient_characteristicPoints(transient_CharacteristicPointViewModel);
 
                 //if (ModelState.IsValid)
                 //{

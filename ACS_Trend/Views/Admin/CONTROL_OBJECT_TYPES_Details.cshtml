@@ -4,10 +4,9 @@
     ViewData["Title"] = "CONTROL_OBJECT_TYPES_Details";
 }
 
-<h1>CONTROL_OBJECT_TYPES_Details</h1>
+<h1>Тип объекта управления</h1>
 
 <div>
-    <h4>Control_object_typeViewModel</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -19,6 +18,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID_Control_object_type">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="CONTROL_OBJECT_TYPES_Edit" asp-route-id="@Model.ID_Control_object_type">Edit</a> |
+    <a asp-action="CONTROL_OBJECT_TYPES_GetAll">Back to List</a>
 </div>

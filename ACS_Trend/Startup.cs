@@ -34,10 +34,7 @@ namespace ACS_Trend
             services.AddTransient<ISignal_typeRepository, Signal_typeRepository>();
             services.AddTransient<IStationRepository, StationRepository>();
             services.AddTransient<IStation_typeRepository, Station_typeRepository>();
-            services.AddTransient<ITransient_characteristicRepository, Transient_characteristicRepository>();
-            services.AddTransient<ITrendRepository, TrendRepository>();
-            services.AddTransient<ITrend_parameterRepository, Trend_parameterRepository>();
-            services.AddTransient<ITrendPointRepository, TrendPointRepository>();
+            services.AddTransient<ITransient_characteristicPointRepository, Transient_characteristicPointRepository>();
             services.AddTransient<IUnitRepository, UnitRepository>();
 
             //Add UnitOfWork

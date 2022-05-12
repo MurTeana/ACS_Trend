@@ -4,7 +4,7 @@
     ViewData["Title"] = "CONTROL_OBJECTS_GetAll";
 }
 
-<h1>CONTROL_OBJECTS_GetAll</h1>
+<h1>Объекты управления</h1>
 
 <p>
     <a asp-action="CONTROL_OBJECTS_Create">Create New</a>
@@ -16,7 +16,7 @@
                 @Html.DisplayNameFor(model => model.Control_object_name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CO_ID_Control_object_type)
+                @Html.DisplayNameFor(model => model.Control_object_type.Control_object_type_name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Extend_information)
@@ -31,7 +31,7 @@
                 @Html.DisplayFor(modelItem => item.Control_object_name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CO_ID_Control_object_type)
+                @Html.DisplayFor(modelItem => item.Control_object_type.Control_object_type_name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Extend_information)
