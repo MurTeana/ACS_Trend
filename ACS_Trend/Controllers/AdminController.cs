@@ -4,10 +4,7 @@ using ACS_Trend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using OfficeOpenXml;
-using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace ACS_Trend.Controllers
 {
@@ -30,8 +27,7 @@ namespace ACS_Trend.Controllers
                 new EntityDB {Id = 5, Entity = "Регуляторы (Regulators)", Method = "REGULATORS_GetAll" },
                 new EntityDB {Id = 6, Entity = "Типы сигналов тренда (Signal_types)", Method = "SIGNAL_TYPES_GetAll" },
                 new EntityDB {Id = 8, Entity = "Наименования параметров трендов (Trend_parameter_names)", Method = "TREND_PARAMETER_NAMES_GetAll" },
-                new EntityDB {Id = 9, Entity = "Единицы измерения (Units)", Method = "UNITS_GetAll" },                   
-                //new EntityDB {Id = 11, Entity = "Точки тренда (TrendPoints)", Method = "TREND_POINTS_GetAll" },            
+                new EntityDB {Id = 9, Entity = "Единицы измерения (Units)", Method = "UNITS_GetAll" },                              
             };
 
             ViewBag.EntitiesList = entitiesList;
@@ -494,25 +490,25 @@ namespace ACS_Trend.Controllers
             return View();
         }
 
-        [HttpGet]
-        public ActionResult TRANSIENT_CHARACTERISTICPOINTS_GetAll()
-        {
-            var result = _unitOfWork.Transient_characteristicPoints.GetAllTransient_characteristicPoints();
-            return View(result);
-        }
+        //[HttpGet]
+        //public ActionResult TRANSIENT_CHARACTERISTICPOINTS_GetAll()
+        //{
+        //    var result = _unitOfWork.Transient_characteristicPoints.GetAllTransient_characteristicPoints();
+        //    return View(result);
+        //}
 
-        [HttpGet]
-        public ActionResult TRANSIENT_CHARACTERISTICPOINTS_Details(int id)
-        {
-            var result = _unitOfWork.Transient_characteristicPoints.GetTransient_characteristicPoint(id);
-            return View(result);
-        }
+        //[HttpGet]
+        //public ActionResult TRANSIENT_CHARACTERISTICPOINTS_Details(int id)
+        //{
+        //    var result = _unitOfWork.Transient_characteristicPoints.GetTransient_characteristicPoint(id);
+        //    return View(result);
+        //}
 
-        public ActionResult TRANSIENT_CHARACTERISTICPOINTS_Edit(int id)
-        {
-            var result = _unitOfWork.Transient_characteristicPoints.GetTransient_characteristicPoint(id);
-            return View(result);
-        }
+        //public ActionResult TRANSIENT_CHARACTERISTICPOINTS_Edit(int id)
+        //{
+        //    var result = _unitOfWork.Transient_characteristicPoints.GetTransient_characteristicPoint(id);
+        //    return View(result);
+        //}
 
         [HttpPost]
         public ActionResult TRANSIENT_CHARACTERISTICPOINTS_Edit(Transient_characteristicPoint model)
@@ -527,12 +523,12 @@ namespace ACS_Trend.Controllers
             return View();
         }
 
-        public ActionResult TRANSIENT_CHARACTERISTICPOINTS_Delete(int id)
-        {
-            _unitOfWork.Transient_characteristicPoints.DeleteTransient_characteristicPoint(id);
+        //public ActionResult TRANSIENT_CHARACTERISTICPOINTS_Delete(int id)
+        //{
+        //    _unitOfWork.Transient_characteristicPoints.DeleteTransient_characteristicPoint(id);
 
-            return RedirectToAction("TRANSIENT_CHARACTERISTICPOINTS_GetAll");
-        }
+        //    return RedirectToAction("TRANSIENT_CHARACTERISTICPOINTS_GetAll");
+        //}
 
         // 12 - UNITS
         public ActionResult UNITS_Create()
@@ -592,6 +588,66 @@ namespace ACS_Trend.Controllers
             _unitOfWork.Units.DeleteUnit(id);
 
             return RedirectToAction("UNITS_GetAll");
+        }
+
+        // 12 - TRENDS
+        public ActionResult TRENDS_Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult TRENDS_Create(Trend model)
+        {
+            _unitOfWork.Trends.AddNewTrend(model);
+
+            if (ModelState.IsValid)
+            {
+                ModelState.Clear();
+                ViewBag.Issuccess = "Data Added";
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult TRENDS_GetAll()
+        {
+            var result = _unitOfWork.Trends.GetAllTrends();
+            return View(result);
+        }
+
+        [HttpGet]
+        public ActionResult TRENDS_Details(int id)
+        {
+            var result = _unitOfWork.Trends.GetTrend(id);
+            return View(result);
+        }
+
+        public ActionResult TRENDS_Edit(int id)
+        {
+            var result = _unitOfWork.Trends.GetTrend(id);
+            return View(result);
+        }
+
+        [HttpPost]
+        public ActionResult TRENDS_Edit(Trend model)
+        {
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Trends.UpdateTrend(model.ID_Trend, model);
+
+                return RedirectToAction("TRENDS_GetAll");
+            }
+
+            return View();
+        }
+
+        public ActionResult TRENDS_Delete(int id)
+        {
+            _unitOfWork.Trends.DeleteTrend(id);
+
+            return RedirectToAction("TRENDS_GetAll");
         }
 
         //// 11 - TREND_POINTS

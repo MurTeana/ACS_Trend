@@ -1,4 +1,5 @@
-﻿using ACS_Trend.Domain.Interfaces;
+﻿using ACS_Trend.Domain.Entities;
+using ACS_Trend.Domain.Interfaces;
 using ACS_Trend.Functions;
 using ACS_Trend.Models;
 using ACS_Trend.Models.Charts;

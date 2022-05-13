@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\Новая папка\" />
     <Folder Include="wwwroot\filesto\" />
     <Folder Include="wwwroot\files\" />
     <Folder Include="wwwroot\js\highcharts\" />

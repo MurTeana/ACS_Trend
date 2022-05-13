@@ -1,0 +1,117 @@
+﻿@model ACS_Trend.Models.HomeIndexViewModel
+@{
+    ViewData["Title"] = "TransChar";
+}
+
+<script src="~/js/highcharts/7.1.2/highcharts.js"></script>
+<script src="~/js/highcharts/7.1.2/modules/accessibility.js"></script>
+<script src="~/js/highcharts/7.1.2/modules/exporting.js"></script>
+<script src="~/js/highcharts/7.1.2/modules/export-data.js"></script>
+
+<div id="div1" class="jumbotron" style="text-align:center">
+    <h2>Переходные характеристики теплоэнергетического оборудования</h2>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Trend_.Trend_parameter_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trend_.Station)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trend_.Unit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trend_.Control_object)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trend_.Signal_type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trend_.Regulator)
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Trends)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trend_parameter_name.Trend_parameter_name_val)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Station.Station_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unit.Unit_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Control_object.Control_object_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Signal_type.Signal_type_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Regulator.Regulator_name)
+            </td>
+            <td>
+                <form asp-controller="TransChar" asp-action="TransChar" asp-route-id="@item.ID_Trend" method="post" enctype="multipart/form-data">
+                    <div>
+                        <input type="submit" value="Показать переходные характеристики" asp-for="ProcessType" class="btn btn-primary" />
+                    </div>
+                </form>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+<div id="div1" class="jumbotron" style="text-align:center">
+    <figure class="highcharts-figure">
+        <div id="container_4"></div>
+        <p class="highcharts-description">
+            Переходные характеристики теплоэнергетического оборудования
+        </p>
+    </figure>
+</div>
+
+
+<script>
+        Highcharts.setOptions({
+        lang: {
+            downloadCSV: 'Скачать CSV',
+            downloadXLS: 'Скачать XLS',
+            downloadPDF: 'Скачать PDF',
+            downloadSVG: 'Скачать SVG',
+            downloadPNG: 'Скачать график в PNG',
+            downloadJPEG: 'Скачать график в JPEG',
+            printChart: 'Печать графика',
+            resetZoom: 'Сбросить масштаб',
+            viewData: 'Просмотреть в таблице',
+            viewFullscreen: 'Полноэкранный режим'
+        }
+    });
+
+    Highcharts.chart('container_4', {
+        chart: {
+            type: 'line',
+            zoomType: 'x'
+        },
+        title: @Html.Raw(Json.Serialize(Model.LineChartData_TransCh.title)),
+        subtitle: @Html.Raw(Json.Serialize(Model.LineChartData_TransCh.subtitle)),
+        xAxis: @Html.Raw(Json.Serialize(Model.LineChartData_TransCh.xAxis)),
+        yAxis: @Html.Raw(Json.Serialize(Model.LineChartData_TransCh.yAxis)),
+        plotOptions: @Html.Raw(Json.Serialize(Model.LineChartData_TransCh.plotOptions)),
+        series: @Html.Raw(Json.Serialize(Model.LineChartData_TransCh.series))
+    });
+</script>
+
+
+
+

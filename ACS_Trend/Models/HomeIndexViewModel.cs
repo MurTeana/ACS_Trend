@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ACS_Trend.Domain.Entities;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ACS_Trend.Models
 {
@@ -18,6 +20,10 @@ namespace ACS_Trend.Models
 
         //
         public TrendPointViewModel TrendPointViewModel_ { get; set; }
+        public Trend Trend_ { get; set; }
+        public List<Trend> Trends { get; set; } = new List<Trend>();
+
+        public int id;
         public Transient_characteristicPointViewModel Transient_characteristicPointViewModel_ { get; set; }
 
         // дополнительные параметры кнопок

@@ -1,4 +1,4 @@
-﻿using ACS_Trend.Models;
+﻿using ACS_Trend.Models.Charts;
 using Microsoft.AspNetCore.Http;
 using OfficeOpenXml;
 using System.Collections.Generic;

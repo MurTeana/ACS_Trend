@@ -1,8 +1,10 @@
 ﻿using ACS_Trend.Domain.Entities;
 using ACS_Trend.Domain.Interfaces;
 using ACS_Trend.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace ACS_Trend.DataAccess.EFCore.Repositories
@@ -25,24 +27,22 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
                 T_ID_Regulator = trcharmodel.TrendIN.T_ID_Regulator,
             };
 
-            _context.Trends.Add(trendIn);
-            _context.SaveChanges();
-
             List<TrendPoint> pointsIN = new List<TrendPoint>();
 
             foreach (var item in trcharmodel.pointsIN)
             {
-                TrendPoint tpIN = new TrendPoint(item[0], item[1]);
-
-                if (trcharmodel.TrendIN != null)
+                TrendPoint tpIN = new TrendPoint()
                 {
-                    tpIN.TP_ID_Trend = trendIn.ID_Trend;
-                }
+                    Date_time = item[0],
+                    Parameter = item[1]
+                };
 
                 pointsIN.Add(tpIN);
             }
 
-            _context.TrendPoints.AddRange(pointsIN);
+            trendIn.TrendPoints = pointsIN;
+
+            _context.Trends.Add(trendIn);
             _context.SaveChanges();
 
             
@@ -56,118 +56,80 @@ namespace ACS_Trend.DataAccess.EFCore.Repositories
                 T_ID_Regulator = trcharmodel.TrendIN.T_ID_Regulator,
             };
 
-            _context.Trends.Add(trendOut);
-            _context.SaveChanges();
-
             List<TrendPoint> pointsOUT = new List<TrendPoint>();
 
             foreach (var item in trcharmodel.pointsOUT)
             {
-                TrendPoint tpOUT = new TrendPoint(item[0], item[1]);
-
-                if (trcharmodel.TrendOUT != null)
+                TrendPoint tpOUT = new TrendPoint()
                 {
-                    tpOUT.TP_ID_Trend = trendOut.ID_Trend;
-                }
+                    Date_time = item[0],
+                    Parameter = item[1],
+                    Trend = trendIn
+                };
 
                 pointsOUT.Add(tpOUT);
             }
 
-            _context.TrendPoints.AddRange(pointsOUT);
+            trendOut.TrendPoints = pointsOUT;
+
+            _context.Trends.Add(trendOut);
             _context.SaveChanges();
-          
+                     
             foreach (var trcharpoints in trcharmodel.trCharListpoints)
             {
                 Transient_characteristic trch = new Transient_characteristic();
-
-                _context.Transient_characteristics.Add(trch);
-                _context.SaveChanges();
 
                 List<Transient_characteristicPoint> trPoints = new List<Transient_characteristicPoint>();
 
                 foreach (var item in trcharpoints)
                 {
-                    Transient_characteristicPoint trPoint = new Transient_characteristicPoint(item[0], item[1]);
-
-                    if (trch != null)
+                    Transient_characteristicPoint trPoint = new Transient_characteristicPoint() 
                     {
-                        trPoint.TPCHP_ID_Transient_characteristic = trch.ID_Transient_characteristic;
-                    }
+                        Date_time = item[0],
+                        Parameter = item[1],
+                        Transient_characteristic = trch
+                    };
 
                     trPoints.Add(trPoint);
                 }
 
-                _context.Transient_characteristicPoints.AddRange(trPoints);
+                trch.Transient_characteristicPoints = trPoints;
+
+                _context.Transient_characteristics.Add(trch);
                 _context.SaveChanges();
 
+                _context.Trend_Transient_characteristics.Add(new Trend_Transient_characteristic { Trend = trendIn, Transient_characteristic = trch });
+                _context.Trend_Transient_characteristics.Add(new Trend_Transient_characteristic { Trend = trendOut, Transient_characteristic = trch });
 
-                Trend_Transient_characteristic trtchIN = new Trend_Transient_characteristic()
-                {
-                    TTCH_ID_Trend = trendIn.ID_Trend,
-                    TTCH_ID_Transient_characteristic = trch.ID_Transient_characteristic
-                };
-
-                _context.Trend_Transient_characteristics.Add(trtchIN);
-                _context.SaveChanges();
-
-                Trend_Transient_characteristic trtchOUT = new Trend_Transient_characteristic()
-                {
-                    TTCH_ID_Trend = trendOut.ID_Trend,
-                    TTCH_ID_Transient_characteristic = trch.ID_Transient_characteristic
-
-                };
-
-                _context.Trend_Transient_characteristics.Add(trtchOUT);
                 _context.SaveChanges();
             }
-        
+
             return 0;
         }
 
-
-        public int AddNewTransient_characteristicPoint(Transient_characteristicPointViewModel model)
+        public List<List<Transient_characteristicPoint>> FindTransCharByTrendID(int trendID)
         {
-            throw new NotImplementedException();
-        }
+            var listTransChars = _context.Transient_characteristics
+                .Include(t => t.Trend_Transient_characteristics)
+                .ThenInclude(tr => tr.Trend)
+                .ToList();
 
-        public bool DeleteTransient_characteristicPoint(int id)
-        {
-            throw new NotImplementedException();
-        }
+            var trend = _context.Trends
+                .Include(t => t.Trend_Transient_characteristics)
+                .ThenInclude(tr => tr.Transient_characteristic)
+                .ThenInclude(p => p.Transient_characteristicPoints)
+                .Where(x => x.ID_Trend == trendID)
+                .FirstOrDefault();
 
-        public IEnumerable<Transient_characteristicPointViewModel> Find(Expression<Func<Transient_characteristicPointViewModel, bool>> expression)
-        {
-            throw new NotImplementedException();
-        }
+            var trchpoints = new List<List<Transient_characteristicPoint>>();
 
-        public List<Transient_characteristicPointViewModel> GetAllTransient_characteristicPoints()
-        {
-            throw new NotImplementedException();
-        }
+            foreach (var item in trend.Trend_Transient_characteristics)
+            {
+                var listpoints = item.Transient_characteristic.Transient_characteristicPoints.OrderBy(t => t.Date_time).ToList();
+                trchpoints.Add(listpoints);
+            }
 
-        public List<Transient_characteristicPointViewModel> GetListTransient_characteristicPoints(int stid, int trpid)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Transient_characteristicPointViewModel GetTransient_characteristicPoint(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateTransient_characteristicPoint(int id, Transient_characteristicPointViewModel model)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<Transient_characteristicPointViewModel> IGenericRepository<Transient_characteristicPointViewModel>.GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        Transient_characteristicPointViewModel IGenericRepository<Transient_characteristicPointViewModel>.GetById(int id)
-        {
-            throw new NotImplementedException();
+            return trchpoints;
         }
     }
 }

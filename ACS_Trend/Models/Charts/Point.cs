@@ -1,5 +1,5 @@
 ﻿
-namespace ACS_Trend.Models
+namespace ACS_Trend.Models.Charts
 {
     public class Point
     {

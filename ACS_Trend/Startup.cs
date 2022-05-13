@@ -36,6 +36,7 @@ namespace ACS_Trend
             services.AddTransient<IStation_typeRepository, Station_typeRepository>();
             services.AddTransient<ITransient_characteristicPointRepository, Transient_characteristicPointRepository>();
             services.AddTransient<IUnitRepository, UnitRepository>();
+            services.AddTransient<ITrendRepository, TrendRepository>();
 
             //Add UnitOfWork
             services.AddTransient<IUnitOfWork, UnitOfWork>();

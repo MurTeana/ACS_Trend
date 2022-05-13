@@ -5,10 +5,10 @@ namespace ACS_Trend.Domain.Entities
 {
     public class TrendPoint
     {
-        public TrendPoint(double date_time, double parameter)
+        public TrendPoint()
         {
-            Date_time = date_time;
-            Parameter = parameter;
+            Date_time = new double();
+            Parameter = new double();
         }
 
         [Required]
