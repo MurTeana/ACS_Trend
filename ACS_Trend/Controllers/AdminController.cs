@@ -538,11 +538,10 @@ namespace ACS_Trend.Controllers
 
         [HttpPost]
         public ActionResult UNITS_Create(Unit model)
-        {
-            _unitOfWork.Units.AddNewUnit(model);
-
+        {          
             if (ModelState.IsValid)
             {
+                _unitOfWork.Units.AddNewUnit(model);
                 ModelState.Clear();
                 ViewBag.Issuccess = "Data Added";
             }

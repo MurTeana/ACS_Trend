@@ -14,6 +14,7 @@ namespace ACS_Trend.Domain.Entities
         [Display(Name = "Идентификатор единицы измерения")]
         public int ID_Unit { get; set; }
         [Display(Name = "Единица измерения")]
+        [Required(ErrorMessage = "Введите единицу измерения")]
         public string Unit_name { get; set; }
 
         [Display(Name = "Тренды")]
