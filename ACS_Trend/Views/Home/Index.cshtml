@@ -249,12 +249,12 @@
         <h5>
             Параметры сохранения в базу данных
         </h5>
+        <h5>@ViewBag.Issuccess</h5>
         <div id="main_val_block" class="form-group">
             <div id="val_block">
                 <p class="highcharts-description">
                     Общие параметры трендов
                 </p>
-                <h2>@ViewBag.Issuccess</h2>
                 <div class="form-group">
                     <label asp-for="Transient_characteristicPointViewModel_.TrendIN.T_ID_Station" class="control-label"></label>
                     @Html.DropDownList("Transient_characteristicPointViewModel_.TrendIN.T_ID_Station", ViewBag.Stations as SelectList, htmlAttributes: new { @class = "form-control" })

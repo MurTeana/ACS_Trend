@@ -6,17 +6,537 @@ namespace ACS_Trend.Models
 {
     public class HomeIndexViewModel
     {
-        public LineChartViewModel LineChartData_IN_Source { get; set; }
-        public LineChartViewModel LineChartData_IN_Source_Result { get; set; }
-        public LineChartViewModel LineChartData_IN_Aproxy { get; set; }
-        public LineChartViewModel LineChartData_IN_Tg { get; set; }
-        public LineChartViewModel LineChartData_IN_Result { get; set; }
+        public LineChartViewModel LineChartData_IN_Source { get; set; } = new LineChartViewModel()
+        {
+            xAxis = new XAxis
+            {
+                title = new Title()
+                {
+                    text = "Time"
+                },
+                crosshair = true
+            },
+           
+            yAxis = new YAxis
+            {
+                title = new Title()
+                {
+                    text = "Parameter"
+                },
+                crosshair = true
+            },
 
-        public LineChartViewModel LineChartData_OUT_Source { get; set; }
-        public LineChartViewModel LineChartData_OUT_Aproxy { get; set; }
-        public LineChartViewModel LineChartData_OUT_Tg { get; set; }
-        public LineChartViewModel LineChartData_OUT_Result { get; set; }
-        public LineChartViewModel LineChartData_TransCh { get; set; }
+            plotOptions = new PlotOptions()
+            {
+                line = new Line()
+                {
+                    dataLabels = new DataLabels()
+                    { 
+                        enabled = false                       
+                    },
+                    enableMouseTracking = true
+                },
+
+                series = new SeriesPT()
+                {
+                    lineWidth = 2,
+                    allowPointSelect = true
+                }
+            },
+
+            series = new List<Series>()
+            {
+                new Series()
+                {
+                    name ="",
+                    color = "#4682B4",
+                    data = new List<double[]>(),
+                    marker = new Marker()
+                    { 
+                        enabled = false,
+                        radius = 5
+                    }
+                }
+            }
+        };
+        public LineChartViewModel LineChartData_IN_Source_Result { get; set; } = new LineChartViewModel()
+        {
+            xAxis = new XAxis
+            {
+                title = new Title()
+                {
+                    text = "Time"
+                },
+                crosshair = true
+            },
+
+            yAxis = new YAxis
+            {
+                title = new Title()
+                {
+                    text = "Parameter"
+                },
+                crosshair = true
+            },
+
+            plotOptions = new PlotOptions()
+            {
+                line = new Line()
+                {
+                    dataLabels = new DataLabels()
+                    {
+                        enabled = false
+                    },
+                    enableMouseTracking = true
+                },
+
+                series = new SeriesPT()
+                {
+                    lineWidth = 2,
+                    allowPointSelect = true
+                }
+            },
+
+            series = new List<Series>()
+            {
+                new Series()
+                {
+                    name ="",
+                    color = "#4682B4",
+                    data = new List<double[]>(),
+                    marker = new Marker()
+                    {
+                        enabled = false,
+                        radius = 5
+                    }
+                }
+            }
+        };
+        public LineChartViewModel LineChartData_IN_Aproxy { get; set; } = new LineChartViewModel()
+        {
+            xAxis = new XAxis
+            {
+                title = new Title()
+                {
+                    text = "Time"
+                },
+                crosshair = true
+            },
+
+            yAxis = new YAxis
+            {
+                title = new Title()
+                {
+                    text = "Parameter"
+                },
+                crosshair = true
+            },
+
+            plotOptions = new PlotOptions()
+            {
+                line = new Line()
+                {
+                    dataLabels = new DataLabels()
+                    {
+                        enabled = false
+                    },
+                    enableMouseTracking = true
+                },
+
+                series = new SeriesPT()
+                {
+                    lineWidth = 2,
+                    allowPointSelect = true
+                }
+            },
+
+            series = new List<Series>()
+            {
+                new Series()
+                {
+                    name ="",
+                    color = "#4682B4",
+                    data = new List<double[]>(),
+                    marker = new Marker()
+                    {
+                        enabled = false,
+                        radius = 5
+                    }
+                }
+            }
+        };
+        public LineChartViewModel LineChartData_IN_Tg { get; set; } = new LineChartViewModel()
+        {
+            xAxis = new XAxis
+            {
+                title = new Title()
+                {
+                    text = "Time"
+                },
+                crosshair = true
+            },
+
+            yAxis = new YAxis
+            {
+                title = new Title()
+                {
+                    text = "Parameter"
+                },
+                crosshair = true
+            },
+
+            plotOptions = new PlotOptions()
+            {
+                line = new Line()
+                {
+                    dataLabels = new DataLabels()
+                    {
+                        enabled = false
+                    },
+                    enableMouseTracking = true
+                },
+
+                series = new SeriesPT()
+                {
+                    lineWidth = 2,
+                    allowPointSelect = true
+                }
+            },
+
+            series = new List<Series>()
+            {
+                new Series()
+                {
+                    name ="",
+                    color = "#4682B4",
+                    data = new List<double[]>(),
+                    marker = new Marker()
+                    {
+                        enabled = false,
+                        radius = 5
+                    }
+                }
+            }
+        };
+        public LineChartViewModel LineChartData_IN_Result { get; set; } = new LineChartViewModel()
+        {
+            xAxis = new XAxis
+            {
+                title = new Title()
+                {
+                    text = "Time"
+                },
+                crosshair = true
+            },
+
+            yAxis = new YAxis
+            {
+                title = new Title()
+                {
+                    text = "Parameter"
+                },
+                crosshair = true
+            },
+
+            plotOptions = new PlotOptions()
+            {
+                line = new Line()
+                {
+                    dataLabels = new DataLabels()
+                    {
+                        enabled = false
+                    },
+                    enableMouseTracking = true
+                },
+
+                series = new SeriesPT()
+                {
+                    lineWidth = 2,
+                    allowPointSelect = true
+                }
+            },
+
+            series = new List<Series>()
+            {
+                new Series()
+                {
+                    name ="",
+                    color = "#4682B4",
+                    data = new List<double[]>(),
+                    marker = new Marker()
+                    {
+                        enabled = false,
+                        radius = 5
+                    }
+                }
+            }
+        };
+
+        public LineChartViewModel LineChartData_OUT_Source { get; set; } = new LineChartViewModel()
+        {
+            xAxis = new XAxis
+            {
+                title = new Title()
+                {
+                    text = "Time"
+                },
+                crosshair = true
+            },
+
+            yAxis = new YAxis
+            {
+                title = new Title()
+                {
+                    text = "Parameter"
+                },
+                crosshair = true
+            },
+
+            plotOptions = new PlotOptions()
+            {
+                line = new Line()
+                {
+                    dataLabels = new DataLabels()
+                    {
+                        enabled = false
+                    },
+                    enableMouseTracking = true
+                },
+
+                series = new SeriesPT()
+                {
+                    lineWidth = 2,
+                    allowPointSelect = true
+                }
+            },
+
+            series = new List<Series>()
+            {
+                new Series()
+                {
+                    name ="",
+                    color = "#4682B4",
+                    data = new List<double[]>(),
+                    marker = new Marker()
+                    {
+                        enabled = false,
+                        radius = 5
+                    }
+                }
+            }
+        };
+        public LineChartViewModel LineChartData_OUT_Aproxy { get; set; } = new LineChartViewModel()
+        {
+            xAxis = new XAxis
+            {
+                title = new Title()
+                {
+                    text = "Time"
+                },
+                crosshair = true
+            },
+
+            yAxis = new YAxis
+            {
+                title = new Title()
+                {
+                    text = "Parameter"
+                },
+                crosshair = true
+            },
+
+            plotOptions = new PlotOptions()
+            {
+                line = new Line()
+                {
+                    dataLabels = new DataLabels()
+                    {
+                        enabled = false
+                    },
+                    enableMouseTracking = true
+                },
+
+                series = new SeriesPT()
+                {
+                    lineWidth = 2,
+                    allowPointSelect = true
+                }
+            },
+
+            series = new List<Series>()
+            {
+                new Series()
+                {
+                    name ="",
+                    color = "#4682B4",
+                    data = new List<double[]>(),
+                    marker = new Marker()
+                    {
+                        enabled = false,
+                        radius = 5
+                    }
+                }
+            }
+        };
+        public LineChartViewModel LineChartData_OUT_Tg { get; set; } = new LineChartViewModel()
+        {
+            xAxis = new XAxis
+            {
+                title = new Title()
+                {
+                    text = "Time"
+                },
+                crosshair = true
+            },
+
+            yAxis = new YAxis
+            {
+                title = new Title()
+                {
+                    text = "Parameter"
+                },
+                crosshair = true
+            },
+
+            plotOptions = new PlotOptions()
+            {
+                line = new Line()
+                {
+                    dataLabels = new DataLabels()
+                    {
+                        enabled = false
+                    },
+                    enableMouseTracking = true
+                },
+
+                series = new SeriesPT()
+                {
+                    lineWidth = 2,
+                    allowPointSelect = true
+                }
+            },
+
+            series = new List<Series>()
+            {
+                new Series()
+                {
+                    name ="",
+                    color = "#4682B4",
+                    data = new List<double[]>(),
+                    marker = new Marker()
+                    {
+                        enabled = false,
+                        radius = 5
+                    }
+                }
+            }
+        };
+        public LineChartViewModel LineChartData_OUT_Result { get; set; } = new LineChartViewModel()
+        {
+            xAxis = new XAxis
+            {
+                title = new Title()
+                {
+                    text = "Time"
+                },
+                crosshair = true
+            },
+
+            yAxis = new YAxis
+            {
+                title = new Title()
+                {
+                    text = "Parameter"
+                },
+                crosshair = true
+            },
+
+            plotOptions = new PlotOptions()
+            {
+                line = new Line()
+                {
+                    dataLabels = new DataLabels()
+                    {
+                        enabled = false
+                    },
+                    enableMouseTracking = true
+                },
+
+                series = new SeriesPT()
+                {
+                    lineWidth = 2,
+                    allowPointSelect = true
+                }
+            },
+
+            series = new List<Series>()
+            {
+                new Series()
+                {
+                    name ="",
+                    color = "#4682B4",
+                    data = new List<double[]>(),
+                    marker = new Marker()
+                    {
+                        enabled = false,
+                        radius = 5
+                    }
+                }
+            }
+        };
+        public LineChartViewModel LineChartData_TransCh { get; set; } = new LineChartViewModel()
+        {
+            xAxis = new XAxis
+            {
+                title = new Title()
+                {
+                    text = "Time"
+                },
+                crosshair = true
+            },
+
+            yAxis = new YAxis
+            {
+                title = new Title()
+                {
+                    text = "Parameter"
+                },
+                crosshair = true
+            },
+
+            plotOptions = new PlotOptions()
+            {
+                line = new Line()
+                {
+                    dataLabels = new DataLabels()
+                    {
+                        enabled = false
+                    },
+                    enableMouseTracking = true
+                },
+
+                series = new SeriesPT()
+                {
+                    lineWidth = 2,
+                    allowPointSelect = true
+                }
+            },
+
+            series = new List<Series>()
+            {
+                new Series()
+                {
+                    name ="",
+                    color = "#4682B4",
+                    data = new List<double[]>(),
+                    marker = new Marker()
+                    {
+                        enabled = false,
+                        radius = 5
+                    }
+                }
+            }
+        };
 
         // дополнительные параметры кнопок
         public string ProcessType { get; set; }

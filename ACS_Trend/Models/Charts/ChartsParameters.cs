@@ -1,4 +1,5 @@
 ﻿
+using ACS_Trend.Functions;
 using System.Collections.Generic;
 
 namespace ACS_Trend.Models.Charts
